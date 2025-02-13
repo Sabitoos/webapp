@@ -11,6 +11,13 @@ class Interest(models.Model):
     def __str__(self):
         return self.name
 
+class Like(models.Model):
+    from_whom = models.CharField(max_length=200, unique=True, verbose_name="like from")
+    to_whow = models.CharField(max_length=200, unique=True, verbose_name="like to")
+    
+    def __str__(self):
+        return self.from_whom
+
 class Student(models.Model):
     CAMPUS_CHOICES = [
         ('1', 'Корпус 1'),
@@ -23,6 +30,7 @@ class Student(models.Model):
         ('male', 'Мужской'),
         ('female', 'Женский'),
     ]
+
 
     telegram_id = models.CharField(max_length=200, unique=True, verbose_name="Telegram ID")
     name = models.CharField(max_length=200, verbose_name="Имя")
