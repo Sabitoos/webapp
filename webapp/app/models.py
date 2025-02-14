@@ -12,11 +12,12 @@ class Interest(models.Model):
         return self.name
 
 class Like(models.Model):
-    from_whom = models.CharField(max_length=200, unique=True, verbose_name="like from")
-    to_whow = models.CharField(max_length=200, unique=True, verbose_name="like to")
-    
+    from_whom = models.CharField(max_length=200, verbose_name="like from")
+    to_whow = models.CharField(max_length=200, verbose_name="like to")
+
     def __str__(self):
         return self.from_whom
+
 
 class Student(models.Model):
     CAMPUS_CHOICES = [
