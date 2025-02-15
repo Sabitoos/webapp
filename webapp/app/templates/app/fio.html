@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация пользователя</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+
+    <div id="loader">
+        <img src="img/logo.png" alt="Описание изображения" width="200" height="100">
+    </div>
+
+    <div id="content">
+        <img src="img/logo.png" alt="Описание изображения" width="120" height="50">
+        <div class="fio">
+            <div class="text"> 
+                <h3>Как тебя зовут?</h3>
+                <p>Так имя будет выглядеть в профиле</p>
+            </div>
+            <form id="myForm">
+                <input type="text" id="inputField" name="inputField">
+                <p class="error" id="errorText">Пожалуйста, заполните это поле!</p>
+                <button type="submit" id="input">Продолжить</button>
+            </form>    
+    </div>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Отменяем отправку формы
+    
+            const input = document.getElementById('inputField');
+            const errorText = document.getElementById('errorText');
+    
+            if (inputField.value.trim() === '') { // Проверяем, пустое ли поле
+                errorText.style.display = 'block'; // Показываем текст ошибки
+            } else {
+                errorText.style.display = 'none'; // Скрываем текст ошибки
+                input.value = '';
+                window.location.assign('korpus.html');
+            }
+        });
+    </script>
+
+    <script> 
+            window.onload = function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loader');
+                loader.classList.add('hidden'); // Применяем класс для плавного исчезновения
+
+                setTimeout(function() {
+                    loader.style.display = 'none'; // Скрываем загрузочный экран после анимации
+
+                    const content = document.getElementById('content');
+                    content.style.display = 'block'; // Показываем элемент
+                    // Используем requestAnimationFrame, чтобы дождаться следующего кадра
+                    requestAnimationFrame(() => {
+                        content.classList.add('show'); // Добавляем класс для показа контента
+                    });
+                }, 200); // Задержка должна быть равна времени анимации исчезновения
+            }, 3000); // Время ожидания перед началом исчезновения
+        };
+    </script>
+
+</body>
+</html>

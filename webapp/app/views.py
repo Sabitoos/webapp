@@ -5,7 +5,7 @@ from .serializers import StudentSerializer, InterestSerializer, LikeSerializer
 from django.shortcuts import render
 
 def index(request):
-    return render(request, 'app/index.html')
+    return render(request, 'app/fio.html')
 
 class InterestListCreate(generics.ListCreateAPIView):
     queryset = Interest.objects.all()

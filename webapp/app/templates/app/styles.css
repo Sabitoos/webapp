@@ -1,0 +1,127 @@
+body {
+    margin: 0;
+    height: 100vh; 
+    background: linear-gradient( #002383, #B4BDDB); 
+    color: white; 
+    font-family: Arial, sans-serif;
+    margin: 0; 
+}
+
+img {
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+/* Начальный экран с предоставлением имени */
+
+#content {
+    display: none;
+}
+
+#loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 15px;
+    padding-top: 230px;
+    height: 100%;
+    background: linear-gradient( #002383, #B4BDDB); 
+}
+
+#content {
+    display: none; /* Скрываем контент по умолчанию */
+    opacity: 0; /* Начальная непрозрачность */
+    transition: opacity 1s ease; /* Плавный переход для opacity */
+}
+
+#content.show {
+    display: block; /* Показываем элемент */
+    opacity: 1; /* Устанавливаем непрозрачность в 1 */
+}
+
+.hidden {
+    opacity: 0; /* Устанавливаем непрозрачность в 0 для скрытия */
+    transition: opacity 0.3s ease; /* Плавный переход для opacity */
+}
+
+#myForm {
+    display: flex;                
+    flex-direction: column;      
+    align-items: center;         
+    gap: 10px;                   
+}
+
+.text h3 {
+    padding-top: 50px;
+    display: flex;             
+    justify-content: center;  
+    text-shadow: 0px 2px 3px #454545;  
+}
+
+.text p {
+    display: flex;             
+    justify-content: center;
+    padding-bottom: 30px;    
+    text-shadow: 0px 2px 3px #454545; 
+}
+
+#inputField {
+    width: 300px;
+    height: 48px;
+    border: 2px solid #A4BBEF; 
+    border-radius: 25px; 
+    background-color: #425CA3; 
+    font-size: 25px;
+    color: #fff;
+    padding: 0px 10px;
+    outline: none;
+}
+
+.error {
+    font-size: 15px;
+    color: #fff;  
+    display: none; 
+    text-shadow: 0px 2px 3px #454545;
+}
+
+#input {
+    width: 290px;
+    height: 50px;
+    background-color: #7C8DBF;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 25px;
+    border: none;
+    position:absolute;
+    bottom:0;
+    margin-bottom: 60px;
+    box-shadow: 0px 2px 3px #696969;
+}
+
+/* Выбор копуса */
+
+.korpus h3 {
+    padding-bottom: 30px;
+}
+
+#myForm2 {
+    display: flex;                
+    flex-direction: column;      
+    align-items: center;         
+    gap: 10px;                  
+}
+
+.mySelect {
+    background-color: #fff;
+    color: #454545;
+    width: 300px;
+    height: 200px;
+    border-radius: 25px;
+    outline: none;
+    padding: 5px 10px;
+    font-size: 20px;
+    max-height: 200px;
+    overflow: hidden;
+
+}
+
