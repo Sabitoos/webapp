@@ -6,6 +6,8 @@ from django.shortcuts import render
 
 def index(request):
     return render(request, 'app/fio.html')
+def korpus_view(request):
+    return render(request, 'app/korpus.html')
 
 class InterestListCreate(generics.ListCreateAPIView):
     queryset = Interest.objects.all()

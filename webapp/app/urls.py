@@ -10,4 +10,5 @@ urlpatterns = [
     path('likes/', views.LikeListCreate.as_view(), name='like-list-create'),
     path('likes/<int:pk>/', views.LikeRetrieveUpdateDestroy.as_view(), name='like-retrieve-update-destroy'),
     path('', views.index, name='index'),  # Маршрут для главной страницы
+    path('korpus.html', views.korpus_view, name='korpus'),
 ]
