@@ -24,7 +24,7 @@ class StudentListCreate(generics.ListCreateAPIView):
 class StudentRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
-
+ 
 class LikeListCreate(generics.ListCreateAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
