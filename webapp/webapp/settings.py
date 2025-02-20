@@ -85,7 +85,8 @@ DATABASES = {
         "PASSWORD": os.getenv('MYSQL_PASSWORD'),  
         "HOST": os.getenv('MYSQL_HOST'),  
          'TEST': {
-            'NAME': os.getenv('MYSQL_DBNAME'),  # Используем основную базу данных для тестов
+            'NAME': os.getenv('MYSQL_DBNAME'),
+            'MIRROR': 'default',  # Используем основную базу данных для тестов
         },
         "OPTIONS": {  
             "init_command": "SET NAMES 'utf8mb4';SET sql_mode = 'STRICT_TRANS_TABLES'",  
