@@ -1,7 +1,7 @@
 # your_app_name/urls.py
 from django.urls import path
 from . import views
-from views import check_telegram_id, register_student, home, logout
+from .views import check_telegram_id, register_student, home, logout
 
 urlpatterns = [
     path('interests/', views.InterestListCreate.as_view(), name='interest-list-create'),
