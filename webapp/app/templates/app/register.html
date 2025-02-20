@@ -15,16 +15,30 @@
         <input type="text" id="name" name="name" required><br>
         
         <label for="campus">Корпус:</label>
-        <input type="text" id="campus" name="campus" required><br>
+        <select id="campus" name="campus" required>
+            <option value="1">Корпус 1</option>
+            <option value="2">Корпус 2</option>
+            <option value="3">Корпус 3</option>
+            <option value="4">Корпус 4</option>
+        </select><br>
         
         <label for="birth_year">Год рождения:</label>
-        <input type="number" id="birth_year" name="birth_year" required><br>
+        <input type="number" id="birth_year" name="birth_year" min="1900" max="2024" required><br>
         
         <label for="gender">Пол:</label>
-        <input type="text" id="gender" name="gender" required><br>
+        <select id="gender" name="gender" required>
+            <option value="male">Мужской</option>
+            <option value="female">Женский</option>
+        </select><br>
         
         <label for="about_me">О себе:</label>
         <textarea id="about_me" name="about_me"></textarea><br>
+        
+        <label>Интересы:</label><br>
+        {% for interest in interests %}
+            <input type="checkbox" id="interest_{{ interest.id }}" name="interests" value="{{ interest.id }}">
+            <label for="interest_{{ interest.id }}">{{ interest.name }}</label><br>
+        {% endfor %}
         
         <button type="submit">Зарегистрироваться</button>
     </form>

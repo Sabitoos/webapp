@@ -52,6 +52,7 @@ def register_student(request):
         birth_year = request.POST.get('birth_year')
         gender = request.POST.get('gender')
         about_me = request.POST.get('about_me')
+        selected_interests = request.POST.getlist('interests')  # Получаем список выбранных интересов
         
         # Создаем нового пользователя
         student = Student.objects.create(
@@ -63,13 +64,20 @@ def register_student(request):
             about_me=about_me,
         )
         
+        # Добавляем выбранные интересы
+        for interest_id in selected_interests:
+            interest = Interest.objects.get(id=interest_id)
+            student.interests.add(interest)
+        
         # Сохраняем telegram_id в сессии
         request.session['telegram_id'] = telegram_id
         
         # Перенаправляем на главную страницу
         return redirect('home')
     
-    return render(request, 'app/register.html')
+    # Получаем все интересы для отображения в форме
+    interests = Interest.objects.all()
+    return render(request, 'register.html', {'interests': interests})
 
 class InterestListCreate(generics.ListCreateAPIView):
     queryset = Interest.objects.all()
