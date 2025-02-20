@@ -14,7 +14,7 @@ urlpatterns = [
 #    path('korpus.html', views.korpus_view, name='korpus'), 
 
     path('', check_telegram_id, name='check_telegram_id'),  # Корневой URL
-    path('check-telegram-id', check_telegram_id, name='check_telegram_id'),
+    path('check-telegram-id/', check_telegram_id, name='check_telegram_id'),
     path('register/', register_student, name='register'),
     path('home/', home, name='home'),  # Главная страница
     path('logout/', logout, name='logout'),  # Выход
