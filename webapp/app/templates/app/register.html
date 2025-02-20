@@ -1,0 +1,32 @@
+<!-- register.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+    <h1>Регистрация</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="telegram_id" value="{{ telegram_id }}">
+        
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" required><br>
+        
+        <label for="campus">Корпус:</label>
+        <input type="text" id="campus" name="campus" required><br>
+        
+        <label for="birth_year">Год рождения:</label>
+        <input type="number" id="birth_year" name="birth_year" required><br>
+        
+        <label for="gender">Пол:</label>
+        <input type="text" id="gender" name="gender" required><br>
+        
+        <label for="about_me">О себе:</label>
+        <textarea id="about_me" name="about_me"></textarea><br>
+        
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+</body>
+</html>

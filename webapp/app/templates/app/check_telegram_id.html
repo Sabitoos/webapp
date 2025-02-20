@@ -1,0 +1,16 @@
+<!-- check_telegram_id.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Проверка Telegram ID</title>
+</head>
+<body>
+    <h1>Проверка Telegram ID</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="telegram_id" value="{{ user.id }}">
+        <button type="submit">Проверить</button>
+    </form>
+</body>
+</html>
