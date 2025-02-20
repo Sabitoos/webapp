@@ -6,7 +6,7 @@ from .models import Student, Interest
 class RegistrationTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.interest = Interest.objects.create(name="Programming")
+        self.interest, created = Interest.objects.get_or_create(name="Programming")
 
     def test_registration(self):
         response = self.client.post(reverse('register'), {
