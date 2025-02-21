@@ -1,5 +1,5 @@
 from aiogram import Bot, Dispatcher, types
-from aiogram import executor
+from aiogram.enums import ParseMode
 import logging
 import asyncio
 
@@ -7,7 +7,7 @@ import asyncio
 API_TOKEN = '7561904095:AAFmcA68_Y7vgOjiPnjXiKxUR28idE6_pCM'
 
 # Инициализация бота и диспетчера
-bot = Bot(token=API_TOKEN)
+bot = Bot(token=API_TOKEN, parse_mode=ParseMode.HTML)  # Указываем режим парсинга (HTML или Markdown)
 dp = Dispatcher(bot)
 
 # Логирование
@@ -18,10 +18,10 @@ logging.basicConfig(level=logging.INFO)
 async def send_welcome(message: types.Message):
     await message.reply("Привет! Это ваш Telegram Mini App.")
 
-# Функция для запуска бота
-def start_bot():
-    executor.start_polling(dp, skip_updates=True)
+# Асинхронная функция для запуска бота
+async def start_bot():
+    await dp.start_polling(bot)
 
-# Запуск бота в отдельном потоке
+# Запуск бота
 if __name__ == '__main__':
-    start_bot()
+    asyncio.run(start_bot())
