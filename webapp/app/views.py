@@ -25,7 +25,7 @@ def index(request):
             
             if init_data:
                 # Проверяем подлинность initData
-                if validate_init_data(init_data, '7561904095:AAFmcA68_Y7vgOjiPnjXiKxUR28idE6_pCM'):
+                if validate_init_data(init_data, '7561904095:AAFmcA68_Y7vgOjiPnjXiKxUR28idE6_pCM'): 
                     # Парсим initData для получения user_id
                     user_id = parse_init_data(init_data)
                     return JsonResponse({'user_id': user_id})
