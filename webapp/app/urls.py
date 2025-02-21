@@ -10,12 +10,8 @@ urlpatterns = [
     path('students/<int:pk>/', views.StudentRetrieveUpdateDestroy.as_view(), name='student-retrieve-update-destroy'),
     path('likes/', views.LikeListCreate.as_view(), name='like-list-create'),
     path('likes/<int:pk>/', views.LikeRetrieveUpdateDestroy.as_view(), name='like-retrieve-update-destroy'),
-#    path('', views.index, name='index'),  # Маршрут для главной страницы
-#    path('korpus.html', views.korpus_view, name='korpus'), 
+    
+    path('', views.index, name='index'),  # Маршрут для главной страницы
+    path('korpus.html', views.korpus_view, name='korpus'), 
 
-    path('', check_telegram_id, name='check_telegram_id'),  # Корневой URL
-    path('check-telegram-id/', check_telegram_id, name='check_telegram_id'),
-    path('register/', register_student, name='register'),
-    path('home/', home, name='home'),  # Главная страница
-    path('logout/', logout, name='logout'),  # Выход
 ]

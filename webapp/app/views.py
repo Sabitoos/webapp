@@ -1,83 +1,69 @@
 # your_app_name/views.py
 from rest_framework import generics
+from django.http import HttpResponse
 from .models import Student, Interest, Like
+from urllib.parse import parse_qs
 from .serializers import StudentSerializer, InterestSerializer, LikeSerializer
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+import hmac
+import hashlib
+
+#def index(request):
+#    return render(request, 'app/fio.html')
+#def korpus_view(request):
+#    return render(request, 'app/korpus.html')
 
 def index(request):
-    return render(request, 'app/fio.html')
-def korpus_view(request):
-    return render(request, 'app/korpus.html')
-
-def home(request):
-    # Проверяем, авторизован ли пользователь
-    if 'telegram_id' in request.session:  # Используем сессию для хранения telegram_id
-        try:
-            # Получаем данные пользователя из базы данных
-            student = Student.objects.get(telegram_id=request.session['telegram_id'])
-            return render(request, 'app/home.html', {'student': student})
-        except Student.DoesNotExist:
-            # Если пользователь не найден, перенаправляем на страницу проверки telegram_id
-            return redirect('check_telegram_id')
+    # Получаем initData из запроса
+    init_data = request.GET.get('initData')
+    
+    if init_data:
+        # Проверяем подлинность initData
+        if validate_init_data(init_data, '7561904095:AAFmcA68_Y7vgOjiPnjXiKxUR28idE6_pCM'):  # Замените на токен вашего бота
+            # Парсим initData для получения user_id
+            user_id = parse_init_data(init_data)
+            return render(request, 'app/index.html', {'user_id': user_id})
+        else:
+            return HttpResponse("Invalid initData.")
     else:
-        # Если пользователь не авторизован, перенаправляем на страницу проверки telegram_id
-        return redirect('check_telegram_id')
+        return HttpResponse("Init data not provided.")
     
-def logout(request):
-    # Очищаем сессию
-    if 'telegram_id' in request.session:
-        del request.session['telegram_id']
-    # Перенаправляем на страницу проверки telegram_id
-    return redirect('check_telegram_id')
+def parse_init_data(init_data):
+    """
+    Парсим initData для извлечения user_id.
+    """
+    parsed_data = parse_qs(init_data)
+    user = parsed_data.get('user', [None])[0]
+    if user:
+        user_id = user.get('id')
+        return user_id
+    return None
 
-def check_telegram_id(request):
-    if request.method == 'POST':
-        telegram_id = request.POST.get('telegram_id')
-        
-        try:
-            student = Student.objects.get(telegram_id=telegram_id)
-            # Сохраняем telegram_id в сессии
-            request.session['telegram_id'] = telegram_id
-            return redirect('home')
-        except Student.DoesNotExist:
-            return render(request, 'app/register.html', {'telegram_id': telegram_id})
-    
-    return render(request, 'app/check_telegram_id.html')
+def validate_init_data(init_data, bot_token):
+    """
+    Проверяет подлинность initData с использованием HMAC.
+    """
+    try:
+        # Разделяем данные на пары ключ-значение
+        pairs = init_data.split('&')
+        data = {}
+        for pair in pairs:
+            key, value = pair.split('=')
+            data[key] = value
 
-def register_student(request):
-    if request.method == 'POST':
-        telegram_id = request.POST.get('telegram_id')
-        name = request.POST.get('name')
-        campus = request.POST.get('campus')
-        birth_year = request.POST.get('birth_year')
-        gender = request.POST.get('gender')
-        about_me = request.POST.get('about_me')
-        selected_interests = request.POST.getlist('interests')  # Получаем список выбранных интересов
-        
-        # Создаем нового пользователя
-        student = Student.objects.create(
-            telegram_id=telegram_id,
-            name=name,
-            campus=campus,
-            birth_year=birth_year,
-            gender=gender,
-            about_me=about_me,
-        )
-        
-        # Добавляем выбранные интересы
-        for interest_id in selected_interests:
-            interest = Interest.objects.get(id=interest_id)
-            student.interests.add(interest)
-        
-        # Сохраняем telegram_id в сессии
-        request.session['telegram_id'] = telegram_id
-        
-        # Перенаправляем на главную страницу
-        return redirect('home')
-    
-    # Получаем все интересы для отображения в форме
-    interests = Interest.objects.all()
-    return render(request, 'register.html', {'interests': interests})
+        # Получаем хэш и данные
+        received_hash = data.pop('hash')
+        data_string = '\n'.join(f"{k}={v}" for k, v in sorted(data.items()))
+
+        # Вычисляем HMAC
+        secret_key = hashlib.sha256(bot_token.encode()).digest()
+        computed_hash = hmac.new(secret_key, data_string.encode(), hashlib.sha256).hexdigest()
+
+        # Сравниваем хэши
+        return hmac.compare_digest(computed_hash, received_hash)
+    except Exception as e:
+        print(f"Error validating initData: {e}")
+        return False
 
 class InterestListCreate(generics.ListCreateAPIView):
     queryset = Interest.objects.all()
