@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Mini App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Подключаем Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <h1>Telegram Mini App</h1>
     <p>Your Telegram User ID will be displayed here.</p>
 
     <script>
-        // Получаем initData от Telegram
         const initData = window.Telegram.WebApp.initData;
 
-        // Отправляем initData на сервер
         fetch('https://n3v0k.pythonanywhere.com/', {
             method: 'POST',
             headers: {
@@ -25,7 +23,6 @@
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            // Отображаем user_id на странице
             document.querySelector('p').textContent = `Your Telegram User ID is: ${data.user_id}`;
         })
         .catch((error) => {
