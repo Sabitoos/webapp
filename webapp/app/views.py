@@ -10,8 +10,8 @@ import hashlib
 
 #def index(request):
 #    return render(request, 'app/fio.html')
-#def korpus_view(request):
-#    return render(request, 'app/korpus.html')
+def korpus_view(request):
+    return render(request, 'app/korpus.html')
 
 def index(request):
     # Получаем initData из запроса
