@@ -9,8 +9,16 @@
     <h1>Проверка Telegram ID</h1>
     <form method="post">
         {% csrf_token %}
-        <input type="hidden" name="telegram_id" value="{{ user.id }}">
+        <input type="hidden" name="telegram_id" id="telegram-id-input">
         <button type="submit">Проверить</button>
     </form>
+
+    <script>
+        // Получаем telegram_id из Telegram WebApp
+        const telegramId = window.Telegram.WebApp.initDataUnsafe.user.id;
+
+        // Вставляем telegram_id в скрытое поле формы
+        document.getElementById('telegram-id-input').value = telegramId;
+    </script>
 </body>
 </html>
