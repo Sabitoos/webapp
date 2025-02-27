@@ -10,8 +10,7 @@ urlpatterns = [
     path('students/<int:pk>/', views.StudentRetrieveUpdateDestroy.as_view(), name='student-retrieve-update-destroy'),
     path('likes/', views.LikeListCreate.as_view(), name='like-list-create'),
     path('likes/<int:pk>/', views.LikeRetrieveUpdateDestroy.as_view(), name='like-retrieve-update-destroy'),
-    
-    path('', csrf_exempt(views.index), name='index'),
+
 
 #    path('', views.index, name='index'),  # Маршрут для главной страницы
 #    path('korpus.html', views.korpus_view, name='korpus'), 
