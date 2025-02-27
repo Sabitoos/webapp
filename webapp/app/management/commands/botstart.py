@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from dotenv import load_dotenv
 load_dotenv()
-
+import os
 from telebot import TeleBot
 
 
