@@ -7,7 +7,7 @@ from telebot import TeleBot
 
 
 # Объявление переменной бота
-bot = TeleBot(settings.os.getenv('BOT_KEY'), threaded=False)
+bot = TeleBot(os.getenv('BOT_KEY'), threaded=False)
 
 
 # Название класса обязательно - "Command"
