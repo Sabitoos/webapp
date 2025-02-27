@@ -1,83 +1,24 @@
-# your_app_name/views.py
 from rest_framework import generics
 from .models import Student, Interest, Like
 from .serializers import StudentSerializer, InterestSerializer, LikeSerializer
 from django.shortcuts import render, redirect
+import telebot
+from dotenv import load_dotenv
+load_dotenv()
+import os
+from django.http import HttpResponse
+
+bot = telebot.TeleBot(os.getenv('BOT_KEY'))
 
 def index(request):
-    return render(request, 'app/fio.html')
+    if request.method == "POST":
+        update = telebot.types.Update.de_json(request.body.decode('utf-8'))
+        bot.process_new_updates([update])
+
+    return HttpResponse('<h1>Ты подключился!</h1>')
+
 def korpus_view(request):
     return render(request, 'app/korpus.html')
-
-def home(request):
-    # Проверяем, авторизован ли пользователь
-    if 'telegram_id' in request.session:  # Используем сессию для хранения telegram_id
-        try:
-            # Получаем данные пользователя из базы данных
-            student = Student.objects.get(telegram_id=request.session['telegram_id'])
-            return render(request, 'app/home.html', {'student': student})
-        except Student.DoesNotExist:
-            # Если пользователь не найден, перенаправляем на страницу проверки telegram_id
-            return redirect('check_telegram_id')
-    else:
-        # Если пользователь не авторизован, перенаправляем на страницу проверки telegram_id
-        return redirect('check_telegram_id')
-    
-def logout(request):
-    # Очищаем сессию
-    if 'telegram_id' in request.session:
-        del request.session['telegram_id']
-    # Перенаправляем на страницу проверки telegram_id
-    return redirect('check_telegram_id')
-
-def check_telegram_id(request):
-    if request.method == 'POST':
-        telegram_id = request.POST.get('telegram_id')
-        
-        try:
-            student = Student.objects.get(telegram_id=telegram_id)
-            # Сохраняем telegram_id в сессии
-            request.session['telegram_id'] = telegram_id
-            return redirect('home')
-        except Student.DoesNotExist:
-            return render(request, 'app/register.html', {'telegram_id': telegram_id})
-    
-    return render(request, 'app/check_telegram_id.html')
-
-def register_student(request):
-    if request.method == 'POST':
-        telegram_id = request.POST.get('telegram_id')
-        name = request.POST.get('name')
-        campus = request.POST.get('campus')
-        birth_year = request.POST.get('birth_year')
-        gender = request.POST.get('gender')
-        about_me = request.POST.get('about_me')
-        selected_interests = request.POST.getlist('interests')  # Получаем список выбранных интересов
-        
-        # Создаем нового пользователя
-        student = Student.objects.create(
-            telegram_id=telegram_id,
-            name=name,
-            campus=campus,
-            birth_year=birth_year,
-            gender=gender,
-            about_me=about_me,
-        )
-        
-        # Добавляем выбранные интересы
-        for interest_id in selected_interests:
-            interest = Interest.objects.get(id=interest_id)
-            student.interests.add(interest)
-        
-        # Сохраняем telegram_id в сессии
-        request.session['telegram_id'] = telegram_id
-        
-        # Перенаправляем на главную страницу
-        return redirect('home')
-    
-    # Получаем все интересы для отображения в форме
-    interests = Interest.objects.all()
-    return render(request, 'register.html', {'interests': interests})
 
 class InterestListCreate(generics.ListCreateAPIView):
     queryset = Interest.objects.all()
