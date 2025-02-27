@@ -14,9 +14,9 @@ bot = TeleBot(os.getenv('BOT_KEY'), threaded=False)
 class Command(BaseCommand):
   	# Используется как описание команды обычно
     help = 'Just a command for launching a Telegram bot.'
-
-    @bot.message_handler(commands=['start'])
-    def start_message(message):
-        your_variable = message.from_user.id
+    def handle(self, *args, **kwargs):
+      @bot.message_handler(commands=['start'])
+      def start_message(message):
+          your_variable = message.from_user.id
 
     
