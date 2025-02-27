@@ -15,8 +15,11 @@ class Command(BaseCommand):
   	# Используется как описание команды обычно
     help = 'Just a command for launching a Telegram bot.'
     def handle(self, *args, **kwargs):
-      @bot.message_handler(commands=['start'])
-      def start_message(message):
-          your_variable = message.from_user.id
+
+        @bot.message_handler(commands=['start'])
+        def start_message(message):
+            your_variable = message.from_user.id
+            print(your_variable)
+            bot.polling(none_stop=True)
 
     
