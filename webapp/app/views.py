@@ -2,13 +2,13 @@ from rest_framework import generics
 from .models import Student, Interest, Like
 from .serializers import StudentSerializer, InterestSerializer, LikeSerializer
 from django.shortcuts import render, redirect
-
 from dotenv import load_dotenv
 load_dotenv()
 
 from django.http import HttpResponse
 
-
+def index(request):
+    return render(request, 'app/index.html')
 #def korpus_view(request):
 #    return render(request, 'app/korpus.html')
 
