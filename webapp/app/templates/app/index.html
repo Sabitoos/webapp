@@ -8,11 +8,6 @@
 </head>
 <body>
   <div id="userInfo">
-    <form id="myForm" method="post" action="{% url 'checkid' %}">
-      {% csrf_token %}  <!-- CSRF-токен для защиты -->
-      <input type="hidden" id="telegram_id" name="telegram_id" value="">  <!-- Скрытое поле для telegram_id -->
-      <button type="submit" style="display: none;">Отправить</button>  <!-- Скрытая кнопка отправки -->
-    </form>
     <p id="message">Загрузка...</p>
   </div>
 
@@ -22,35 +17,26 @@
       if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
         const user = tg.initDataUnsafe.user; // Получаем данные пользователя
         const telegramId = user.id; // Получаем telegram_id
-        document.getElementById('telegram_id').value = telegramId; // Записываем telegram_id в скрытое поле
 
-        // Автоматически отправляем форму
-        document.getElementById('myForm').submit();
+        // Отправляем данные на сервер
+        fetch('/checkid/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',  // CSRF-токен (если требуется)
+          },
+          body: JSON.stringify({ telegram_id: telegramId }),  // Отправляем telegram_id
+        })
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('message').textContent = data.message; // Выводим ответ сервера
+        })
+        .catch(error => {
+          document.getElementById('message').textContent = 'Ошибка: ' + error.message;
+        });
       } else {
         document.getElementById('message').textContent = 'Ошибка: не удалось получить telegram_id';
       }
-    });
-
-    // Обработка ответа от сервера
-    document.getElementById('myForm').addEventListener('submit', function(event) {
-      event.preventDefault(); // Отменяем стандартное поведение формы
-
-      const formData = new FormData(this); // Собираем данные формы
-
-      fetch(this.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,  // CSRF-токен
-        },
-      })
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('message').textContent = data; // Выводим ответ сервера
-      })
-      .catch(error => {
-        document.getElementById('message').textContent = 'Ошибка: ' + error.message;
-      });
     });
   </script>
 </body>

@@ -6,24 +6,26 @@ from dotenv import load_dotenv
 load_dotenv()
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
 
 
 def index(request):
     return render(request, 'app/index.html')
 
-def check_telegram_id(request):
-    if request.method == 'POST':
-        telegram_id = request.POST.get('telegram_id')  # Получаем telegram_id из запроса
-        if telegram_id:
-            if Student.objects.filter(telegram_id=telegram_id).exists():
-                return HttpResponse('ID существует в базе данных')
-            else:
-                Student.objects.create(telegram_id=telegram_id)  # Создаем новую запись
-                return HttpResponse('ID был занесен в базу данных')
-        else:
-            return HttpResponse('Ошибка: telegram_id не указан', status=400)
-    else:
-        return HttpResponse('Метод не разрешен', status=405)
+class CheckIDView(APIView):
+    def post(self, request):
+        telegram_id = request.data.get('telegram_id')  # Получаем telegram_id из запроса
+        if not telegram_id:
+            return Response({'error': 'telegram_id не указан'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if Student.objects.filter(telegram_id=telegram_id).exists():
+            return Response({'status': 'error', 'message': 'ID существует в базе данных'})
+
+        Student.objects.create(telegram_id=telegram_id)  # Создаем новую запись
+        return Response({'status': 'success', 'message': 'ID был занесен в базу данных'})
 
 
 
