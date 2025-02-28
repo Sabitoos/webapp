@@ -8,7 +8,8 @@
 </head>
 <body>
   <div id="userInfo">
-    <p>User ID: <span id="userId">-</span></p>
+    <form id="myForm" method="post" action="{% url 'checkid' %}"></form>
+    <p>User ID: <span id="userId" name="telegramid">-</span></p>
   </div>
 
   <script>

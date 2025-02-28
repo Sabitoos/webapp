@@ -4,7 +4,6 @@ from .serializers import StudentSerializer, InterestSerializer, LikeSerializer
 from django.shortcuts import render, redirect
 from dotenv import load_dotenv
 load_dotenv()
-
 from django.http import HttpResponse
 
 def index(request):
@@ -12,8 +11,14 @@ def index(request):
 #def korpus_view(request):
 #    return render(request, 'app/korpus.html')
 
-
-
+def checkid(request):
+    if request.method == 'POST':
+        telegramid = request.POST.get('telegramid')
+        if Student.objects.filter(telegramid=telegramid).exists():
+            return HttpResponse('id существует в бд') 
+        else:
+            Student.objects.create(telegramid=telegramid)
+            return HttpResponse('id был занесен в базу данных')
 
 
 
