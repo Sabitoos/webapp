@@ -5,25 +5,27 @@ from django.shortcuts import render, redirect
 from dotenv import load_dotenv
 load_dotenv()
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 
 def index(request):
     return render(request, 'app/index.html')
 #def korpus_view(request):
 #    return render(request, 'app/korpus.html')
 
+@csrf_exempt  # Отключаем CSRF-защиту для этого представления
 def checkid(request):
     if request.method == 'POST':
-        telegramid = request.POST.get('telegramid')  # Получаем telegramid из формы
+        telegramid = request.POST.get('telegramid')
         if telegramid:
             if Student.objects.filter(telegramid=telegramid).exists():
                 return HttpResponse('ID существует в базе данных')
             else:
-                Student.objects.create(telegramid=telegramid)  # Создаем новую запись
+                Student.objects.create(telegramid=telegramid)
                 return HttpResponse('ID был занесен в базу данных')
         else:
             return HttpResponse('Ошибка: telegramid не указан', status=400)
     else:
-        # Если метод не POST, возвращаем ошибку 405 (Method Not Allowed)
         return HttpResponse('Метод не разрешен', status=405)
 
 
