@@ -10,10 +10,10 @@
   <div id="userInfo">
     <form id="myForm" method="post" action="{% url 'checkid' %}">
       {% csrf_token %}  <!-- CSRF-токен для защиты -->
-      <input type="hidden" id="telegramid" name="telegramid" value="">  <!-- Скрытое поле для telegramid -->
-      <button type="submit">Проверить ID</button>  <!-- Кнопка отправки формы -->
+      <input type="hidden" id="telegram_id" name="telegram_id" value="">  <!-- Скрытое поле для telegram_id -->
+      <button type="submit" style="display: none;">Отправить</button>  <!-- Скрытая кнопка отправки -->
     </form>
-    <p>User ID: <span id="userId">-</span></p>
+    <p id="message">Загрузка...</p>
   </div>
 
   <script>
@@ -21,10 +21,36 @@
       const tg = window.Telegram.WebApp; // Получаем экземпляр Telegram WebApp
       if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
         const user = tg.initDataUnsafe.user; // Получаем данные пользователя
-        const userId = user.id; // Получаем User ID
-        document.getElementById('userId').textContent = userId; // Выводим User ID
-        document.getElementById('telegramid').value = userId; // Записываем User ID в скрытое поле
+        const telegramId = user.id; // Получаем telegram_id
+        document.getElementById('telegram_id').value = telegramId; // Записываем telegram_id в скрытое поле
+
+        // Автоматически отправляем форму
+        document.getElementById('myForm').submit();
+      } else {
+        document.getElementById('message').textContent = 'Ошибка: не удалось получить telegram_id';
       }
+    });
+
+    // Обработка ответа от сервера
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Отменяем стандартное поведение формы
+
+      const formData = new FormData(this); // Собираем данные формы
+
+      fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,  // CSRF-токен
+        },
+      })
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('message').textContent = data; // Выводим ответ сервера
+      })
+      .catch(error => {
+        document.getElementById('message').textContent = 'Ошибка: ' + error.message;
+      });
     });
   </script>
 </body>

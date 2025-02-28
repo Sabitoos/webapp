@@ -10,21 +10,18 @@ from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     return render(request, 'app/index.html')
-#def korpus_view(request):
-#    return render(request, 'app/korpus.html')
 
-@csrf_exempt  # Отключаем CSRF-защиту для этого представления
-def checkid(request):
+def check_telegram_id(request):
     if request.method == 'POST':
-        telegramid = request.POST.get('telegramid')
-        if telegramid:
-            if Student.objects.filter(telegramid=telegramid).exists():
+        telegram_id = request.POST.get('telegram_id')  # Получаем telegram_id из запроса
+        if telegram_id:
+            if Student.objects.filter(telegram_id=telegram_id).exists():
                 return HttpResponse('ID существует в базе данных')
             else:
-                Student.objects.create(telegramid=telegramid)
+                Student.objects.create(telegram_id=telegram_id)  # Создаем новую запись
                 return HttpResponse('ID был занесен в базу данных')
         else:
-            return HttpResponse('Ошибка: telegramid не указан', status=400)
+            return HttpResponse('Ошибка: telegram_id не указан', status=400)
     else:
         return HttpResponse('Метод не разрешен', status=405)
 
