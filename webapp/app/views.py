@@ -21,10 +21,18 @@ class CheckIDView(APIView):
         if not telegram_id:
             return Response({'error': 'telegram_id не указан'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Проверяем, существует ли студент с таким telegram_id
         if Student.objects.filter(telegram_id=telegram_id).exists():
             return Response({'status': 'error', 'message': 'ID существует в базе данных'})
 
-        Student.objects.create(telegram_id=telegram_id)  # Создаем новую запись
+        # Создаем нового студента с значениями по умолчанию
+        Student.objects.create(
+            telegram_id=telegram_id,
+            name="Имя по умолчанию",  # Укажите значение по умолчанию
+            campus="1",  # Укажите значение по умолчанию
+            birth_year=2000,  # Укажите значение по умолчанию
+            gender="male",  # Укажите значение по умолчанию
+        )
         return Response({'status': 'success', 'message': 'ID был занесен в базу данных'})
 
 
