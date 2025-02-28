@@ -13,13 +13,18 @@ def index(request):
 
 def checkid(request):
     if request.method == 'POST':
-        telegramid = request.POST.get('telegramid')
-        if Student.objects.filter(telegramid=telegramid).exists():
-            return HttpResponse('id существует в бд') 
+        telegramid = request.POST.get('telegramid')  # Получаем telegramid из формы
+        if telegramid:
+            if Student.objects.filter(telegramid=telegramid).exists():
+                return HttpResponse('ID существует в базе данных')
+            else:
+                Student.objects.create(telegramid=telegramid)  # Создаем новую запись
+                return HttpResponse('ID был занесен в базу данных')
         else:
-            Student.objects.create(telegramid=telegramid)
-            return HttpResponse('id был занесен в базу данных')
-
+            return HttpResponse('Ошибка: telegramid не указан', status=400)
+    else:
+        # Если метод не POST, возвращаем ошибку 405 (Method Not Allowed)
+        return HttpResponse('Метод не разрешен', status=405)
 
 
 
