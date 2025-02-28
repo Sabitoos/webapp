@@ -7,5 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('app.urls')), # Включаем URL-адреса вашего приложения
     path('api-auth/', include('rest_framework.urls')), # Для аутентификации через API (опционально)
-    path('', views.index, name='index'),
+    path('', include('app.urls')),
 ]
