@@ -11,7 +11,7 @@ urlpatterns = [
     path('students/<int:pk>/', views.StudentRetrieveUpdateDestroy.as_view(), name='student-retrieve-update-destroy'),
     path('likes/', views.LikeListCreate.as_view(), name='like-list-create'),
     path('likes/<int:pk>/', views.LikeRetrieveUpdateDestroy.as_view(), name='like-retrieve-update-destroy'),
-    path('', checkid, name='checkid'),  # Главная страница
+    path('', index, name='index'),  # Главная страница
     #path('checkid/', checkid, name='checkid'),  # Обработка формы
 
 #    path('', views.index, name='index'),  # Маршрут для главной страницы
