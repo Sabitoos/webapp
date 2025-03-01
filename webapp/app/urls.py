@@ -1,7 +1,7 @@
 # your_app_name/urls.py
 from django.urls import path
 from . import views
-from .views import index, CheckIDView, reg_page
+from .views import index, CheckIDView, reg_page, fio_page
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
@@ -14,8 +14,8 @@ urlpatterns = [
 
     path('', index, name='index'),  # Главная страница
     path('checkid/', CheckIDView.as_view(), name='checkid'),  # Обработка telegram_id
-    path('start/', reg_page, name='start') # Отправка на регистрацию 
-
+    path('start/', reg_page, name='start'), # Отправка на регистрацию 
+    path('fio/', fio_page, name='fio')
 #    path('', views.index, name='index'),  # Маршрут для главной страницы
 #    path('korpus.html', views.korpus_view, name='korpus'), 
     
