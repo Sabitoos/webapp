@@ -19,14 +19,19 @@
             <div id="con"> 
                 <h3 id="text">Как к тебе обращаться?</h3>
                 <p id="textPOD">Под этим именем тебя будут видеть</p>
-            <input type="text" id="inputField" name="inputField">
-            <p id="error">Пожалуйста, напиши своё имя!</p>
+                <input type="text" id="inputField" name="inputField">
+                <p id="error">Пожалуйста, напиши своё имя!</p>
             </div>
             <button type="submit" id="input">Продолжить</button>
         </form>    
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const con = document.getElementById('con');
+            con.classList.add('show'); // Делаем #con видимым
+        });
+        
         document.getElementById('myForm').addEventListener('submit', function(event) {
     
             const input = document.getElementById('inputField');
