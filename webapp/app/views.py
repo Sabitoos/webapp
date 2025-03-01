@@ -15,6 +15,9 @@ from rest_framework import status
 def index(request):
     return render(request, 'app/index.html')
 
+def reg_page(request):
+    return render(request, 'app/start.html')
+
 class CheckIDView(APIView):
     def post(self, request):
         telegram_id = request.data.get('telegram_id')  # Получаем telegram_id из запроса
@@ -33,7 +36,7 @@ class CheckIDView(APIView):
             birth_year=2000,  # Укажите значение по умолчанию
             gender="male",  # Укажите значение по умолчанию
         )
-        return Response({'status': 'success', 'message': 'ID был занесен в базу данных'})
+        return redirect('start') # Регистрация
 
 
 

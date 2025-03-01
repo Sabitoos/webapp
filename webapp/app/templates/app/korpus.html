@@ -4,26 +4,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заголовок страницы</title>
-    <link rel="stylesheet" href="{% static 'app/css/styles.css' %}">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
+    <link rel="stylesheet" href="{% static 'app/css/stylesRegister.css' %}">
+    <script src="{$ static 'js/ScrolScript.js' %}"></script>
 </head>
 <body>
-    <img src="{% static 'app/images/logo.png' %}" alt="Описание изображения" width="120" height="51">
-    <div class="korpus">
-    <div class="text">
-        <h3>Выбери свой корпус</h3>
-    </div>
-    <div id="myForm2">
 
-        <select class="mySelect" size="4"> 
-            <option value="1">Корпус 1 Народная 8</option>
-            <option value="2">Корпус 2 Гагарина 27</option>
-            <option value="3">Корпус 3 50 лет Октября 165</option>
-            <option value="4">Корпус 4 Курчатов</option>
+    <img src="{% static 'app/images/logo.png' %}" id="logo">
+
+    <div id="content"> 
+
+    <form id="myForm">
+
+        <div id="con">
+            <h3 id="text">Выбери свой корпус</h3>
+            <p id="textPOD">Другие пользователи поймут где ты учишься</p>
+
+        <select class="mySelect" size="1"> 
+            <option value="" disabled selected>Корпус не выбран</option>
+            <option value="1">Корпус 1 - Народная 8</option>
+            <option value="2">Корпус 2 - Гагарина 27</option>
+            <option value="3">Корпус 3 - 50 лет Октября 165</option>
+            <option value="4">Корпус 4 - Курчатов</option>
         </select>
 
-        <p class="error" id="errorKorpus">Пожалуйста, выберите корпус!</p>
+        <p id="error">Пожалуйста, выбери корпус!</p>
+        </div>
         <button type="submit" id="input">Продолжить</button>
+    </form>
+
     </div>
+
+    <script>
+    // Обработка отправки формы
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('myForm');
+    const select = document.querySelector('.mySelect');
+    const errorText = document.getElementById('error');
+
+    select.addEventListener('change', function() {
+            if (select.value) {
+                error.style.display = 'none'; // Скрыть сообщение об ошибке
+            }
+        });
+
+    if (!errorText) {
+                console.error('Элемент с id "error" не найден!');
+                return; // Прекращаем выполнение, если элемент не найден
+            }
+
+    // Обработка отправки формы
+    form.addEventListener('submit', function(event) {
+        // Проверяем, выбрано ли значение
+        if (select.value === "") {
+            event.preventDefault(); // Отменяем отправку, если ничего не выбрано
+            errorText.style.display = 'block'; // Показываем сообщение об ошибке
+        } else {
+            errorText.style.display = 'none';
+            event.preventDefault();
+            window.location.assign('pol.html')
+        }
+    });
+    });
+</script>
+
 </body>
 </html>

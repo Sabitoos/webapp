@@ -1,0 +1,100 @@
+/* Шняги для регистрации */
+
+#text {
+    padding-top: 50px;
+    display: flex;             
+    justify-content: center;  
+    text-shadow: 0px 2px 3px #454545; 
+}
+
+#textPOD {
+    display: flex;             
+    justify-content: center;
+    padding-bottom: 30px;   
+    text-align: center; 
+    text-shadow: 0px 2px 3px #454545; 
+    color: #E1E1E1;
+}
+
+#myForm{
+    display: flex;                
+    flex-direction: column;      
+    align-items: center;  
+    text-align: center;      
+    gap: 10px;              
+}
+
+#error {
+    font-size: 15px;
+    color: #fff;  
+    display: none; 
+    text-align: center; 
+    text-shadow: 0px 2px 3px #454545;
+}
+
+/* выбор пола */
+
+.buttonPolImg {
+    transition: transform 0.3s ease; 
+}
+
+.active {
+    transform: scale(1.2); 
+}
+.inactive {
+    transform: scale(0.7); 
+}
+
+#polVIB {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.buttonPolImg {
+    background: none; 
+    border: none; 
+    padding: 0; 
+    cursor: pointer; 
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+    width: 140px;
+    text-shadow: 0px 2px 3px #454545;
+    outline: none;
+}
+
+.buttonPolImg img {
+    width: 140px; 
+    height: auto; 
+    outline: none;
+}
+
+/* выбор интересов */
+
+#button-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 350px;
+    gap: 10px; /* расстояние между кнопками */
+
+}
+
+.dynamic-button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #FFF;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    transition: background-color 0.3s ease, transform 0.3s ease; 
+}
+
+.dynamic-button:active { 
+    background-color: #8FACFF; 
+    transform: scale(1.1); 
+}
+
+
+
+

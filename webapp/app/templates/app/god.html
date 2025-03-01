@@ -10,17 +10,17 @@
     <script src="{$ static 'js/ScrolScript.js' %}"></script>
 </head>
 <body>
-    
+
     <img src="{% static 'app/images/logo.png' %}" id="logo">
 
     <div id="content">
 
         <form id="myForm">
             <div id="con"> 
-                <h3 id="text">Как к тебе обращаться?</h3>
-                <p id="textPOD">Под этим именем тебя будут видеть</p>
-            <input type="text" id="inputField" name="inputField">
-            <p id="error">Пожалуйста, напиши своё имя!</p>
+                <h3 id="text">Сколько тебе лет?</h3>
+                <p id="textPOD">Другие будут знать твой возраст</p>
+            <input type="number" id="inputField" name="inputField">
+            <p id="error">Пожалуйста, напиши свой возраст!</p>
             </div>
             <button type="submit" id="input">Продолжить</button>
         </form>    
@@ -32,14 +32,14 @@
             const input = document.getElementById('inputField');
             const errorText = document.getElementById('error');
     
-            if (input.value.trim() === '') { // Проверяем, пустое ли поле
+            if (input.value.trim() === '' || 100 < input.value.trim() || input.value.trim() < 14){ // Проверяем, пустое ли поле
                 event.preventDefault(); // Отменяем отправку формы
                 errorText.style.display = 'block'; // Показываем текст ошибки
             } else {
                 errorText.style.display = 'none'; // Скрываем текст ошибки
                 input.value = '';
                 event.preventDefault();
-                window.location.assign('god.html')
+                window.location.assign('korpus.html')
             }
         });
     </script>
