@@ -18,7 +18,7 @@ def index(request):
 def reg_page(request):
     return render(request, 'app/start.html')
 def fio_page(request):
-    return render(request, 'app/fio.hmtl')
+    return render(request, 'app/fio.html')
 
 class CheckIDView(APIView):
     def post(self, request):
