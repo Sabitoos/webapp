@@ -30,7 +30,12 @@
         })
         .then(response => response.json())
         .then(data => {
-          document.getElementById('message').textContent = data.message; // Выводим ответ сервера
+          if (data.redirect_url) {
+            // Если сервер вернул URL для перенаправления, переходим на новую страницу
+            window.location.href = data.redirect_url;
+          } else {
+            document.getElementById('message').textContent = data.message; // Выводим ответ сервера
+          }
         })
         .catch(error => {
           document.getElementById('message').textContent = 'Ошибка: ' + error.message;

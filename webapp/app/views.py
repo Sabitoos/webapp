@@ -36,7 +36,8 @@ class CheckIDView(APIView):
             birth_year=2000,  # Укажите значение по умолчанию
             gender="male",  # Укажите значение по умолчанию
         )
-        return redirect('start') # Регистрация
+        # Возвращаем JSON с URL для перенаправления
+        return Response({'status': 'success', 'message': 'ID был занесен в базу данных', 'redirect_url': '/start/'})
 
 
 

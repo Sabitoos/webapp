@@ -14,7 +14,7 @@ urlpatterns = [
 
     path('', index, name='index'),  # Главная страница
     path('checkid/', CheckIDView.as_view(), name='checkid'),  # Обработка telegram_id
-    path('start/', reg_page, name='start')
+    path('start/', reg_page, name='start') # Отправка на регистрацию 
 
 #    path('', views.index, name='index'),  # Маршрут для главной страницы
 #    path('korpus.html', views.korpus_view, name='korpus'), 
