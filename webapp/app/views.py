@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.db import IntegrityError
 import logging
+logger = logging.getLogger(__name__)
 
 def index(request):
     return render(request, 'app/index.html')
@@ -52,12 +53,16 @@ class RegisterView(APIView):
     def post(self, request):
         try:
             telegram_id = request.data.get('telegram_id')
+            if not telegram_id:
+                return Response({'status': 'error', 'message': 'telegram_id не указан'}, status=status.HTTP_400_BAD_REQUEST)
+
             name = request.data.get('name')
             campus = request.data.get('campus')
             birth_year = request.data.get('birth_year')
             gender = request.data.get('gender')
             interests = request.data.get('interests', [])
 
+            # Создаем нового студента
             student = Student.objects.create(
                 telegram_id=telegram_id,
                 name=name,
@@ -66,6 +71,7 @@ class RegisterView(APIView):
                 gender=gender,
             )
 
+            # Добавляем выбранные интересы
             for interest_id in interests:
                 interest = Interest.objects.get(id=interest_id)
                 student.interests.add(interest)
@@ -73,8 +79,7 @@ class RegisterView(APIView):
             return Response({'status': 'success', 'message': 'Данные успешно сохранены'}, status=status.HTTP_201_CREATED)
 
         except Exception as e:
-            # Логируем ошибку
-            logging.error(f"Error during registration: {str(e)}")
+            logger.error(f"Error during registration: {str(e)}")
             return Response({'status': 'error', 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 

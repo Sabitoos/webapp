@@ -36,17 +36,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             const con = document.getElementById('con');
             con.classList.add('show');  // Делаем форму видимой
-
+    
             // Собираем данные из localStorage
             const data = {
-                telegram_id: localStorage.getItem('telegram_id'), // Пример telegram_id
+                telegram_id: localStorage.getItem('telegram_id'), // Получаем telegram_id
                 name: localStorage.getItem('name'),
                 campus: localStorage.getItem('campus'),
                 birth_year: localStorage.getItem('birth_year'),
                 gender: localStorage.getItem('gender'),
                 interests: JSON.parse(localStorage.getItem('interests')) || []
             };
-
+    
             // Отправляем данные на сервер
             fetch('/register/', {
                 method: 'POST',
@@ -58,29 +58,14 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-
+    
                 // Перенаправляем на страницу успешной регистрации
                 window.location.href = '/success/'; // Замените на нужный URL
             })
             .catch(error => {
                 console.error('Error:', error);
-                // Обработка ошибки (например, показ сообщения пользователю)
             });
         });
-
-        const textElement = document.getElementById('text');
-        let dots = 0;
-        
-        function animateText() {
-            dots++;
-            if (dots > 3) {
-                dots = 0;
-            }
-            textElement.textContent = `Пару секунд${'.'.repeat(dots)}`;
-            setTimeout(animateText, 500); // Задержка 0.5 секунды
-        }
-        
-        animateText();
     </script>
 </body>
 </html>
