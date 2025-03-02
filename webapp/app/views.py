@@ -12,6 +12,7 @@ from rest_framework import status
 from django.db import IntegrityError
 import logging
 logger = logging.getLogger(__name__)
+from django.shortcuts import render, get_object_or_404
 
 def index(request):
     return render(request, 'app/index.html')
@@ -82,7 +83,22 @@ class RegisterView(APIView):
             logger.error(f"Error during registration: {str(e)}")
             return Response({'status': 'error', 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+def success_view(request):
+    # Получаем telegram_id из запроса (например, из параметров URL или сессии)
+    telegram_id = request.GET.get('telegram_id')  # Пример: /success/?telegram_id=12345
 
+    if not telegram_id:
+        return render(request, 'app/success.html', {'error': 'Telegram ID не указан'})
+
+    # Ищем студента в базе данных
+    student = get_object_or_404(Student, telegram_id=telegram_id)
+
+    # Передаем данные студента в шаблон
+    context = {
+        'student': student,
+        'interests': student.interests.all()  # Получаем все интересы студента
+    }
+    return render(request, 'app/success.html', context)
 
 class InterestListCreate(generics.ListCreateAPIView):
     queryset = Interest.objects.all()

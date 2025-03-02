@@ -35,30 +35,17 @@
 <body>
     <h1>Регистрация успешно завершена!</h1>
     <div class="data-container">
-        <div class="data-item"><strong>Имя:</strong> <span id="name"></span></div>
-        <div class="data-item"><strong>Корпус:</strong> <span id="campus"></span></div>
-        <div class="data-item"><strong>Год рождения:</strong> <span id="birth_year"></span></div>
-        <div class="data-item"><strong>Пол:</strong> <span id="gender"></span></div>
-        <div class="data-item"><strong>Интересы:</strong> <span id="interests"></span></div>
+        <div class="data-item"><strong>Имя:</strong> {{ student.name }}</div>
+        <div class="data-item"><strong>Корпус:</strong> {{ student.campus }}</div>
+        <div class="data-item"><strong>Год рождения:</strong> {{ student.birth_year }}</div>
+        <div class="data-item"><strong>Пол:</strong> {{ student.gender }}</div>
+        <div class="data-item"><strong>Интересы:</strong>
+            <ul>
+                {% for interest in interests %}
+                    <li>{{ interest.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-
-    <script>
-        // Получаем данные из localStorage
-        const name = localStorage.getItem('name');
-        const campus = localStorage.getItem('campus');
-        const birthYear = localStorage.getItem('birth_year');
-        const gender = localStorage.getItem('gender');
-        const interests = JSON.parse(localStorage.getItem('interests')) || [];
-
-        // Отображаем данные на странице
-        document.getElementById('name').textContent = name;
-        document.getElementById('campus').textContent = campus;
-        document.getElementById('birth_year').textContent = birthYear;
-        document.getElementById('gender').textContent = gender;
-        document.getElementById('interests').textContent = interests.join(', ');
-
-        // Очищаем localStorage после отображения данных
-        localStorage.clear();
-    </script>
 </body>
 </html>
