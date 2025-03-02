@@ -26,10 +26,22 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
-            color: black;  
+            color: black;
         }
         .data-item {
             margin: 10px 0;
+        }
+        .delete-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: #ff1a1a;
         }
     </style>
 </head>
@@ -50,5 +62,37 @@
             </ul>
         </div>
     </div>
+
+    <!-- Кнопка удаления -->
+    <button class="delete-button" id="deleteButton">Удалить аккаунт</button>
+
+    <script>
+        document.getElementById('deleteButton').addEventListener('click', function() {
+            const telegramId = "{{ student.telegram_id }}";  // Получаем telegram_id из шаблона
+
+            // Отправляем запрос на удаление
+            fetch('/delete/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'  // Добавляем CSRF-токен для защиты
+                },
+                body: `telegram_id=${telegramId}`,  // Передаем telegram_id
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);  // Показываем сообщение об успешном удалении
+                    window.location.href = '/';  // Перенаправляем на главную страницу
+                } else {
+                    alert('Ошибка: ' + data.message);  // Показываем сообщение об ошибке
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Произошла ошибка при удалении аккаунта');
+            });
+        });
+    </script>
 </body>
 </html>

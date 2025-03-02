@@ -13,6 +13,7 @@ from django.db import IntegrityError
 import logging
 logger = logging.getLogger(__name__)
 from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
 
 def index(request):
     return render(request, 'app/index.html')
@@ -107,6 +108,23 @@ def success_view(request):
         'interests': interests,
     }
     return render(request, 'app/success.html', context)
+
+def delete_account(request):
+    if request.method == 'POST':
+        telegram_id = request.POST.get('telegram_id')  # Получаем telegram_id из запроса
+
+        if not telegram_id:
+            return JsonResponse({'status': 'error', 'message': 'Telegram ID не указан'}, status=400)
+
+        # Ищем студента в базе данных
+        student = get_object_or_404(Student, telegram_id=telegram_id)
+
+        # Удаляем студента
+        student.delete()
+
+        return JsonResponse({'status': 'success', 'message': 'Аккаунт успешно удален'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Недопустимый метод запроса'}, status=405)
 
 class InterestListCreate(generics.ListCreateAPIView):
     queryset = Interest.objects.all()

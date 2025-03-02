@@ -21,5 +21,6 @@ urlpatterns = [
     path('pol.html', views.pol_view, name='pol'),
     path('interes.html', views.interes_view, name='interes'),
     path('nastroika.html', views.nastroika_view, name='nastroika'),
-   path('success/', views.success_view, name='success'),  # Маршрут для success.html
+    path('success/', views.success_view, name='success'),
+    path('delete/', views.delete_account, name='delete_account'),  # Маршрут для success.html
 ]
