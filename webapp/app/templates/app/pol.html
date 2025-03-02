@@ -13,56 +13,93 @@
 
     <img src="{% static 'app/images/logo.png' %}" id="logo">
 
-    <div id="content">
+    <div id="content"> 
         <form id="myForm">
-            <div id="con"> 
+            <div id="con">
                 <h3 id="text">Выбери свой пол</h3>
-                <p id="textPOD">Другие будут знать твой пол</p>
+                <p id="textPOD">Так пользователи смогут понять кто ты</p>
 
-                <!-- Радиокнопки для выбора пола -->
-                <label>
-                    <input type="radio" name="gender" value="male" required> Мужской
-                </label>
-                <label>
-                    <input type="radio" name="gender" value="female" required> Женский
-                </label>
+                <div id="polVIB"> 
+                    <input type="hidden" id="selectedValue" name="selectedValue" value="">
+                    <button type="button" class="buttonPolImg" id="button1" data-value="female" onclick="handleButtonClick('button1')">
+                        <img src="{% static 'app/images/female.png' %}" alt="Девушка">Девушка
+                    </button>
+                    <button type="button" class="buttonPolImg" id="button2" data-value="male" onclick="handleButtonClick('button2')">
+                        <img src="{% static 'app/images/male.png' %}" alt="Парень">Парень
+                    </button>
+                </div>
 
-                <p id="error">Пожалуйста, выбери пол!</p>
+                <p id="error">Пожалуйста, выбери свой пол!</p>
             </div>
-            <button type="button" id="input" onclick="saveDataAndRedirect('interes.html')">Продолжить</button>
-        </form>    
+            <button type="submit" id="input">Продолжить</button>
+        </form>
     </div>
 
     <script>
+        let activeButton = null; // Переменная для хранения активной кнопки
+
+        function handleButtonClick(buttonId) {
+            const button1 = document.getElementById('button1');
+            const button2 = document.getElementById('button2');
+            const error = document.getElementById('error');
+
+            // Если есть активная кнопка, сбрасываем её состояние
+            if (activeButton) {
+                const previousButton = document.getElementById(activeButton);
+                previousButton.classList.remove('active');
+                previousButton.classList.add('inactive');
+                previousButton.disabled = false; // Включаем кнопку обратно
+            }
+
+            // Если нажата та же кнопка, ничего не делаем
+            if (activeButton === buttonId) {
+                return;
+            }
+
+            // Устанавливаем новую активную кнопку
+            activeButton = buttonId;
+            const currentButton = document.getElementById(activeButton);
+            currentButton.classList.add('active');
+            currentButton.classList.remove('inactive');
+            currentButton.disabled = true; // Отключаем активную кнопку
+
+            // Уменьшаем другую кнопку
+            const otherButton = (activeButton === 'button1') ? button2 : button1;
+            otherButton.classList.remove('active');
+            otherButton.classList.add('inactive');
+            otherButton.disabled = false; // Включаем другую кнопку
+
+            // Сохраняем значение выбранной кнопки в скрытое поле формы
+            const selectedValue = currentButton.getAttribute('data-value');
+            document.getElementById('selectedValue').value = selectedValue;
+
+            error.style.display = 'none';
+        }
+
+        const form = document.getElementById('myForm');
+        const error = document.getElementById('error');
+
+        form.addEventListener('submit', function(event) {
+            const selectedValue = document.getElementById('selectedValue').value; // Получаем значение из скрытого поля
+            if (selectedValue === "") {
+                event.preventDefault(); // Предотвратить отправку формы
+                error.style.display = 'block'; // Показать сообщение об ошибке
+            } else {
+                event.preventDefault(); // Предотвратить отправку формы
+                error.style.display = 'none'; // Скрыть сообщение об ошибке
+
+                // Сохраняем пол в localStorage
+                localStorage.setItem('gender', selectedValue);
+
+                // Перенаправляем на следующую страницу
+                window.location.href = 'interes.html';
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const con = document.getElementById('con');
             con.classList.add('show');  // Делаем форму видимой
         });
-
-        function saveDataAndRedirect(nextPage) {
-            const genderInputs = document.querySelectorAll('input[name="gender"]');
-            const errorText = document.getElementById('error');
-            let selectedGender = null;
-
-            // Проверяем, выбран ли пол
-            genderInputs.forEach(input => {
-                if (input.checked) {
-                    selectedGender = input.value;
-                }
-            });
-
-            if (!selectedGender) {  // Если пол не выбран
-                errorText.style.display = 'block';  // Показываем текст ошибки
-            } else {
-                errorText.style.display = 'none';  // Скрываем текст ошибки
-
-                // Сохраняем пол в localStorage
-                localStorage.setItem('gender', selectedGender);
-
-                // Перенаправляем на следующую страницу
-                window.location.href = nextPage;
-            }
-        }
     </script>
 </body>
 </html>
