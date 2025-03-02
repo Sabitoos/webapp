@@ -17,7 +17,7 @@ def index(request):
 
 def reg_page(request):
     return render(request, 'app/start.html')
-def fio_page(request):
+def fio_view(request):
     return render(request, 'app/fio.html')
 
 class CheckIDView(APIView):

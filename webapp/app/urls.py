@@ -15,6 +15,8 @@ urlpatterns = [
     path('', index, name='index'),  # Главная страница
     path('checkid/', CheckIDView.as_view(), name='checkid'),  # Проверка Telegram ID
     path('register/', RegisterView.as_view(), name='register'),  # Регистрация
+    path('fio.html', views.fio_view, name='fio'),
+    
 #    path('', views.index, name='index'),  # Маршрут для главной страницы
 #    path('korpus.html', views.korpus_view, name='korpus'), 
     

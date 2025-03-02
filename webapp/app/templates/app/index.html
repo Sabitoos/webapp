@@ -31,7 +31,7 @@
                     document.getElementById('message').textContent = `Вы вошли в аккаунт: ${data.data.name}`;
                 } else if (data.status === 'register') {
                     // Если пользователь не зарегистрирован, переходим к регистрации
-                    window.location.href = 'app/fio.html';
+                    window.location.href = 'fio.html';
                 }
             })
             .catch(error => {
