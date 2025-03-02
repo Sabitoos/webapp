@@ -7,7 +7,7 @@
     <title>Регистрация</title>
     <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
     <link rel="stylesheet" href="{% static 'app/css/stylesRegister.css' %}">
-    <script src="{$ static 'js/ScrolScript.js' %}"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 
@@ -15,101 +15,87 @@
         <img src="{% static 'app/images/logo.png' %}" id="logo">
 
         <form id="myForm">
-
-        <div id="con">
-            <h3 id="text">Выбери интересные категории</h3>
-            <p id="textPOD">Минимум 3, а мы подберём для тебя людей <br>с похожими интересами и увлечениями</p>
-            <div id="button-container"></div>
-            <p id="error">Пожалуйста, выбери три и более категории!</p>
-        </div>
-        <button type="submit" id="input">Продолжить</button>
+            <div id="con">
+                <h3 id="text">Выбери интересные категории</h3>
+                <p id="textPOD">Минимум 3, а мы подберём для тебя людей <br>с похожими интересами и увлечениями</p>
+                <div id="button-container"></div>
+                <p id="error">Пожалуйста, выбери три и более категории!</p>
+            </div>
+            <button type="button" id="input" onclick="saveDataAndRedirect('nastroika.html')">Продолжить</button>
         </form>
-
     </div>
 
     <script>
-        let buttonTexts = ['Изучение языков','Компьютерные игры','Аниме и манга',
-                           'Музыка','Фотографии','Книги','Животные','Искусство','Кино','Дизайн','Общественные мероприятия',
-                           'Путешествия','Наука','Садоводство','3D-моделирование','Танцы','Политика','Кулинария','Настольные игры',
-                           'Спорт','Экономика','Медицина','Философия','Программирование','IT', 'Психология'];
+        let buttonTexts = [
+            'Изучение языков', 'Компьютерные игры', 'Аниме и манга', 'Музыка', 'Фотографии', 'Книги', 
+            'Животные', 'Искусство', 'Кино', 'Дизайн', 'Общественные мероприятия', 'Путешествия', 
+            'Наука', 'Садоводство', '3D-моделирование', 'Танцы', 'Политика', 'Кулинария', 
+            'Настольные игры', 'Спорт', 'Экономика', 'Медицина', 'Философия', 'Программирование', 
+            'IT', 'Психология'
+        ];
 
-let selectedButtons = []; // Массив для хранения выбранных кнопок
+        let selectedButtons = []; // Массив для хранения выбранных кнопок
 
-// Находим контейнер для кнопок
+        // Находим контейнер для кнопок
+        const buttonContainer = document.getElementById('button-container');
+        const error = document.getElementById('error');
 
-const buttonContainer = document.getElementById('button-container');
-const myForm = document.getElementById('myForm');
-const error = document.getElementById('error');
+        // Функция для создания кнопок
+        function createButtons() {
+            buttonContainer.innerHTML = ''; // Очищаем контейнер
 
-// Функция для создания кнопок
+            buttonTexts.forEach((text) => {
+                const button = document.createElement('button'); // Создаем элемент кнопки
+                button.classList.add('dynamic-button');
+                button.textContent = text; // Устанавливаем текст кнопки
+                button.setAttribute('data-text', text); // Устанавливаем атрибут data-text
 
-function createButtons() {
+                // Устанавливаем цвет кнопки
+                button.style.backgroundColor = selectedButtons.includes(text) ? '#FFF' : '#9AA7CC';
 
-    buttonContainer.innerHTML = ''; // Очищаем контейнер
+                // Обработчик клика по кнопке
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    error.style.display = 'none';
 
-    buttonTexts.forEach((text) => {
+                    if (selectedButtons.includes(text)) {
+                        // Если кнопка уже выбрана, удаляем её из массива
+                        selectedButtons = selectedButtons.filter(item => item !== text);
+                        button.style.backgroundColor = '#9AA7CC'; // Возвращаем прежний цвет
+                    } else {
+                        // Если кнопка не выбрана, добавляем её в массив
+                        selectedButtons.push(text);
+                        button.style.backgroundColor = '#8FACFF'; // Меняем цвет
+                    }
 
-        const button = document.createElement('button'); // Создаем элемент кнопки
+                    console.log(selectedButtons); // Выводим текущий массив выбранных кнопок в консоль
+                });
 
-        button.classList.add('dynamic-button');
+                buttonContainer.appendChild(button); // Добавляем кнопку в контейнер
+            });
+        }
 
-        button.textContent = text; // Устанавливаем текст кнопки
-
-        button.setAttribute('data-text', text); // Устанавливаем атрибут data-text
-
-        button.style.backgroundColor = selectedButtons.includes(text) ? '#FFF' : '#9AA7CC'; // Устанавливаем цвет кнопки
-
-        button.addEventListener('click', () => {
-
-            event.preventDefault()
-            error.style.display = 'none';
-
-            if (selectedButtons.includes(text)) {
-
-                // Если кнопка уже выбрана, удаляем её из массива
-
-                selectedButtons = selectedButtons.filter(item => item !== text);
-
-                button.style.backgroundColor = '#9AA7CC'; // Возвращаем прежний цвет
-
+        // Функция для сохранения данных и перенаправления
+        function saveDataAndRedirect(nextPage) {
+            if (selectedButtons.length < 3) {
+                error.style.display = 'block'; // Показываем ошибку, если выбрано меньше 3 категорий
             } else {
+                error.style.display = 'none'; // Скрываем ошибку
 
-                // Если кнопка не выбрана, добавляем её в массив
+                // Сохраняем выбранные интересы в localStorage
+                localStorage.setItem('interests', JSON.stringify(selectedButtons));
 
-                selectedButtons.push(text);
-
-                button.style.backgroundColor = '#8FACFF'; // Меняем цвет
-
+                // Перенаправляем на следующую страницу
+                window.location.href = nextPage;
             }
+        }
 
-            console.log(selectedButtons); // Выводим текущий массив выбранных кнопок в консоль
-
+        // Инициализация кнопок при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const con = document.getElementById('con');
+            con.classList.add('show'); // Делаем форму видимой
+            createButtons(); // Создаем кнопки
         });
-
-        buttonContainer.appendChild(button); // Добавляем кнопку в контейнер
-
-    });
-
-}
-
-    myForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
-
-        if (selectedButtons.length < 3) {
-            error.style.display = 'block';
-            return; // Прерываем отправку, если выбрано меньше 3 категорий
-        }
-        else {
-            event.preventDefault(); // Предотвратить отправку формы\
-            error.style.display = 'none'; // Скрыть сообщение об ошибке
-            window.location.assign('nastroika.html');
-        }
-        
-    })
-createButtons();
-</script>
-
-
-   
+    </script>
 </body>
 </html>

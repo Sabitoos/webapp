@@ -7,67 +7,54 @@
     <title>Регистрация</title>
     <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
     <link rel="stylesheet" href="{% static 'app/css/stylesRegister.css' %}">
-    <script src="{$ static 'js/ScrolScript.js' %}"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 
     <img src="{% static 'app/images/logo.png' %}" id="logo">
 
-    <div id="content"> 
+    <div id="content">
+        <form id="myForm">
+            <div id="con">
+                <h3 id="text">Выбери свой корпус</h3>
+                <p id="textPOD">Другие пользователи поймут где ты учишься</p>
 
-    <form id="myForm">
+                <select class="mySelect" id="campusSelect" size="1" required>
+                    <option value="" disabled selected>Корпус не выбран</option>
+                    <option value="1">Корпус 1 - Народная 8</option>
+                    <option value="2">Корпус 2 - Гагарина 27</option>
+                    <option value="3">Корпус 3 - 50 лет Октября 165</option>
+                    <option value="4">Корпус 4 - Курчатов</option>
+                </select>
 
-        <div id="con">
-            <h3 id="text">Выбери свой корпус</h3>
-            <p id="textPOD">Другие пользователи поймут где ты учишься</p>
-
-        <select class="mySelect" size="1"> 
-            <option value="" disabled selected>Корпус не выбран</option>
-            <option value="1">Корпус 1 - Народная 8</option>
-            <option value="2">Корпус 2 - Гагарина 27</option>
-            <option value="3">Корпус 3 - 50 лет Октября 165</option>
-            <option value="4">Корпус 4 - Курчатов</option>
-        </select>
-
-        <p id="error">Пожалуйста, выбери корпус!</p>
-        </div>
-        <button type="submit" id="input">Продолжить</button>
-    </form>
-
+                <p id="error">Пожалуйста, выбери корпус!</p>
+            </div>
+            <button type="button" id="input" onclick="saveDataAndRedirect('god.html')">Продолжить</button>
+        </form>
     </div>
 
     <script>
-    // Обработка отправки формы
-    document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('myForm');
-    const select = document.querySelector('.mySelect');
-    const errorText = document.getElementById('error');
-
-    select.addEventListener('change', function() {
-            if (select.value) {
-                error.style.display = 'none'; // Скрыть сообщение об ошибке
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            const con = document.getElementById('con');
+            con.classList.add('show');  // Делаем форму видимой
         });
 
-    if (!errorText) {
-                console.error('Элемент с id "error" не найден!');
-                return; // Прекращаем выполнение, если элемент не найден
+        function saveDataAndRedirect(nextPage) {
+            const select = document.getElementById('campusSelect');
+            const errorText = document.getElementById('error');
+
+            if (select.value === "") {  // Проверяем, выбран ли корпус
+                errorText.style.display = 'block';  // Показываем текст ошибки
+            } else {
+                errorText.style.display = 'none';  // Скрываем текст ошибки
+
+                // Сохраняем выбранный корпус в localStorage
+                localStorage.setItem('campus', select.value);
+
+                // Перенаправляем на следующую страницу
+                window.location.href = nextPage;
             }
-
-    // Обработка отправки формы
-    form.addEventListener('submit', function(event) {
-        // Проверяем, выбрано ли значение
-        if (select.value === "") {
-            event.preventDefault(); // Отменяем отправку, если ничего не выбрано
-            errorText.style.display = 'block'; // Показываем сообщение об ошибке
-        } else {
-            errorText.style.display = 'none';
-            event.preventDefault();
-            window.location.assign('pol.html')
         }
-    });
-    });
-</script>
-
+    </script>
 </body>
 </html>

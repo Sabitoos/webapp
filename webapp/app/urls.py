@@ -1,7 +1,7 @@
 # your_app_name/urls.py
 from django.urls import path
 from . import views
-from .views import index, CheckIDView, reg_page, fio_page
+from .views import index, CheckIDView, RegisterView
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
@@ -13,9 +13,8 @@ urlpatterns = [
     path('likes/<int:pk>/', views.LikeRetrieveUpdateDestroy.as_view(), name='like-retrieve-update-destroy'),
 
     path('', index, name='index'),  # Главная страница
-    path('checkid/', CheckIDView.as_view(), name='checkid'),  # Обработка telegram_id
-    path('start/', reg_page, name='start'), # Отправка на регистрацию 
-    path('fio/', fio_page, name='fio')
+    path('checkid/', CheckIDView.as_view(), name='checkid'),  # Проверка Telegram ID
+    path('register/', RegisterView.as_view(), name='register'),  # Регистрация
 #    path('', views.index, name='index'),  # Маршрут для главной страницы
 #    path('korpus.html', views.korpus_view, name='korpus'), 
     

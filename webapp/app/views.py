@@ -27,21 +27,44 @@ class CheckIDView(APIView):
             return Response({'error': 'telegram_id не указан'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Проверяем, существует ли студент с таким telegram_id
-        if Student.objects.filter(telegram_id=telegram_id).exists():
-            return Response({'status': 'error', 'message': 'ID существует в базе данных'})
+        student = Student.objects.filter(telegram_id=telegram_id).first()
+        if student:
+            # Если студент найден, возвращаем его данные
+            serializer = StudentSerializer(student)
+            return Response({'status': 'success', 'message': 'Вы вошли в аккаунт', 'data': serializer.data})
+        else:
+            # Если студент не найден, начинаем процесс регистрации
+            return Response({'status': 'register', 'message': 'Начните регистрацию'})
 
-        # Создаем нового студента с значениями по умолчанию
-        Student.objects.create(
+class RegisterView(APIView):
+    def post(self, request):
+        telegram_id = request.data.get('telegram_id')  # Получаем telegram_id из запроса
+        if not telegram_id:
+            return Response({'error': 'telegram_id не указан'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Получаем остальные данные из запроса
+        name = request.data.get('name')
+        campus = request.data.get('campus')
+        birth_year = request.data.get('birth_year')
+        gender = request.data.get('gender')
+        interests = request.data.get('interests', [])  # Получаем список интересов
+
+        # Создаем нового студента
+        student = Student.objects.create(
             telegram_id=telegram_id,
-            name="Имя по умолчанию",  # Укажите значение по умолчанию
-            campus="1",  # Укажите значение по умолчанию
-            birth_year=2000,  # Укажите значение по умолчанию
-            gender="male",  # Укажите значение по умолчанию
+            name=name,
+            campus=campus,
+            birth_year=birth_year,
+            gender=gender,
         )
-        # Возвращаем JSON с URL для перенаправления
-        return Response({'status': 'success', 'message': 'ID был занесен в базу данных', 'redirect_url': '/start/'})
 
+        # Добавляем выбранные интересы
+        for interest_id in interests:
+            interest = Interest.objects.get(id=interest_id)
+            student.interests.add(interest)
 
+        # Возвращаем успешный ответ
+        return Response({'status': 'success', 'message': 'Данные успешно сохранены'}, status=status.HTTP_201_CREATED)   
 
 
 

@@ -7,47 +7,46 @@
     <title>Регистрация</title>
     <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
     <link rel="stylesheet" href="{% static 'app/css/stylesRegister.css' %}">
-    <script src="{$ static 'js/ScrolScript.js' %}"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     
     <img src="{% static 'app/images/logo.png' %}" id="logo">
 
     <div id="content">
-
         <form id="myForm">
             <div id="con"> 
                 <h3 id="text">Как к тебе обращаться?</h3>
                 <p id="textPOD">Под этим именем тебя будут видеть</p>
-                <input type="text" id="inputField" name="inputField">
+                <input type="text" id="inputField" name="inputField" placeholder="Ваше имя" required>
                 <p id="error">Пожалуйста, напиши своё имя!</p>
             </div>
-            <button type="submit" id="input">Продолжить</button>
+            <button type="button" id="input" onclick="saveDataAndRedirect('korpus.html')">Продолжить</button>
         </form>    
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const con = document.getElementById('con');
-            con.classList.add('show'); // Делаем #con видимым
+            con.classList.add('show');  // Делаем форму видимой
         });
-        
-        document.getElementById('myForm').addEventListener('submit', function(event) {
-    
+
+        function saveDataAndRedirect(nextPage) {
             const input = document.getElementById('inputField');
             const errorText = document.getElementById('error');
-    
-            if (input.value.trim() === '') { // Проверяем, пустое ли поле
-                event.preventDefault(); // Отменяем отправку формы
-                errorText.style.display = 'block'; // Показываем текст ошибки
-            } else {
-                errorText.style.display = 'none'; // Скрываем текст ошибки
-                input.value = '';
-                event.preventDefault();
-                window.location.assign('god.html')
-            }
-        });
-    </script>
 
+            if (input.value.trim() === '') {  // Проверяем, пустое ли поле
+                errorText.style.display = 'block';  // Показываем текст ошибки
+            } else {
+                errorText.style.display = 'none';  // Скрываем текст ошибки
+
+                // Сохраняем имя в localStorage
+                localStorage.setItem('name', input.value);
+
+                // Перенаправляем на следующую страницу
+                window.location.href = nextPage;
+            }
+        }
+    </script>
 </body>
 </html>

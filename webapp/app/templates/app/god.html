@@ -7,42 +7,52 @@
     <title>Регистрация</title>
     <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
     <link rel="stylesheet" href="{% static 'app/css/stylesRegister.css' %}">
-    <script src="{$ static 'js/ScrolScript.js' %}"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 
     <img src="{% static 'app/images/logo.png' %}" id="logo">
 
     <div id="content">
-
         <form id="myForm">
             <div id="con"> 
                 <h3 id="text">Сколько тебе лет?</h3>
                 <p id="textPOD">Другие будут знать твой возраст</p>
-            <input type="number" id="inputField" name="inputField">
-            <p id="error">Пожалуйста, напиши свой возраст!</p>
+                <input type="number" id="inputField" name="inputField" placeholder="Ваш возраст" required>
+                <p id="error">Пожалуйста, введите корректный возраст (от 14 до 100 лет)!</p>
             </div>
-            <button type="submit" id="input">Продолжить</button>
+            <button type="button" id="input" onclick="saveDataAndRedirect('pol.html')">Продолжить</button>
         </form>    
     </div>
 
     <script>
-        document.getElementById('myForm').addEventListener('submit', function(event) {
-    
+        document.addEventListener('DOMContentLoaded', function() {
+            const con = document.getElementById('con');
+            con.classList.add('show');  // Делаем форму видимой
+        });
+
+        function saveDataAndRedirect(nextPage) {
             const input = document.getElementById('inputField');
             const errorText = document.getElementById('error');
-    
-            if (input.value.trim() === '' || 100 < input.value.trim() || input.value.trim() < 14){ // Проверяем, пустое ли поле
-                event.preventDefault(); // Отменяем отправку формы
-                errorText.style.display = 'block'; // Показываем текст ошибки
-            } else {
-                errorText.style.display = 'none'; // Скрываем текст ошибки
-                input.value = '';
-                event.preventDefault();
-                window.location.assign('korpus.html')
-            }
-        });
-    </script>
+            const age = parseInt(input.value.trim());  // Получаем возраст как число
 
+            // Проверяем, что возраст в диапазоне от 14 до 100
+            if (isNaN(age)) {
+                errorText.textContent = "Пожалуйста, введите возраст!";
+                errorText.style.display = 'block';  // Показываем текст ошибки
+            } else if (age < 14 || age > 100) {
+                errorText.textContent = "Пожалуйста, введите корректный возраст (от 14 до 100 лет)!";
+                errorText.style.display = 'block';  // Показываем текст ошибки
+            } else {
+                errorText.style.display = 'none';  // Скрываем текст ошибки
+
+                // Сохраняем возраст в localStorage
+                localStorage.setItem('birth_year', age);
+
+                // Перенаправляем на следующую страницу
+                window.location.href = nextPage;
+            }
+        }
+    </script>
 </body>
 </html>
