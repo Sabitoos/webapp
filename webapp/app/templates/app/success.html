@@ -36,9 +36,11 @@
     <h1>Регистрация успешно завершена!</h1>
     <div class="data-container">
         <div class="data-item"><strong>Имя:</strong> {{ student.name }}</div>
-        <div class="data-item"><strong>Корпус:</strong> {{ student.campus }}</div>
+        <div class="data-item"><strong>Telegram ID:</strong> {{ student.telegram_id }}</div>
+        <div class="data-item"><strong>Корпус:</strong> {{ student.get_campus_display }}</div>
         <div class="data-item"><strong>Год рождения:</strong> {{ student.birth_year }}</div>
-        <div class="data-item"><strong>Пол:</strong> {{ student.gender }}</div>
+        <div class="data-item"><strong>Пол:</strong> {{ student.get_gender_display }}</div>
+        <div class="data-item"><strong>О себе:</strong> {{ student.about_me }}</div>
         <div class="data-item"><strong>Интересы:</strong>
             <ul>
                 {% for interest in interests %}

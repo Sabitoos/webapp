@@ -15,10 +15,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tg = window.Telegram.WebApp;
             const telegramId = tg.initDataUnsafe.user.id;  // Получаем telegram_id
-    
+
             // Сохраняем telegram_id в localStorage
             localStorage.setItem('telegram_id', telegramId);
-    
+
             // Отправляем telegram_id на сервер для проверки
             fetch('/checkid/', {
                 method: 'POST',
@@ -30,8 +30,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    // Если пользователь уже зарегистрирован, показываем его данные
-                    document.getElementById('message').textContent = `Вы вошли в аккаунт: ${data.data.name}`;
+                    // Если пользователь уже зарегистрирован, перенаправляем на success.html
+                    window.location.href = `/success/?telegram_id=${data.telegram_id}`;
                 } else if (data.status === 'register') {
                     // Если пользователь не зарегистрирован, переходим к регистрации
                     window.location.href = 'fio.html';

@@ -43,9 +43,14 @@ class CheckIDView(APIView):
         # Проверяем, существует ли студент с таким telegram_id
         student = Student.objects.filter(telegram_id=telegram_id).first()
         if student:
-            # Если студент найден, возвращаем его данные
+            # Если студент найден, возвращаем его данные и telegram_id
             serializer = StudentSerializer(student)
-            return Response({'status': 'success', 'message': 'Вы вошли в аккаунт', 'data': serializer.data})
+            return Response({
+                'status': 'success',
+                'message': 'Вы вошли в аккаунт',
+                'data': serializer.data,
+                'telegram_id': telegram_id  # Добавляем telegram_id в ответ
+            })
         else:
             # Если студент не найден, начинаем процесс регистрации
             return Response({'status': 'register', 'message': 'Начните регистрацию'})
@@ -84,8 +89,8 @@ class RegisterView(APIView):
             return Response({'status': 'error', 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 def success_view(request):
-    # Получаем telegram_id из запроса (например, из параметров URL или сессии)
-    telegram_id = request.GET.get('telegram_id')  # Пример: /success/?telegram_id=12345
+    # Получаем telegram_id из параметров URL
+    telegram_id = request.GET.get('telegram_id')
 
     if not telegram_id:
         return render(request, 'app/success.html', {'error': 'Telegram ID не указан'})
@@ -93,10 +98,13 @@ def success_view(request):
     # Ищем студента в базе данных
     student = get_object_or_404(Student, telegram_id=telegram_id)
 
-    # Передаем данные студента в шаблон
+    # Получаем все интересы студента
+    interests = student.interests.all()
+
+    # Передаем данные в шаблон
     context = {
         'student': student,
-        'interests': student.interests.all()  # Получаем все интересы студента
+        'interests': interests,
     }
     return render(request, 'app/success.html', context)
 
