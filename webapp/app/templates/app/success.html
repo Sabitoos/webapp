@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Успешная регистрация</title>
+    <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: green;
+        }
+        .data-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .data-item {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Регистрация успешно завершена!</h1>
+    <div class="data-container">
+        <div class="data-item"><strong>Имя:</strong> <span id="name"></span></div>
+        <div class="data-item"><strong>Корпус:</strong> <span id="campus"></span></div>
+        <div class="data-item"><strong>Год рождения:</strong> <span id="birth_year"></span></div>
+        <div class="data-item"><strong>Пол:</strong> <span id="gender"></span></div>
+        <div class="data-item"><strong>Интересы:</strong> <span id="interests"></span></div>
+    </div>
+
+    <script>
+        // Получаем данные из localStorage
+        const name = localStorage.getItem('name');
+        const campus = localStorage.getItem('campus');
+        const birthYear = localStorage.getItem('birth_year');
+        const gender = localStorage.getItem('gender');
+        const interests = JSON.parse(localStorage.getItem('interests')) || [];
+
+        // Отображаем данные на странице
+        document.getElementById('name').textContent = name;
+        document.getElementById('campus').textContent = campus;
+        document.getElementById('birth_year').textContent = birthYear;
+        document.getElementById('gender').textContent = gender;
+        document.getElementById('interests').textContent = interests.join(', ');
+
+        // Очищаем localStorage после отображения данных
+        localStorage.clear();
+    </script>
+</body>
+</html>

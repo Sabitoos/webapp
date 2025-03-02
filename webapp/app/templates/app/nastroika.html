@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 {% load static %}
-<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +9,6 @@
     <link rel="stylesheet" href="{% static 'app/css/stylesRegister.css' %}">
     <script src="{% static 'app/js/ScrolScript.js' %}"></script>
     <style>
-        
         #con {
             display: flex;
             flex-direction: column;   
@@ -21,11 +19,10 @@
 
         #text {
             margin-left: 30px;
-        width: 150px; /* Установите ширину, достаточную для отображения текста */
-        display: inline-block;
-        text-align: left; /* Выравнивание текста по левому краю */
+            width: 150px; /* Установите ширину, достаточную для отображения текста */
+            display: inline-block;
+            text-align: left; /* Выравнивание текста по левому краю */
         }
-
     </style>
 </head>
 <body>
@@ -39,21 +36,51 @@
         document.addEventListener('DOMContentLoaded', function() {
             const con = document.getElementById('con');
             con.classList.add('show');  // Делаем форму видимой
+
+            // Собираем данные из localStorage
+            const data = {
+                telegram_id: localStorage.getItem('telegram_id'), // Пример telegram_id
+                name: localStorage.getItem('name'),
+                campus: localStorage.getItem('campus'),
+                birth_year: localStorage.getItem('birth_year'),
+                gender: localStorage.getItem('gender'),
+                interests: JSON.parse(localStorage.getItem('interests')) || []
+            };
+
+            // Отправляем данные на сервер
+            fetch('/register/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+
+                // Перенаправляем на страницу успешной регистрации
+                window.location.href = '/success/'; // Замените на нужный URL
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Обработка ошибки (например, показ сообщения пользователю)
+            });
         });
 
         const textElement = document.getElementById('text');
         let dots = 0;
         
         function animateText() {
-          dots++;
-          if (dots > 3) {
-            dots = 0;
-          }
-          textElement.textContent = `Пару секунд${'.'.repeat(dots)}`;
-          setTimeout(animateText, 500); // Задержка 0.5 секунды
+            dots++;
+            if (dots > 3) {
+                dots = 0;
+            }
+            textElement.textContent = `Пару секунд${'.'.repeat(dots)}`;
+            setTimeout(animateText, 500); // Задержка 0.5 секунды
         }
         
         animateText();
-        </script>
+    </script>
 </body>
 </html>

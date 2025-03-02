@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.db import IntegrityError
-
+import logging
 
 def index(request):
     return render(request, 'app/index.html')
@@ -29,6 +29,8 @@ def interes_view(request):
     return render(request, 'app/interes.html')
 def nastroika_view(request):
     return render(request, 'app/nastroika.html')
+def success_view(request):
+    return render(request, 'app/success.html')
 
 class CheckIDView(APIView):
     def post(self, request):
@@ -70,9 +72,9 @@ class RegisterView(APIView):
 
             return Response({'status': 'success', 'message': 'Данные успешно сохранены'}, status=status.HTTP_201_CREATED)
 
-        except IntegrityError as e:
-            return Response({'status': 'error', 'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
+            # Логируем ошибку
+            logging.error(f"Error during registration: {str(e)}")
             return Response({'status': 'error', 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
