@@ -36,6 +36,11 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const con = document.getElementById('con');
+            con.classList.add('show');  // Делаем форму видимой
+        });
+        
         const textElement = document.getElementById('text');
         let dots = 0;
         
