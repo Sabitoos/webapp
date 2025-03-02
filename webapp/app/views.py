@@ -60,7 +60,7 @@ class RegisterView(APIView):
             campus = request.data.get('campus')
             birth_year = request.data.get('birth_year')
             gender = request.data.get('gender')
-            interests = request.data.get('interests', [])
+            interest_names = request.data.get('interests', [])  # Получаем названия интересов
 
             # Создаем нового студента
             student = Student.objects.create(
@@ -72,8 +72,8 @@ class RegisterView(APIView):
             )
 
             # Добавляем выбранные интересы
-            for interest_id in interests:
-                interest = Interest.objects.get(id=interest_id)
+            for interest_name in interest_names:
+                interest, created = Interest.objects.get_or_create(name=interest_name)
                 student.interests.add(interest)
 
             return Response({'status': 'success', 'message': 'Данные успешно сохранены'}, status=status.HTTP_201_CREATED)
