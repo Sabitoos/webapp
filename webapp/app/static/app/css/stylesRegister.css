@@ -62,6 +62,7 @@
     width: 140px;
     text-shadow: 0px 2px 3px #454545;
     outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .buttonPolImg img {
