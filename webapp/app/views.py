@@ -14,11 +14,21 @@ from rest_framework import status
 
 def index(request):
     return render(request, 'app/index.html')
-
 def reg_page(request):
     return render(request, 'app/start.html')
+
 def fio_view(request):
     return render(request, 'app/fio.html')
+def korpus_view(request):
+    return render(request, 'app/korpus.html')
+def god_view(request):
+    return render(request, 'app/god.html')
+def pol_view(request):
+    return render(request, 'app/pol.html')
+def interes_view(request):
+    return render(request, 'app/interes.html')
+def nastroika_view(request):
+    return render(request, 'app/nastroika.html')
 
 class CheckIDView(APIView):
     def post(self, request):
