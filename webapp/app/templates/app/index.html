@@ -35,10 +35,9 @@
                 } else if (data.status === 'register') {
                     // Если пользователь не зарегистрирован, запускаем таймер для перенаправления через 4 секунды
                     const redirectTime = 4000; // 4 секунды
-                    const redirectUrl = '/fio/'; // URL для перенаправления
     
                     setTimeout(() => {
-                        window.location.href = redirectUrl;
+                        window.location.href = 'fio.html'; // Перенаправление на fio.html
                     }, redirectTime);
                 }
             })
