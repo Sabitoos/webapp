@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
+from django.db import IntegrityError
 
 
 def index(request):
@@ -48,34 +48,32 @@ class CheckIDView(APIView):
 
 class RegisterView(APIView):
     def post(self, request):
-        telegram_id = request.data.get('telegram_id')  # Получаем telegram_id из запроса
-        if not telegram_id:
-            return Response({'error': 'telegram_id не указан'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            telegram_id = request.data.get('telegram_id')
+            name = request.data.get('name')
+            campus = request.data.get('campus')
+            birth_year = request.data.get('birth_year')
+            gender = request.data.get('gender')
+            interests = request.data.get('interests', [])
 
-        # Получаем остальные данные из запроса
-        name = request.data.get('name')
-        campus = request.data.get('campus')
-        birth_year = request.data.get('birth_year')
-        gender = request.data.get('gender')
-        interests = request.data.get('interests', [])  # Получаем список интересов
+            student = Student.objects.create(
+                telegram_id=telegram_id,
+                name=name,
+                campus=campus,
+                birth_year=birth_year,
+                gender=gender,
+            )
 
-        # Создаем нового студента
-        student = Student.objects.create(
-            telegram_id=telegram_id,
-            name=name,
-            campus=campus,
-            birth_year=birth_year,
-            gender=gender,
-        )
+            for interest_id in interests:
+                interest = Interest.objects.get(id=interest_id)
+                student.interests.add(interest)
 
-        # Добавляем выбранные интересы
-        for interest_id in interests:
-            interest = Interest.objects.get(id=interest_id)
-            student.interests.add(interest)
+            return Response({'status': 'success', 'message': 'Данные успешно сохранены'}, status=status.HTTP_201_CREATED)
 
-        # Возвращаем успешный ответ
-        return Response({'status': 'success', 'message': 'Данные успешно сохранены'}, status=status.HTTP_201_CREATED)   
-
+        except IntegrityError as e:
+            return Response({'status': 'error', 'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'status': 'error', 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 
