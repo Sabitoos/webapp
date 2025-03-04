@@ -1,13 +1,54 @@
-<!DOCTYPE html>
 <html lang="ru">
-{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заголовок страницы</title>
-    <link rel="stylesheet" href="{% static 'app/css/styles.css' %}"> 
+    <title>Профиль</title>
+    <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
+    <link rel="stylesheet" href="{% static 'app/css/stylesRegister.css' %}">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="{% static 'app/js/ScrolScript.js' %}"></script>
 </head>
 <body>
-   
+
+    <div id="content">
+        <img src="{% static 'app/images/logo.png' %}" id="logo">
+        <div id="con"> 
+
+            <div id="osnova"> 
+                
+                <img id="imagePreview" src="{% static 'app/images/avatar.png' %}" width="110px" height="110px"> <!-- сюда в crs нужно заносить изображение пола как-то (если сильно геморно то сделаем обычную картинку) -->
+                
+                <p id="textNAIMPROF">Кирилл</p>                   <!-- сюда нужно подставлять данные из бд-->
+                <p id="textGODPROF">19 лет</p>              <!-- сюда нужно подставлять данные из бд (нужно что-то сделать с различием год и лет)-->
+                <p id="textKORPROF">2 корпус</p>               <!-- сюда нужно подставлять данные из бд -->
+                <textarea id="osebe" disabled>Я студент Курского Государственного Политехнического Колледжа!</textarea>     <!-- данный текст должен автоматом заноситься в бд -->
+            </div>
+
+            <div id="dop">
+
+                <div id="red">
+                    <img src="{% static 'app/images/redact.png' %}" id="avatarR">
+                    <a href="redaktirovanie.html" id="textP">Редактировать</a>
+                    <p id="textPODB">Изменить данные</p>
+                </div>
+
+                <div id="interesred">
+                    <img src="{% static 'app/images/interes.png' %}" id="avatarI">
+                    <a href="interesred.html" id="textP">Мои интересы</a>
+                    <p id="textPODB">Настроить категории</p>
+                </div>
+
+            </div>
+        </div>
+        <nav class="menu">
+            <div id="inputMenu">
+                <a href="znakomstva.html"><img src="{% static 'app/images/anket.png' %}" id="men"></a>
+                <a href="#"><img src="{% static 'app/images/profact.png' %}" id="men"></a>                   <!-- решетка быть должна!!!! -->
+                <a href="yvedomlenia.html"><img src="{% static 'app/images/uved.png' %}" id="men"></a>
+            </div>
+        </nav>
+
+    </div>
+
 </body>
 </html>

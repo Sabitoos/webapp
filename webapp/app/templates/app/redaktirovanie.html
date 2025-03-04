@@ -1,13 +1,184 @@
 <!DOCTYPE html>
 <html lang="ru">
-{% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заголовок страницы</title>
-    <link rel="stylesheet" href="{% static 'app/css/styles.css' %}"> 
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Редактирование</title>
+        <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
+        <link rel="stylesheet" href="{% static 'app/css/stylesRegister.css' %}">
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <script src="{% static 'app/js/ScrolScript.js' %}"></script>
+    </head>
 <body>
+
+    <div id="content">
+        <img src="{% static 'app/images/logo.png' %}" id="logo">
+    <form id="inter">
+        <div id="con">
+            <div id="conRED">
+            <input type="file" id="imageInput" accept="image/*" style="display:none;">                              
+            <img id="imagePreview" src="{% static 'app/images/avatar.png' %}" width="110px" height="110px" alt="Предпросмотр изображения"> <!-- сюда в crs нужно заносить изображение пола как-то (если сильно геморно то сделаем обычную картинку) -->
+            <canvas id="canvas" style="display:none;"></canvas>
+
+            <p class="textRED">Имя</p>
+
+            <input type="text" id="inputField" name="inputField" value="имя"> <!-- сюда в value вставить имя юзера из бд!!!! -->
+
+            <p class="textRED">Возраст</p>
+
+            <input type="number" id="inputFieldGod" name="inputField" value="23"> <!-- сюда в value вставить возраст юзера из бд!!!! -->
+
+            <p id="PolTXT">Пол</p>
+
+            <button id="maleButton" class="color-button" type="button">Мужской</button>  
+            <button id="femaleButton" class="color-button" type="button">Женский</button>
+
+            <p class="textRED">Корпус</p>
+
+            <select class="mySelect" size="1"> 
+                <option value="" disabled selected id="hidden-option" style="display: none;">Корпус не выбран</option>  <!-- сюда вместо белого текста вставить корпус из бд!!!! -->
+                <option value="1">Корпус 1 - Народная 8</option>
+                <option value="2">Корпус 2 - Гагарина 27</option>
+                <option value="3">Корпус 3 - 50 лет Октября 165</option>
+                <option value="4">Корпус 4 - Курчатов</option>
+            </select>
+
+            <p class="textRED">О себе</p>
+
+            <textarea id="osebe">Я студент Курского Государственного Политехнического Колледжа!</textarea>
+
+            <p id="error" style="display:none;">Пожалуйста, введи корректные данные!</p>
+
+            <button type="submit" id="input">Сохранить</button>
+        </div>
+
+        </div>
+    </form>
+    </div>
+
+    <script>                                                                                      // Этот скрипт нужен для выделения кнопки в зависимости от пола юзера в бд!!!!!
+        const genderFromDatabase = 'мужской'; // Это значение может быть получено из вашей базы данных !!!!!
+    
+        // Функция для установки активной кнопки в зависимости от пола
+        function setActiveButton(gender) {
+            const maleButton = document.getElementById('maleButton');
+            const femaleButton = document.getElementById('femaleButton');
+    
+            if (gender === 'мужской') {
+                maleButton.classList.add('active');
+            } else if (gender === 'женский') {
+                femaleButton.classList.add('active');
+            }
+        }
+    
+        // Устанавливаем активную кнопку при загрузке страницы
+        setActiveButton(genderFromDatabase);
+    </script>
+
+    <script>                                                                                     // А этот скрипт нужен для изменения пола в бд!!!!!
+        const maleButton = document.getElementById('maleButton');
+        const femaleButton = document.getElementById('femaleButton');
+        const result = document.getElementById('result');
+
+        let selectedGender = '';                                                                // Переменная для хранения выбранного пола, которая будет заменять его в бд
+
+        maleButton.addEventListener('click', () => {
+            selectedGender = 'Мужской'; // Устанавливаем значение для мужского пола
+            maleButton.classList.add('active'); // Меняем цвет кнопки
+            femaleButton.classList.remove('active'); // Возвращаем цвет другой кнопки
+        });
+
+        femaleButton.addEventListener('click', () => {
+            selectedGender = 'Женский'; // Устанавливаем значение для женского пола
+            femaleButton.classList.add('active'); // Меняем цвет кнопки
+            maleButton.classList.remove('active'); // Возвращаем цвет другой кнопки
+        });
+
+    </script>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const canvas = document.getElementById('canvas');
+        const osebe = document.getElementById('osebe')
+        const ctx = canvas.getContext('2d');
+    
+        let uploadedImage; // Переменная для хранения загруженного изображения (будет заменять старое изображение в бд на новое!!!!)
+    
+        // Добавляем обработчик события для клика по изображению
+        imagePreview.addEventListener('click', function() {
+            imageInput.click(); // Имитируем клик по скрытому полю ввода
+        });
+    
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0]; // Получаем файл
+            if (file) {
+                const reader = new FileReader(); // Создаем объект FileReader
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.src = event.target.result; // Устанавливаем источник изображения
+                    img.onload = function() {
+                        uploadedImage = img; // Сохраняем загруженное изображение в переменной
+    
+                        // Устанавливаем размеры канваса (например, 110x110)
+                        canvas.width = 110;
+                        canvas.height = 110;
+    
+                        // Вычисляем масштаб и смещение
+                        const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+                        const xOffset = (canvas.width / 2) - (img.width / 2) * scale;
+                        const yOffset = (canvas.height / 2) - (img.height / 2) * scale;
+    
+                        ctx.clearRect(0, 0, canvas.width, canvas.height); // Очищаем канвас перед рисованием
+                        ctx.drawImage(img, xOffset, yOffset, img.width * scale, img.height * scale);
+                        imagePreview.src = canvas.toDataURL(); // Устанавливаем источник для предпросмотра
+                    }
+                }
+                reader.readAsDataURL(file); // Читаем файл как URL
+            }
+        });
+    </script>
+
+<script>
+    document.getElementById('inter').addEventListener('submit', function(event) {
+        const inputName = document.getElementById('inputField');
+        const inputAge = document.getElementById('inputFieldGod');
+        const osebe = document.getElementById('osebe');
+        const errorText = document.getElementById('error');
+        
+
+        event.preventDefault()
+    
+                                                                                                                 // Проверяем, пустое ли поле с именем
+        if (inputName.value.trim() === '' || inputAge.value.trim() === '') {
+            event.preventDefault(); // Отменяем отправку формы
+            errorText.style.display = 'block'; // Показываем текст ошибки
+            console.log('ddd')
+        } else {
+            if (inputAge.value.trim() === '' || 100 < inputAge.value.trim() || inputAge.value.trim() < 14){     // Проверяем, пустое ли поле, корректен ли возраст
+                event.preventDefault(); // Отменяем отправку формы
+                errorText.style.display = 'block'; // Показываем текст ошибки
+            } else {
+                if (osebe.value.trim() === ''){                                                                 // Проверяем, пустое ли поле о себе
+                event.preventDefault(); // Отменяем отправку формы
+                errorText.style.display = 'block'; // Показываем текст ошибки
+                } else {
+                    errorText.style.display = 'none'; // Скрываем текст ошибки, ЕСЛИ ВСЕ ВЕРНО ТО ВНОСИ НОВЫЕ ДАННЫЕ В БД
+                    inputName.value = '';
+                    inputAge.value = '';
+                    window.location.assign('profil.html');
+            }
+                
+        }
+        
+        }
+    });
+
+    </script>
    
 </body>
 </html>
+
+
+
+            

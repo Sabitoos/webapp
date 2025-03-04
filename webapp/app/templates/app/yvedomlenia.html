@@ -1,14 +1,34 @@
 <!DOCTYPE html>
 <html lang="ru">
-{% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заголовок страницы</title>
-    <link rel="stylesheet" href="{% static 'app/css/styles.css' %}"> 
-    <script src="{% static 'app/js/ScrolScript.js' %}"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Уведомления</title>
+        <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
+        <link rel="stylesheet" href="{% static 'app/css/stylesRegister.css' %}">
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <script src="{% static 'app/js/ScrolScript.js' %}"></script>
+    </head>
 <body>
+    <div id="content">
+        <img src="{% static 'app/images/logo.png' %}" id="logo">
+
+        <div id="con"> 
+
+        </div>
+
+
+
+
+
+    <nav class="menu">
+        <div id="inputMenu">
+            <a href="znakomstva.html"><img src="{% static 'app/images/anket.png' %}" id="men"></a>
+            <a href="profil.html"><img src="{% static 'app/images/prof.png' %}" id="men"></a>
+            <a href="#"><img src="{% static 'app/images/uvedact.png' %}" id="men"></a>           <!-- решетка быть должна!!!! -->
+        </div>
+    </nav>
+    </div>
    
 </body>
 </html>

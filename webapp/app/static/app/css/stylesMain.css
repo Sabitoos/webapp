@@ -38,7 +38,7 @@ body {
 }
 
 #error {
-    font-size: 15px;
+    font-size: 14px;
     color: #fff;  
     display: none; 
     text-align: center; 
@@ -49,6 +49,7 @@ body {
 /* текста */
 
 #text, #textPOD {
+    font-size: 18px;
     padding-bottom: 30px;
     text-shadow: 0px 2px 3px #454545; 
     display: flex;
@@ -57,6 +58,7 @@ body {
 }
 
 #textPOD { 
+    font-size: 14px;
     text-align: center; 
     color: #E1E1E1;
 }
@@ -171,7 +173,3 @@ body {
     transition: background-color 0.4s ease
     
 }
-
-
-
-
