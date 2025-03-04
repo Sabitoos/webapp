@@ -22,5 +22,9 @@ urlpatterns = [
     path('interes.html', views.interes_view, name='interes'),
     path('nastroika.html', views.nastroika_view, name='nastroika'),
     path('success/', views.success_view, name='success'),
-    path('delete/', views.delete_account, name='delete_account'),  # Маршрут для success.html
+    path('delete/', views.delete_account, name='delete_account'),
+    path('profil/', views.profil_view, name='profil'),
+    path('edit', views.redaktirovanie_view, name='edit'),
+    path('notice', views.yvedomlenia_view, name='notice'),
+    path('znakomstva', views.znakomstva_view, name='znakomstva'),
 ]

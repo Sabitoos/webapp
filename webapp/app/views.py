@@ -22,18 +22,39 @@ def reg_page(request):
 
 def fio_view(request):
     return render(request, 'app/fio.html')
+
 def korpus_view(request):
     return render(request, 'app/korpus.html')
+
 def god_view(request):
     return render(request, 'app/god.html')
+
 def pol_view(request):
     return render(request, 'app/pol.html')
+
 def interes_view(request):
     return render(request, 'app/interes.html')
+
 def nastroika_view(request):
     return render(request, 'app/nastroika.html')
+
 def success_view(request):
     return render(request, 'app/success.html')
+
+def profil_view(request):
+    return render(request, 'app/profil.html')
+
+def redaktirovanie_view(request):
+    return render(request, 'app/redaktirovanie.html')
+
+def startnoreg_view(request):
+    return render(request, 'app/StartNoReg.html')
+
+def yvedomlenia_view(request):
+    return render(request, 'app/yvedomlenia.html')
+
+def znakomstva_view(request):
+    return render(request, 'app/znakomstva.html')
 
 class CheckIDView(APIView):
     def post(self, request):
