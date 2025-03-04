@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
     <link rel="stylesheet" href="{% static 'app/css/stylesRegister.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="{% static 'app/js/ScrolScript.js' %}"></script>
 </head>
 <body>
 
@@ -20,7 +21,7 @@
                 <p id="textPOD">Другие пользователи поймут где ты учишься</p>
 
                 <select class="mySelect" id="campusSelect" size="1" required>
-                    <option value="" disabled selected>Корпус не выбран</option>
+                    <option value="" disabled selected id="hidden-option" style="display: none;">Корпус не выбран</option>
                     <option value="1">Корпус 1 - Народная 8</option>
                     <option value="2">Корпус 2 - Гагарина 27</option>
                     <option value="3">Корпус 3 - 50 лет Октября 165</option>
