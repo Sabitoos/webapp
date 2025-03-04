@@ -24,7 +24,7 @@ urlpatterns = [
     path('success/', views.success_view, name='success'),
     path('delete/', views.delete_account, name='delete_account'),
     path('profil/', views.profil_view, name='profil'),
-    path('edit', views.redaktirovanie_view, name='edit'),
-    path('notice', views.yvedomlenia_view, name='notice'),
-    path('znakomstva', views.znakomstva_view, name='znakomstva'),
+    path('edit/', views.redaktirovanie_view, name='edit'),
+    path('notice/', views.yvedomlenia_view, name='notice'),
+    path('znakomstva/', views.znakomstva_view, name='znakomstva'),
 ]
