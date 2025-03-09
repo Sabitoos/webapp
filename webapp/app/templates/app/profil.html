@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru">
 {% load static %}
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,28 @@
     <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="{% static 'app/js/ScrolScript.js' %}"></script>
+    <style>
+        /* Ваши стили */
+        #textNAIMPROF, #textGODPROF, #textKORPROF, #osebe {
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+        #red, #interesred {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .menu {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .menu img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
 </head>
 <body>
 
@@ -32,7 +54,7 @@
                 
                 <!-- Данные пользователя -->
                 <p id="textNAIMPROF">{{ student.name }}</p>                   <!-- Имя из бд -->
-                <p id="textGODPROF">{{ student.birth_year }} лет</p>         <!-- Возраст из бд -->
+                <p id="textGODPROF">{{ student.get_age }} лет</p>             <!-- Возраст из бд -->
                 <p id="textKORPROF">{{ student.get_campus_display }}</p>      <!-- Корпус из бд -->
                 <textarea id="osebe" disabled>{{ student.about_me }}</textarea> <!-- О себе из бд -->
             </div>
@@ -62,13 +84,12 @@
                 <!-- Кнопка "Знакомства" -->
                 <a href="{% url 'znakomstva' %}"><img src="{% static 'app/images/anket.png' %}" id="men" alt="Знакомства"></a>
                 <!-- Кнопка "Профиль" -->
-                <a href="{% url 'profil' %}"><img src="{% static 'app/images/profact.png' %}" id="men" alt="Профиль"></a>
+                <a href="{% url 'profil' %}"><img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль"></a>
                 <!-- Кнопка "Уведомления" -->
                 <a href="{% url 'notice' %}"><img src="{% static 'app/images/uved.png' %}" id="men" alt="Уведомления"></a>
             </div>
         </nav>
-
     </div>
 
 </body>
-</html> 
+</html>

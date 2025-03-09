@@ -57,6 +57,17 @@ def yvedomlenia_view(request):
 def znakomstva_view(request):
     return render(request, 'app/znakomstva.html')
 
+def profil_view(request):
+    # Получаем объект студента (например, по telegram_id)
+    telegram_id = "ваш_telegram_id"  # Замените на реальный telegram_id или получите его из запроса
+    student = get_object_or_404(Student, telegram_id=telegram_id)
+    
+    # Передаем объект студента в контекст шаблона
+    context = {
+        'student': student,
+    }
+    return render(request, 'app/profil.html', context)
+
 def upload_avatar(request, telegram_id):
     if request.method == 'POST':
         student = get_object_or_404(Student, telegram_id=telegram_id)

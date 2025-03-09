@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.safestring import mark_safe
+from datetime import datetime
 
 class Interest(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name="Название интереса")
@@ -72,6 +73,10 @@ class Student(models.Model):
         elif self.gender == 'female':
             return mark_safe('<img src="/static/app/images/female.png" width="150" height="150" />')
         return "No Avatar"
+    
+    def get_age(self):
+        current_year = datetime.now().year
+        return current_year - self.birth_year
 
     avatar_preview.short_description = 'Аватарка'
     avatar_preview.allow_tags = True
