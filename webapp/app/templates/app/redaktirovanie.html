@@ -1,24 +1,22 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Редактирование</title>
-        <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
-        <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
-        <script src="https://telegram.org/js/telegram-web-app.js"></script>
-        <script src="{% static 'app/js/ScrolScript.js' %}"></script>
+        <link rel="stylesheet" href="css/stylesMain.css"> 
+        <link rel="stylesheet" href="css/stylesAccaunt.css"> 
+        <script src="JS/ScrolScript.js"></script> 
     </head>
 <body>
 
     <div id="content">
-        <img src="{% static 'app/images/logo.png' %}" id="logo">
+        <img src="img/logo.png" id="logo">
     <form id="inter">
         <div id="con">
             <div id="conRED">
             <input type="file" id="imageInput" accept="image/*" style="display:none;">                              
-            <img id="imagePreview" src="{% static 'app/images/avatar.png' %}" width="110px" height="110px" alt="Предпросмотр изображения"> <!-- сюда в crs нужно заносить изображение пола как-то (если сильно геморно то сделаем обычную картинку) -->
+            <img id="imagePreview" src="img/avatar.png" width="110px" height="110px" alt="Предпросмотр изображения"> <!-- сюда в crs нужно заносить изображение пола как-то (если сильно геморно то сделаем обычную картинку) -->
             <canvas id="canvas" style="display:none;"></canvas>
 
             <p class="textRED">Имя</p>
@@ -49,25 +47,24 @@
             <textarea id="osebe">Я студент Курского Государственного Политехнического Колледжа!</textarea>
 
             <p id="error" style="display:none;">Пожалуйста, введи корректные данные!</p>
-
-            <button type="submit" id="input">Сохранить</button>
+            
         </div>
-
         </div>
+        <button type="submit" id="input">Сохранить</button>
     </form>
     </div>
 
     <script>                                                                                      // Этот скрипт нужен для выделения кнопки в зависимости от пола юзера в бд!!!!!
-        const genderFromDatabase = 'мужской'; // Это значение может быть получено из вашей базы данных !!!!!
+        const genderFromDatabase = 'male'; // Это значение может быть получено из вашей базы данных !!!!!
     
         // Функция для установки активной кнопки в зависимости от пола
         function setActiveButton(gender) {
             const maleButton = document.getElementById('maleButton');
             const femaleButton = document.getElementById('femaleButton');
     
-            if (gender === 'мужской') {
+            if (gender === 'male') {
                 maleButton.classList.add('active');
-            } else if (gender === 'женский') {
+            } else if (gender === 'female') {
                 femaleButton.classList.add('active');
             }
         }

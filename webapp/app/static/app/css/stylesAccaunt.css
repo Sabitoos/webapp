@@ -97,7 +97,7 @@
 
 /* вторая половина с редактированием и интересами */
 
-#conRED, #conINT {   
+#conRED, #conINT, #interesr, #inter {   
     display: grid;
     /* Четыре колонки */
     grid-template-columns: auto auto auto auto;
@@ -109,7 +109,7 @@
     justify-items: center;
 }
 
-#inputField, #inputFieldGod, .mySelect, #osebe, #error, #polRED {
+#inputField, #inputFieldGod, .mySelect, #osebe, #error, #polRED, #con, #inter {
     grid-column-start: span 4;
 }
 
