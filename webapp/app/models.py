@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.safestring import mark_safe
 
 class Interest(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name="Название интереса")
@@ -53,3 +54,24 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        # Если аватарка не задана, выбираем её в зависимости от пола
+        if not self.avatar:
+            if self.gender == 'male':
+                self.avatar = 'app/images/male.png'
+            elif self.gender == 'female':
+                self.avatar = 'app/images/female.png'
+        super().save(*args, **kwargs)
+
+    def avatar_preview(self):
+        if self.avatar:
+            return mark_safe(f'<img src="{self.avatar.url}" width="150" height="150" />')
+        elif self.gender == 'male':
+            return mark_safe('<img src="/static/app/images/male.png" width="150" height="150" />')
+        elif self.gender == 'female':
+            return mark_safe('<img src="/static/app/images/female.png" width="150" height="150" />')
+        return "No Avatar"
+
+    avatar_preview.short_description = 'Аватарка'
+    avatar_preview.allow_tags = True
