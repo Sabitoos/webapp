@@ -44,10 +44,37 @@
         .delete-button:hover {
             background-color: #ff1a1a;
         }
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .upload-form {
+            margin-top: 20px;
+        }
+        .upload-form input[type="file"] {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>Регистрация успешно завершена!</h1>
+
+    <!-- Аватарка -->
+    <img class="avatar" src="
+        {% if student.avatar %}
+            {{ student.avatar.url }}
+        {% else %}
+            {% if student.gender == 'male' %}
+                {% static 'app/images/male.png' %}
+            {% else %}
+                {% static 'app/images/female.png' %}
+            {% endif %}
+        {% endif %}
+    " alt="Аватарка">
+
     <div class="data-container">
         <div class="data-item"><strong>Имя:</strong> {{ student.name }}</div>
         <div class="data-item"><strong>Telegram ID:</strong> {{ student.telegram_id }}</div>
@@ -63,6 +90,13 @@
             </ul>
         </div>
     </div>
+
+    <!-- Форма для загрузки новой аватарки -->
+    <form class="upload-form" method="post" enctype="multipart/form-data" action="{% url 'upload_avatar' student.telegram_id %}">
+        {% csrf_token %}
+        <input type="file" name="avatar" accept="image/*" required>
+        <button type="submit">Загрузить новую аватарку</button>
+    </form>
 
     <!-- Кнопка удаления -->
     <button class="delete-button" id="deleteButton">Удалить аккаунт</button>

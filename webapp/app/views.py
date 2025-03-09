@@ -4,6 +4,7 @@ from .serializers import StudentSerializer, InterestSerializer, LikeSerializer
 from django.shortcuts import render, redirect
 from dotenv import load_dotenv
 load_dotenv()
+from django.contrib import messages
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
@@ -55,6 +56,17 @@ def yvedomlenia_view(request):
 
 def znakomstva_view(request):
     return render(request, 'app/znakomstva.html')
+
+def upload_avatar(request, telegram_id):
+    if request.method == 'POST':
+        student = get_object_or_404(Student, telegram_id=telegram_id)
+        if 'avatar' in request.FILES:
+            student.avatar = request.FILES['avatar']
+            student.save()
+            messages.success(request, 'Аватарка успешно обновлена!')
+        else:
+            messages.error(request, 'Файл не выбран.')
+    return redirect('success', telegram_id=telegram_id)
 
 class CheckIDView(APIView):
     def post(self, request):
