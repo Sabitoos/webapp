@@ -74,9 +74,6 @@ class Student(models.Model):
             return mark_safe('<img src="/static/app/images/female.png" width="150" height="150" />')
         return "No Avatar"
     
-    def get_age(self):
-        current_year = datetime.now().year
-        return current_year - self.birth_year
 
     avatar_preview.short_description = 'Аватарка'
     avatar_preview.allow_tags = True

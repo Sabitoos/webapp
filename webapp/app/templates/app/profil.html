@@ -1,55 +1,73 @@
-class Student(models.Model):
-    CAMPUS_CHOICES = [
-        ('1', 'Корпус 1'),
-        ('2', 'Корпус 2'),
-        ('3', 'Корпус 3'),
-        ('4', 'Корпус 4'),
-    ]
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
+    <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="{% static 'app/js/ScrolScript.js' %}"></script>
+</head>
+<body>
 
-    GENDER_CHOICES = [
-        ('male', 'Мужской'),
-        ('female', 'Женский'),
-    ]
+    <div id="content">
+        <img src="{% static 'app/images/logo.png' %}" id="logo">
+        <div id="con"> 
 
-    telegram_id = models.CharField(max_length=200, unique=True, verbose_name="Telegram ID")
-    name = models.CharField(max_length=200, verbose_name="Имя")
-    campus = models.CharField(max_length=1, choices=CAMPUS_CHOICES, verbose_name="Корпус")
-    birth_year = models.IntegerField(
-        verbose_name="Возраст",
-        validators=[
-            MinValueValidator(0),  # Минимальный возраст
-            MaxValueValidator(120),  # Максимальный возраст
-        ]
-    )
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, verbose_name="Пол")
-    about_me = models.TextField(blank=True, verbose_name="О себе")
-    interests = models.ManyToManyField(Interest, blank=True, verbose_name="Интересы", related_name="students")
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name="Аватарка")
+            <div id="osnova"> 
+                <!-- Аватарка -->
+                <img id="imagePreview" src="
+                    {% if student.avatar %}
+                        {{ student.avatar.url }}
+                    {% else %}
+                        {% if student.gender == 'male' %}
+                            {% static 'app/images/male.png' %}
+                        {% else %}
+                            {% static 'app/images/female.png' %}
+                        {% endif %}
+                    {% endif %}
+                " width="110px" height="110px" alt="Аватарка">
+                
+                <!-- Данные пользователя -->
+                <p id="textNAIMPROF">{{ student.name }}</p>                   <!-- Имя из бд -->
+                <p id="textGODPROF">{{ student.birth_year }} лет</p>          <!-- Возраст из бд -->
+                <p id="textKORPROF">{{ student.get_campus_display }}</p>      <!-- Корпус из бд -->
+                <textarea id="osebe" disabled>{{ student.about_me }}</textarea> <!-- О себе из бд -->
+            </div>
 
-    class Meta:
-        verbose_name = "Студент"
-        verbose_name_plural = "Студенты"
+            <div id="dop">
 
-    def __str__(self):
-        return self.name
+                <!-- Кнопка "Редактировать" -->
+                <div id="red">
+                    <img src="{% static 'app/images/redact.png' %}" id="avatarR">
+                    <a href="{% url 'edit' %}" id="textP">Редактировать</a>
+                    <p id="textPODB">Изменить данные</p>
+                </div>
 
-    def save(self, *args, **kwargs):
-        # Если аватарка не задана, выбираем её в зависимости от пола
-        if not self.avatar:
-            if self.gender == 'male':
-                self.avatar = 'app/images/male.png'
-            elif self.gender == 'female':
-                self.avatar = 'app/images/female.png'
-        super().save(*args, **kwargs)
+                <!-- Кнопка "Мои интересы" -->
+                <div id="interesred">
+                    <img src="{% static 'app/images/interes.png' %}" id="avatarI">
+                    <a href="{% url 'znakomstva' %}" id="textP">Мои интересы</a>
+                    <p id="textPODB">Настроить категории</p>
+                </div>
 
-    def avatar_preview(self):
-        if self.avatar:
-            return mark_safe(f'<img src="{self.avatar.url}" width="150" height="150" />')
-        elif self.gender == 'male':
-            return mark_safe('<img src="/static/app/images/male.png" width="150" height="150" />')
-        elif self.gender == 'female':
-            return mark_safe('<img src="/static/app/images/female.png" width="150" height="150" />')
-        return "No Avatar"
+            </div>
+        </div>
 
-    avatar_preview.short_description = 'Аватарка'
-    avatar_preview.allow_tags = True
+        <!-- Нижнее меню -->
+        <nav class="menu">
+            <div id="inputMenu">
+                <!-- Кнопка "Знакомства" -->
+                <a href="{% url 'znakomstva' %}"><img src="{% static 'app/images/anket.png' %}" id="men" alt="Знакомства"></a>
+                <!-- Кнопка "Профиль" -->
+                <a href="{% url 'profil' student.telegram_id %}"><img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль"></a>
+                <!-- Кнопка "Уведомления" -->
+                <a href="{% url 'notice' %}"><img src="{% static 'app/images/uved.png' %}" id="men" alt="Уведомления"></a>
+            </div>
+        </nav>
+    </div>
+
+</body>
+</html>
