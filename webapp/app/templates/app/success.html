@@ -115,7 +115,7 @@
     <button class="delete-button" id="deleteButton">Удалить аккаунт</button>
 
     <!-- Кнопка перехода на страницу профиля -->
-    <a href="{% url 'profil' %}" class="profile-button">Перейти в профиль</a>
+    <a href="{% url 'profil' student.telegram_id %}" class="button">Перейти в профиль</a>
 
     <script>
         document.getElementById('deleteButton').addEventListener('click', function() {
