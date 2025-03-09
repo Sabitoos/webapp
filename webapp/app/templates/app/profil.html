@@ -42,14 +42,14 @@
                 <!-- Кнопка "Редактировать" -->
                 <div id="red">
                     <img src="{% static 'app/images/redact.png' %}" id="avatarR">
-                    <a href="{% url 'edit' %}" id="textP">Редактировать</a>
+                    <a href="{% url 'edit' student.telegram_id %}" id="textP">Редактировать</a>
                     <p id="textPODB">Изменить данные</p>
                 </div>
 
                 <!-- Кнопка "Мои интересы" -->
                 <div id="interesred">
                     <img src="{% static 'app/images/interes.png' %}" id="avatarI">
-                    <a href="{% url 'znakomstva' %}" id="textP">Мои интересы</a>
+                    <a href="{% url 'znakomstva' student.telegram_id %}" id="textP">Мои интересы</a>
                     <p id="textPODB">Настроить категории</p>
                 </div>
 
