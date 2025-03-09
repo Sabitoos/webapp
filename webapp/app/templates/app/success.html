@@ -64,16 +64,16 @@
 
     <!-- Аватарка -->
     <img class="avatar" src="
-        {% if student.avatar %}
-            {{ student.avatar.url }}
+    {% if student.avatar %}
+        {{ student.avatar.url }}
+    {% else %}
+        {% if student.gender == 'male' %}
+            {% static 'app/images/male.png' %}
         {% else %}
-            {% if student.gender == 'male' %}
-                {% static 'app/images/male.png' %}
-            {% else %}
-                {% static 'app/images/female.png' %}
-            {% endif %}
+            {% static 'app/images/female.png' %}
         {% endif %}
-    " alt="Аватарка">
+    {% endif %}
+" alt="Аватарка">
 
     <div class="data-container">
         <div class="data-item"><strong>Имя:</strong> {{ student.name }}</div>
