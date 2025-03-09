@@ -26,6 +26,6 @@ urlpatterns = [
     path('delete/', views.delete_account, name='delete_account'),
     path('profil/<str:telegram_id>/', views.profil_view, name='profil'),
     path('edit/', views.redaktirovanie_view, name='edit'),
-    path('notice/', views.yvedomlenia_view, name='notice'),
-    path('znakomstva/', views.znakomstva_view, name='znakomstva'),
+    path('notice/<str:telegram_id>/', views.yvedomlenia_view, name='notice'),
+    path('znakomstva/<str:telegram_id>/', views.znakomstva_view, name='znakomstva'),
 ]
