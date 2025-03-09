@@ -62,14 +62,14 @@ def yvedomlenia_view(request, telegram_id):
     return render(request, 'app/yvedomlenia.html', context)
 
 def znakomstva_view(request, telegram_id):
-        # Получаем telegram_id (например, из сессии или GET-параметров)
+    # Получаем объект студента по telegram_id
     student = get_object_or_404(Student, telegram_id=telegram_id)
     
     # Передаем объект студента в контекст шаблона
     context = {
         'student': student,
     }
-    return render(request, 'app/znakomstva.html')
+    return render(request, 'app/znakomstva.html', context)
 
 def profil_view(request, telegram_id):
     # Получаем объект студента по telegram_id
