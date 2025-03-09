@@ -57,6 +57,19 @@
         .upload-form input[type="file"] {
             margin-bottom: 10px;
         }
+        .profile-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .profile-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -73,7 +86,7 @@
             /media/avatars/female.png
         {% endif %}
     {% endif %}
-" alt="Аватарка">
+    " alt="Аватарка">
 
     <div class="data-container">
         <div class="data-item"><strong>Имя:</strong> {{ student.name }}</div>
@@ -100,6 +113,9 @@
 
     <!-- Кнопка удаления -->
     <button class="delete-button" id="deleteButton">Удалить аккаунт</button>
+
+    <!-- Кнопка перехода на страницу профиля -->
+    <a href="{% url 'profil' %}" class="profile-button">Перейти в профиль</a>
 
     <script>
         document.getElementById('deleteButton').addEventListener('click', function() {
