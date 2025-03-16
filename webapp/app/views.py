@@ -15,6 +15,7 @@ import logging
 logger = logging.getLogger(__name__)
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.core.files.storage import default_storage
 
 def index(request):
     return render(request, 'app/index.html')
@@ -46,14 +47,26 @@ def profil_view(request):
     return render(request, 'app/profil.html')
 
 def redaktirovanie_view(request, telegram_id):
-    # Получаем объект студента по telegram_id
     student = get_object_or_404(Student, telegram_id=telegram_id)
-    
-    # Передаем объект студента в контекст шаблона
-    context = {
-        'student': student,
-    }
-    return render(request, 'app/redaktirovanie.html', context)
+
+    if request.method == 'POST':
+        # Обновляем данные студента
+        student.name = request.POST.get('name')
+        student.birth_year = request.POST.get('birth_year')
+        student.gender = request.POST.get('gender')
+        student.campus = request.POST.get('campus')
+        student.about_me = request.POST.get('about_me')
+
+        # Обработка загрузки аватарки
+        if 'avatar' in request.FILES:
+            avatar = request.FILES['avatar']
+            file_name = default_storage.save(avatar.name, avatar)
+            student.avatar = file_name
+
+        student.save()
+        return redirect('profil', telegram_id=telegram_id)  # Перенаправляем на страницу профиля
+
+    return render(request, 'app/redaktirovanie.html', {'student': student})
 
 def startnoreg_view(request):
     return render(request, 'app/StartNoReg.html')

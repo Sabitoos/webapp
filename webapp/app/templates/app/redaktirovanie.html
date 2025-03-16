@@ -18,7 +18,7 @@
             {% csrf_token %}
             <div id="con">
                 <div id="conRED">
-                    <input type="file" id="imageInput" accept="image/*" style="display:none;">                              
+                    <input type="file" id="imageInput" name="avatar" accept="image/*" style="display:none;">                              
                     <img id="imagePreview" src="
                         {% if student.avatar %}
                             {{ student.avatar.url }}
@@ -39,16 +39,16 @@
                     <input type="number" id="inputFieldGod" name="birth_year" value="{{ student.birth_year }}">
 
                     <p id="PolTXT">Пол</p>
+                    <input type="hidden" id="genderInput" name="gender" value="{{ student.gender }}">
                     <button id="maleButton" class="color-button {% if student.gender == 'male' %}active{% endif %}" type="button">Мужской</button>  
                     <button id="femaleButton" class="color-button {% if student.gender == 'female' %}active{% endif %}" type="button">Женский</button>
 
                     <p class="textRED">Корпус</p>
                     <select class="mySelect" name="campus" size="1"> 
-                        <option value="" disabled selected style="display: none;">{{ student.get_campus_display }}</option>
-                        <option value="1">Корпус 1 - Народная 8</option>
-                        <option value="2">Корпус 2 - Гагарина 27</option>
-                        <option value="3">Корпус 3 - 50 лет Октября 165</option>
-                        <option value="4">Корпус 4 - Курчатов</option>
+                        <option value="1" {% if student.campus == 1 %}selected{% endif %}>Корпус 1 - Народная 8</option>
+                        <option value="2" {% if student.campus == 2 %}selected{% endif %}>Корпус 2 - Гагарина 27</option>
+                        <option value="3" {% if student.campus == 3 %}selected{% endif %}>Корпус 3 - 50 лет Октября 165</option>
+                        <option value="4" {% if student.campus == 4 %}selected{% endif %}>Корпус 4 - Курчатов</option>
                     </select>
 
                     <p class="textRED">О себе</p>
@@ -64,17 +64,18 @@
     <script>
         const maleButton = document.getElementById('maleButton');
         const femaleButton = document.getElementById('femaleButton');
+        const genderInput = document.getElementById('genderInput');
 
         maleButton.addEventListener('click', () => {
             maleButton.classList.add('active');
             femaleButton.classList.remove('active');
-            document.querySelector('input[name="gender"]').value = 'male';
+            genderInput.value = 'male';
         });
 
         femaleButton.addEventListener('click', () => {
             femaleButton.classList.add('active');
             maleButton.classList.remove('active');
-            document.querySelector('input[name="gender"]').value = 'female';
+            genderInput.value = 'female';
         });
     </script>
 
