@@ -46,7 +46,7 @@ def profil_view(request):
     return render(request, 'app/profil.html')
 
 def redaktirovanie_view(request, telegram_id):
-    # Получаем telegram_id (например, из сессии или GET-параметров)
+    # Получаем объект студента по telegram_id
     student = get_object_or_404(Student, telegram_id=telegram_id)
     
     # Передаем объект студента в контекст шаблона
