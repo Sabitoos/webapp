@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.core.files.storage import default_storage
+from django.conf import settings
 
 def index(request):
     return render(request, 'app/index.html')
@@ -62,6 +63,14 @@ def redaktirovanie_view(request, telegram_id):
             avatar = request.FILES['avatar']
             file_name = default_storage.save(avatar.name, avatar)
             student.avatar = file_name
+        else:
+            # Если аватарка не загружена, проверяем, нужно ли обновить её на дефолтную
+            if student.avatar in [settings.STATIC_URL + 'app/images/male.png', settings.STATIC_URL + 'app/images/female.png']:
+                # Если текущая аватарка дефолтная, обновляем её в зависимости от пола
+                if student.gender == 'male':
+                    student.avatar = settings.STATIC_URL + 'app/images/male.png'
+                else:
+                    student.avatar = settings.STATIC_URL + 'app/images/female.png'
 
         student.save()
         return redirect('profil', telegram_id=telegram_id)  # Перенаправляем на страницу профиля
