@@ -54,7 +54,7 @@ def redaktirovanie_view(request, telegram_id):
         # Обновляем данные студента
         student.name = request.POST.get('name')
         student.birth_year = request.POST.get('birth_year')
-        student.gender = request.POST.get('gender')
+        new_gender = request.POST.get('gender')  # Новый пол, выбранный пользователем
         student.campus = request.POST.get('campus')
         student.about_me = request.POST.get('about_me')
 
@@ -66,11 +66,14 @@ def redaktirovanie_view(request, telegram_id):
         else:
             # Если аватарка не загружена, проверяем, нужно ли обновить её на дефолтную
             if student.avatar in [settings.STATIC_URL + 'app/images/male.png', settings.STATIC_URL + 'app/images/female.png']:
-                # Если текущая аватарка дефолтная, обновляем её в зависимости от пола
-                if student.gender == 'male':
+                # Если текущая аватарка дефолтная, обновляем её в зависимости от нового пола
+                if new_gender == 'male':
                     student.avatar = settings.STATIC_URL + 'app/images/male.png'
                 else:
                     student.avatar = settings.STATIC_URL + 'app/images/female.png'
+
+        # Обновляем пол студента
+        student.gender = new_gender
 
         student.save()
         return redirect('profil', telegram_id=telegram_id)  # Перенаправляем на страницу профиля
