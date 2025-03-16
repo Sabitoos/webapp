@@ -59,9 +59,8 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-    
                 // Перенаправляем на страницу успешной регистрации
-                window.location.href = '/success/'; // Замените на нужный URL
+                window.location.href = `/success/?telegram_id=${localStorage.getItem('telegram_id')}`; // Замените на нужный URL
             }, 2000)
             .catch(error => {
                 console.error('Error:', error);
