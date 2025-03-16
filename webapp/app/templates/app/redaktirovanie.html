@@ -62,29 +62,45 @@
     </div>
 
     <script>
+        // Объявляем переменные один раз
         const maleButton = document.getElementById('maleButton');
         const femaleButton = document.getElementById('femaleButton');
         const genderInput = document.getElementById('genderInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const imageInput = document.getElementById('imageInput');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const osebe = document.getElementById('osebe');
+        const errorText = document.getElementById('error');
 
+        // Функция для смены дефолтной аватарки
+        function setDefaultAvatar(gender) {
+            // Проверяем, что аватарка дефолтная (не загружена пользователем)
+            if (!imagePreview.src.includes('/media/')) {
+                if (gender === 'male') {
+                    imagePreview.src = "{% static 'app/images/male.png' %}";
+                } else if (gender === 'female') {
+                    imagePreview.src = "{% static 'app/images/female.png' %}";
+                }
+            }
+        }
+
+        // Обработчики для кнопок выбора пола
         maleButton.addEventListener('click', () => {
             maleButton.classList.add('active');
             femaleButton.classList.remove('active');
             genderInput.value = 'male';
+            setDefaultAvatar('male');  // Устанавливаем дефолтную аватарку для мужского пола
         });
 
         femaleButton.addEventListener('click', () => {
             femaleButton.classList.add('active');
             maleButton.classList.remove('active');
             genderInput.value = 'female';
+            setDefaultAvatar('female');  // Устанавливаем дефолтную аватарку для женского пола
         });
-    </script>
 
-    <script>
-        const imageInput = document.getElementById('imageInput');
-        const imagePreview = document.getElementById('imagePreview');
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-
+        // Обработчик для загрузки аватарки
         imagePreview.addEventListener('click', function() {
             imageInput.click();
         });
@@ -110,14 +126,11 @@
                 reader.readAsDataURL(file);
             }
         });
-    </script>
 
-    <script>
+        // Обработчик для отправки формы
         document.getElementById('inter').addEventListener('submit', function(event) {
             const inputName = document.getElementById('inputField');
             const inputAge = document.getElementById('inputFieldGod');
-            const osebe = document.getElementById('osebe');
-            const errorText = document.getElementById('error');
 
             if (inputName.value.trim() === '' || inputAge.value.trim() === '') {
                 event.preventDefault();
