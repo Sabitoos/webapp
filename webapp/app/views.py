@@ -45,8 +45,15 @@ def success_view(request):
 def profil_view(request):
     return render(request, 'app/profil.html')
 
-def redaktirovanie_view(request):
-    return render(request, 'app/redaktirovanie.html')
+def redaktirovanie_view(request, telegram_id):
+    # Получаем telegram_id (например, из сессии или GET-параметров)
+    student = get_object_or_404(Student, telegram_id=telegram_id)
+    
+    # Передаем объект студента в контекст шаблона
+    context = {
+        'student': student,
+    }
+    return render(request, 'app/redaktirovanie.html', context)
 
 def startnoreg_view(request):
     return render(request, 'app/StartNoReg.html')
