@@ -73,14 +73,18 @@
         const osebe = document.getElementById('osebe');
         const errorText = document.getElementById('error');
 
+        // Пути к дефолтным аватаркам
+        const defaultMaleAvatar = "{% static 'app/images/male.png' %}";
+        const defaultFemaleAvatar = "{% static 'app/images/female.png' %}";
+
         // Функция для смены дефолтной аватарки
         function setDefaultAvatar(gender) {
-            // Проверяем, что аватарка дефолтная (не загружена пользователем)
-            if (!imagePreview.src.includes('/media/')) {
+            // Проверяем, что аватарка дефолтная (загружена из статики)
+            if (imagePreview.src.includes(defaultMaleAvatar) || imagePreview.src.includes(defaultFemaleAvatar)) {
                 if (gender === 'male') {
-                    imagePreview.src = "{% static 'app/images/male.png' %}";
+                    imagePreview.src = defaultMaleAvatar;
                 } else if (gender === 'female') {
-                    imagePreview.src = "{% static 'app/images/female.png' %}";
+                    imagePreview.src = defaultFemaleAvatar;
                 }
             }
         }
