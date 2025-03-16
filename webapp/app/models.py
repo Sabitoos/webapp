@@ -45,7 +45,7 @@ class Student(models.Model):
         ]
     )
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, verbose_name="Пол")
-    about_me = models.TextField(blank=True, verbose_name="О себе")
+    about_me = models.TextField(blank=True, verbose_name="О себе", default='Я студент Курского Государственного Политехнического Колледжа!')
     interests = models.ManyToManyField(Interest, blank=True, verbose_name="Интересы", related_name="students")
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name="Аватарка")
 
