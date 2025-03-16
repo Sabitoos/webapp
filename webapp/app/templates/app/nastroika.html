@@ -44,7 +44,8 @@
                 campus: localStorage.getItem('campus'),
                 birth_year: localStorage.getItem('birth_year'),
                 gender: localStorage.getItem('gender'),
-                interests: JSON.parse(localStorage.getItem('interests')) || []
+                interests: JSON.parse(localStorage.getItem('interests')) || [],
+                about_me: "Я студент Курского Государственного Политехнического Колледжа!" // Добавляем поле about_me
             };
     
             // Отправляем данные на сервер

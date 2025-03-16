@@ -125,7 +125,7 @@ class RegisterView(APIView):
             birth_year = request.data.get('birth_year')
             gender = request.data.get('gender')
             interest_names = request.data.get('interests', [])  # Получаем названия интересов
-
+            about_me = request.data.get('about_me')
             # Создаем нового студента
             student = Student.objects.create(
                 telegram_id=telegram_id,
@@ -133,6 +133,7 @@ class RegisterView(APIView):
                 campus=campus,
                 birth_year=birth_year,
                 gender=gender,
+                about_me=about_me,
             )
 
             # Добавляем выбранные интересы
