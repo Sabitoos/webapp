@@ -49,9 +49,13 @@
             const selectedInterestsInput = document.getElementById('selected-interests');
 
             // Инициализация выбранных кнопок при загрузке страницы
-            document.querySelectorAll('.dynamic-button.selected').forEach(button => {
-                selectedButtons.push(button.dataset.interest);
-                button.style.backgroundColor = '#8FACFF';
+            document.querySelectorAll('.dynamic-button').forEach(button => {
+                if (button.classList.contains('selected')) {
+                    selectedButtons.push(button.dataset.interest);
+                    button.style.backgroundColor = '#8FACFF';
+                } else {
+                    button.style.backgroundColor = '#9AA7CC';
+                }
             });
 
             // Обработчик клика по кнопкам
