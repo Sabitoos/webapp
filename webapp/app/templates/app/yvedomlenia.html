@@ -9,6 +9,22 @@
     <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="{% static 'app/js/ScrolScript.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const telegramButtons = document.querySelectorAll('.telegram-button');
+            telegramButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const userId = this.getAttribute('data-user-id');
+                    if (window.Telegram && window.Telegram.WebApp) {
+                        window.Telegram.WebApp.openTelegramLink(`tg://user?id=${userId}`);
+                    } else {
+                        window.location.href = `https://t.me/${userId}`;
+                    }
+                });
+            });
+        });
+    </script>
     <style>
         .notifications-container {
             padding: 20px;
@@ -128,7 +144,7 @@
                                 </form>
                             {% endif %}
                             {% if notification.mutual %}
-                                <a href="tg://user?id={{ notification.student.telegram_id }}" class="action-button telegram-button">
+                                <a href="#" class="action-button telegram-button" data-user-id="{{ notification.student.telegram_id }}">
                                     <img src="{% static 'app/images/telegram.png' %}" alt="Telegram" class="icon">
                                     Написать в Telegram
                                 </a>
