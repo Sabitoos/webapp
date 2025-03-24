@@ -258,6 +258,10 @@ def delete_account(request):
         # Ищем студента в базе данных
         student = get_object_or_404(Student, telegram_id=telegram_id)
 
+        # Удаляем все лайки, связанные с этим пользователем
+        Like.objects.filter(from_whom=telegram_id).delete()  # Удаляем лайки, которые поставил пользователь
+        Like.objects.filter(to_whow=telegram_id).delete()    # Удаляем лайки, которые поставили пользователю
+
         # Удаляем студента
         student.delete()
 
