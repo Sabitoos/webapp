@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Интересы</title>
+        <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
+        <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}"> 
+        <script src="{% static 'app/JS/ScrolScript.js' %}"></script> 
+    </head>
+
+    <body>
+        <div id="content">
+            <img src="{% static 'app/img/logo.png' %}" id="logo">
+            <div id="interesr">
+                <div id="con">
+                    <p id="text">Настрой свои интересы</p>
+                    <form method="POST" id="interests-form">
+                        {% csrf_token %}
+                        <div id="button-container">
+                            {% for interest in all_interests %}
+                            <button type="button" class="dynamic-button {% if interest in selected_interests %}selected{% endif %}" 
+                                    data-interest="{{ interest.name }}">
+                                {{ interest.name }}
+                            </button>
+                            {% endfor %}
+                        </div>
+                        <input type="hidden" name="interests" id="selected-interests">
+                        <div id="conINT">
+                            <p id="error" style="display:none;">Пожалуйста, выбери три и более категории!</p>
+                        </div>
+                        <button type="submit" id="input">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Массив с выбранными интересами
+            let selectedButtons = [];
+            
+            // Находим контейнер для кнопок
+            const buttonContainer = document.getElementById('button-container');
+            const error = document.getElementById('error');
+            const saveButton = document.getElementById('input');
+            const form = document.getElementById('interests-form');
+            const selectedInterestsInput = document.getElementById('selected-interests');
+
+            // Инициализация выбранных кнопок при загрузке страницы
+            document.querySelectorAll('.dynamic-button.selected').forEach(button => {
+                selectedButtons.push(button.dataset.interest);
+                button.style.backgroundColor = '#8FACFF';
+            });
+
+            // Обработчик клика по кнопкам
+            buttonContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('dynamic-button')) {
+                    error.style.display = 'none';
+                    const text = e.target.dataset.interest;
+
+                    if (selectedButtons.includes(text)) {
+                        selectedButtons = selectedButtons.filter(item => item !== text);
+                        e.target.style.backgroundColor = '#9AA7CC';
+                    } else {
+                        selectedButtons.push(text);
+                        e.target.style.backgroundColor = '#8FACFF';
+                    }
+
+                    console.log(selectedButtons);
+                }
+            });
+
+            // Обработчик отправки формы
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                if (selectedButtons.length < 3) {
+                    error.style.display = 'block';
+                } else {
+                    error.style.display = 'none';
+                    selectedInterestsInput.value = JSON.stringify(selectedButtons);
+                    form.submit();
+                }
+            });
+        </script>
+    </body>
+</html>
+

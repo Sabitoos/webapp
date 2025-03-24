@@ -348,3 +348,35 @@ def like_profile_view(request, current_telegram_id, viewed_telegram_id):
             messages.success(request, 'Вы поставили лайк!')
             
     return redirect('profile_detail', current_telegram_id=current_telegram_id, viewed_telegram_id=viewed_telegram_id)
+
+def interesred_view(request, telegram_id):
+    # Получаем объект студента
+    student = get_object_or_404(Student, telegram_id=telegram_id)
+    
+    # Получаем все доступные интересы
+    all_interests = Interest.objects.all()
+    
+    # Получаем выбранные интересы студента
+    selected_interests = student.interests.all()
+    
+    if request.method == 'POST':
+        # Получаем список выбранных интересов из POST-запроса
+        selected_interest_names = request.POST.getlist('interests')
+        
+        # Очищаем текущие интересы студента
+        student.interests.clear()
+        
+        # Добавляем новые интересы
+        for interest_name in selected_interest_names:
+            interest, created = Interest.objects.get_or_create(name=interest_name)
+            student.interests.add(interest)
+        
+        messages.success(request, 'Интересы успешно обновлены!')
+        return redirect('profil', telegram_id=telegram_id)
+    
+    context = {
+        'student': student,
+        'all_interests': all_interests,
+        'selected_interests': selected_interests
+    }
+    return render(request, 'app/interesred.html', context)
