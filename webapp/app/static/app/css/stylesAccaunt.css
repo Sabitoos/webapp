@@ -145,7 +145,7 @@
 .dynamic-button {
     padding: 6px;
     font-size: 16px;
-    background-color: #FFF;
+    background-color: #9AA7CC;  /* Изменено с #FFF на #9AA7CC */
     color: white;
     border: none;
     border-radius: 25px;
