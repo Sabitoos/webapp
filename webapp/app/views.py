@@ -119,6 +119,7 @@ def yvedomlenia_view(request, telegram_id):
                     if data.get('ok') and data.get('result', {}).get('username'):
                         liked_by.username = data['result']['username']
                         liked_by.save()
+                        print(f"Username saved for user {liked_by.telegram_id}: {liked_by.username}")
             except Exception as e:
                 print(f"Error getting username for user {liked_by.telegram_id}: {e}")
         

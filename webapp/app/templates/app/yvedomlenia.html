@@ -258,7 +258,7 @@
             try {
                 if (window.Telegram && window.Telegram.WebApp) {
                     console.log('Attempting to open chat...');
-                    window.Telegram.WebApp.switchInlineQuery(`@${username}`);
+                    window.Telegram.WebApp.openLink(`https://t.me/${username}`);
                     console.log('Chat open request sent');
                 } else {
                     console.log('Telegram WebApp not available, redirecting to web...');
