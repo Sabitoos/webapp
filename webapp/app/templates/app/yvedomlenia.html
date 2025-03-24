@@ -187,7 +187,7 @@
                                 </form>
                             {% endif %}
                             {% if notification.mutual %}
-                                <a href="https://t.me/{{ notification.student.telegram_id }}" class="action-button telegram-button" target="_blank">
+                                <a href="#" class="action-button telegram-button" data-user-id="{{ notification.student.telegram_id }}" onclick="openTelegramChat('{{ notification.student.telegram_id }}'); return false;">
                                     <img src="{% static 'app/images/telegram.png' %}" alt="Telegram" class="icon">
                                     Написать в Telegram
                                 </a>
@@ -249,6 +249,25 @@
             const log = document.getElementById('debug-log');
             log.style.display = log.style.display === 'none' ? 'block' : 'none';
         });
+
+        function openTelegramChat(userId) {
+            console.log('Telegram WebApp available:', !!window.Telegram);
+            console.log('Telegram WebApp methods:', Object.keys(window.Telegram?.WebApp || {}));
+            console.log('User ID:', userId);
+            
+            try {
+                if (window.Telegram && window.Telegram.WebApp) {
+                    console.log('Attempting to open chat...');
+                    window.Telegram.WebApp.openLink(`https://t.me/${userId}`);
+                    console.log('Chat open request sent');
+                } else {
+                    console.log('Telegram WebApp not available, redirecting to web...');
+                    window.location.href = `https://t.me/${userId}`;
+                }
+            } catch (error) {
+                console.error('Error opening chat:', error);
+            }
+        }
     </script>
 </body>
 </html>
