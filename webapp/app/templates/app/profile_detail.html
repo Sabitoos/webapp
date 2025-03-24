@@ -89,6 +89,22 @@
             border-radius: 5px;
             margin: 20px;
         }
+        .like-section {
+            margin-top: 20px;
+            text-align: right;
+        }
+        .like-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            outline: none;
+        }
+        .like-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -128,6 +144,16 @@
                             <span class="interest-tag">{{ interest.name }}</span>
                         {% endfor %}
                     </div>
+                </div>
+
+                <div class="like-section">
+                    <form method="post" action="{% url 'like_profile' current_student.telegram_id viewed_student.telegram_id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="like-button">
+                            <img src="{% static 'app/images/like.png' %}" alt="Лайк" class="like-icon">
+                            Лайкнуть
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -94,17 +94,12 @@ def yvedomlenia_view(request, telegram_id):
     return render(request, 'app/yvedomlenia.html', context)
 
 def znakomstva_view(request, telegram_id):
-    # Получаем объект текущего студента
-    current_student = get_object_or_404(Student, telegram_id=telegram_id)
+    # Получаем объект студента по telegram_id
+    student = get_object_or_404(Student, telegram_id=telegram_id)
     
-    # Получаем всех студентов, кроме текущего
-    students = Student.objects.exclude(telegram_id=telegram_id)
-    
-    # Передаем объекты в контекст шаблона
+    # Передаем объект студента в контекст шаблона
     context = {
-        'student': current_student,
-        'current_student': current_student,
-        'students': students,
+        'student': student,
     }
     return render(request, 'app/znakomstva.html', context)
 
@@ -255,3 +250,13 @@ def profile_detail_view(request, current_telegram_id, viewed_telegram_id):
         'viewed_student': viewed_student,
     }
     return render(request, 'app/profile_detail.html', context)
+
+def like_profile_view(request, current_telegram_id, viewed_telegram_id):
+    if request.method == 'POST':
+        # Создаем новый лайк
+        Like.objects.create(
+            from_whom=current_telegram_id,
+            to_whow=viewed_telegram_id
+        )
+        messages.success(request, 'Вы поставили лайк!')
+    return redirect('profile_detail', current_telegram_id=current_telegram_id, viewed_telegram_id=viewed_telegram_id)
