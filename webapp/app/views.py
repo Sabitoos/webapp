@@ -18,6 +18,7 @@ from django.http import JsonResponse
 from django.core.files.storage import default_storage
 from django.conf import settings
 import requests
+import os
 
 def index(request):
     return render(request, 'app/index.html')
@@ -110,9 +111,15 @@ def yvedomlenia_view(request, telegram_id):
         # Если у пользователя нет username, пытаемся получить его через Bot API
         if not liked_by.username:
             try:
+                # Получаем токен бота напрямую из переменных окружения
+                bot_token = os.getenv('BOT_KEY')
+                if not bot_token:
+                    print("Error: BOT_KEY not found in environment variables")
+                    continue
+                    
                 # Сначала пробуем получить информацию о пользователе
                 response = requests.get(
-                    f'https://api.telegram.org/bot{settings.BOT_KEY}/getChat',
+                    f'https://api.telegram.org/bot{bot_token}/getChat',
                     params={'chat_id': liked_by.telegram_id}
                 )
                 print(f"API Response for user {liked_by.telegram_id}: {response.text}")  # Отладочный вывод
