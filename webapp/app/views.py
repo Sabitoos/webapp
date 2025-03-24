@@ -112,7 +112,7 @@ def yvedomlenia_view(request, telegram_id):
             try:
                 # Сначала пробуем получить информацию о пользователе
                 response = requests.get(
-                    f'https://api.telegram.org/bot{settings.TELEGRAM_BOT_TOKEN}/getChat',
+                    f'https://api.telegram.org/bot{settings.BOT_KEY}/getChat',
                     params={'chat_id': liked_by.telegram_id}
                 )
                 print(f"API Response for user {liked_by.telegram_id}: {response.text}")  # Отладочный вывод
