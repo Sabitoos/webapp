@@ -62,7 +62,15 @@
             <div class="profiles-container">
                 {% for student in students %}
                 <div class="profile-card">
-                    <img src="{{ student.avatar.url }}" alt="Аватар" class="profile-avatar">
+                    {% if student.avatar %}
+                        <img src="{{ student.avatar.url }}" alt="Аватар" class="profile-avatar">
+                    {% else %}
+                        {% if student.gender == 'male' %}
+                            <img src="{% static 'app/images/male.png' %}" alt="Аватар" class="profile-avatar">
+                        {% else %}
+                            <img src="{% static 'app/images/female.png' %}" alt="Аватар" class="profile-avatar">
+                        {% endif %}
+                    {% endif %}
                     <div class="profile-name">{{ student.name }}</div>
                     <div class="profile-info">
                         {{ student.birth_year }} лет • Корпус {{ student.campus }}
