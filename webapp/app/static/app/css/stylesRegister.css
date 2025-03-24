@@ -1,11 +1,15 @@
 /* Шняги для регистрации */
 
 #myForm{
-    display: flex;                
-    flex-direction: column;      
-    align-items: center;  
-    text-align: center;      
-    gap: 10px;              
+    display: grid;
+    /* Четыре колонки */
+    grid-template-columns: auto auto auto auto;
+    /* Два ряда */
+    grid-template-rows: auto;
+    /* Автоматическое размещение в ряд */
+    grid-auto-flow: row;
+    /* Отступы между ячейками */
+    justify-content: center;
 }
 
 #text {
@@ -76,3 +80,7 @@
     background-color: #8FACFF; 
     transform: scale(1.1); 
 }
+
+
+
+

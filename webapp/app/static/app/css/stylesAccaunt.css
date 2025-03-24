@@ -8,6 +8,7 @@
     border-top-right-radius: 25px;
     padding-top: 10px 0;
     text-align: center;
+    height: 35px;
     width: 100%; /* Ширина на всю страницу */
     bottom: 0; /* Располагаем его внизу */
     left: 0; /* Прижимаем к левому краю */
@@ -15,12 +16,12 @@
 }
 
 #inputMenu a {
-    margin: 0 40px; /* Отступы между ссылками */
+    margin: 0px 30px; /* Отступы между ссылками */
 }
 
 #men {
-    width: 40px; /* Пример ширины изображения (по желанию) */
-    height: auto; /* Автоматическая высота */
+    width: 35px; /* Пример ширины изображения (по желанию) */
+    height: 35px; /* Автоматическая высота */
 }
 
 /* первая половина с информацией */
@@ -28,7 +29,7 @@
 #osnova {
     display: grid;
     /* Четыре колонки */
-    grid-template-columns: 20px;
+    grid-template-columns: 20px auto auto auto;
     /* Два ряда */
     grid-template-rows: auto 40px auto;
     /* Автоматическое размещение в ряд */
@@ -38,6 +39,8 @@
     justify-items: center;
     padding-top: 50px;
   }
+
+
 
 #imagePreview {
     grid-column-start: span 4;
@@ -131,14 +134,6 @@
     background-color: #a3bafc; /* Цвет при активации */
 }
 
-#input {
-    grid-column-start: span 4;
-    margin-top: 40px;
-    margin-bottom: 15px;
-    grid-row: 10;
-    grid-row: span 2;
-}
-
 #button-container {
     display: flex;
     flex-wrap: wrap;
@@ -160,4 +155,8 @@
 .dynamic-button:active { 
     background-color: #8FACFF; 
     transform: scale(1.1); 
+}
+
+.interest-button.selected {
+    background-color: #28a745; /* Цвет для выбранной кнопки */
 }
