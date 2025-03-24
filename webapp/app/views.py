@@ -110,18 +110,35 @@ def yvedomlenia_view(request, telegram_id):
         # Если у пользователя нет username, пытаемся получить его через Bot API
         if not liked_by.username:
             try:
+                # Сначала пробуем получить информацию о пользователе
                 response = requests.get(
                     f'https://api.telegram.org/bot{settings.TELEGRAM_BOT_TOKEN}/getChat',
                     params={'chat_id': liked_by.telegram_id}
                 )
+                print(f"API Response for user {liked_by.telegram_id}: {response.text}")  # Отладочный вывод
+                
                 if response.status_code == 200:
                     data = response.json()
-                    if data.get('ok') and data.get('result', {}).get('username'):
-                        liked_by.username = data['result']['username']
-                        liked_by.save()
-                        print(f"Username saved for user {liked_by.telegram_id}: {liked_by.username}")
+                    if data.get('ok'):
+                        # Пробуем получить username из разных возможных мест в ответе
+                        username = (
+                            data.get('result', {}).get('username') or
+                            data.get('result', {}).get('user', {}).get('username') or
+                            data.get('result', {}).get('from', {}).get('username')
+                        )
+                        
+                        if username:
+                            liked_by.username = username
+                            liked_by.save()
+                            print(f"Username saved for user {liked_by.telegram_id}: {username}")
+                        else:
+                            print(f"No username found in response for user {liked_by.telegram_id}")
+                    else:
+                        print(f"API request failed for user {liked_by.telegram_id}: {data.get('description')}")
+                else:
+                    print(f"API request failed with status code {response.status_code} for user {liked_by.telegram_id}")
             except Exception as e:
-                print(f"Error getting username for user {liked_by.telegram_id}: {e}")
+                print(f"Error getting username for user {liked_by.telegram_id}: {str(e)}")
         
         notifications.append({
             'student': liked_by,
