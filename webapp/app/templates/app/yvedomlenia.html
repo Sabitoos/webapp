@@ -128,7 +128,7 @@
                                 </form>
                             {% endif %}
                             {% if notification.mutual %}
-                                <a href="https://t.me/{{ notification.student.telegram_id }}" class="action-button telegram-button" target="_blank">
+                                <a href="tg://user?id={{ notification.student.telegram_id }}" class="action-button telegram-button">
                                     <img src="{% static 'app/images/telegram.png' %}" alt="Telegram" class="icon">
                                     Написать в Telegram
                                 </a>
