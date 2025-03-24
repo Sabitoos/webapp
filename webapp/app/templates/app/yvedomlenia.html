@@ -9,6 +9,39 @@
     <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="{% static 'app/js/ScrolScript.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const telegramButtons = document.querySelectorAll('.telegram-button');
+            telegramButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const userId = this.getAttribute('data-user-id');
+                    console.log('Telegram WebApp available:', !!window.Telegram);
+                    console.log('Telegram WebApp methods:', Object.keys(window.Telegram?.WebApp || {}));
+                    console.log('User ID:', userId);
+                    
+                    try {
+                        if (window.Telegram && window.Telegram.WebApp) {
+                            console.log('Attempting to open chat...');
+                            // Пробуем использовать MainButton для открытия чата
+                            const mainButton = window.Telegram.WebApp.MainButton;
+                            mainButton.setText('Открыть чат');
+                            mainButton.show();
+                            mainButton.onClick(() => {
+                                window.location.href = `https://t.me/${userId}`;
+                            });
+                            console.log('MainButton setup complete');
+                        } else {
+                            console.log('Telegram WebApp not available, redirecting to web...');
+                            window.location.href = `https://t.me/${userId}`;
+                        }
+                    } catch (error) {
+                        console.error('Error opening chat:', error);
+                    }
+                });
+            });
+        });
+    </script>
     <style>
         .notifications-container {
             padding: 20px;
@@ -84,6 +117,32 @@
             font-size: 12px;
             margin-left: 10px;
         }
+        #debug-log {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        #debug-toggle {
+            position: fixed;
+            bottom: 70px;
+            right: 10px;
+            background: #007bff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
     </style>
 </head>
 <body>
@@ -128,7 +187,7 @@
                                 </form>
                             {% endif %}
                             {% if notification.mutual %}
-                                <a href="#" class="action-button telegram-button" data-user-id="{{ notification.student.telegram_id }}" onclick="openTelegramChat('{{ notification.student.telegram_id }}'); return false;">
+                                <a href="https://t.me/{{ notification.student.telegram_id }}" class="action-button telegram-button" target="_blank">
                                     <img src="{% static 'app/images/telegram.png' %}" alt="Telegram" class="icon">
                                     Написать в Telegram
                                 </a>
@@ -159,21 +218,37 @@
         </nav>
     </div>
 
+    <button id="debug-toggle">Показать отладку</button>
+    <div id="debug-log"></div>
+
     <script>
-        function openTelegramChat(userId) {
-            try {
-                if (window.Telegram && window.Telegram.WebApp) {
-                    console.log('Attempting to open chat...');
-                    window.Telegram.WebApp.openLink(`https://t.me/${userId}`);
-                    console.log('Chat open request sent');
-                } else {
-                    console.log('Telegram WebApp not available, redirecting to web...');
-                    window.location.href = `https://t.me/${userId}`;
-                }
-            } catch (error) {
-                console.error('Error opening chat:', error);
-            }
+        // Функция для добавления сообщений в лог
+        function addToLog(message) {
+            const log = document.getElementById('debug-log');
+            const time = new Date().toLocaleTimeString();
+            log.innerHTML += `<div>[${time}] ${message}</div>`;
+            log.scrollTop = log.scrollHeight;
         }
+
+        // Перехватываем все console.log
+        const originalConsoleLog = console.log;
+        console.log = function() {
+            originalConsoleLog.apply(console, arguments);
+            addToLog(Array.from(arguments).join(' '));
+        };
+
+        // Перехватываем все console.error
+        const originalConsoleError = console.error;
+        console.error = function() {
+            originalConsoleError.apply(console, arguments);
+            addToLog('ERROR: ' + Array.from(arguments).join(' '));
+        };
+
+        // Переключатель видимости лога
+        document.getElementById('debug-toggle').addEventListener('click', function() {
+            const log = document.getElementById('debug-log');
+            log.style.display = log.style.display === 'none' ? 'block' : 'none';
+        });
     </script>
 </body>
 </html>
