@@ -84,12 +84,40 @@ def startnoreg_view(request):
     return render(request, 'app/StartNoReg.html')
 
 def yvedomlenia_view(request, telegram_id):
-    # Получаем telegram_id (например, из сессии или GET-параметров)
-    student = get_object_or_404(Student, telegram_id=telegram_id)
+    # Получаем объект текущего студента
+    current_student = get_object_or_404(Student, telegram_id=telegram_id)
     
-    # Передаем объект студента в контекст шаблона
+    # Получаем все лайки, поставленные текущему студенту
+    received_likes = Like.objects.filter(to_whow=telegram_id)
+    
+    # Получаем все лайки, поставленные текущим студентом
+    given_likes = Like.objects.filter(from_whom=telegram_id)
+    
+    # Создаем список уведомлений
+    notifications = []
+    
+    # Обрабатываем полученные лайки
+    for like in received_likes:
+        liked_by = Student.objects.get(telegram_id=like.from_whom)
+        # Проверяем, есть ли взаимный лайк
+        mutual_like = Like.objects.filter(
+            from_whom=telegram_id,
+            to_whow=like.from_whom
+        ).exists()
+        
+        notifications.append({
+            'student': liked_by,
+            'type': 'like',
+            'mutual': mutual_like,
+            'date': like.created_at if hasattr(like, 'created_at') else None
+        })
+    
+    # Сортируем уведомления по дате (если есть)
+    notifications.sort(key=lambda x: x['date'] if x['date'] else '', reverse=True)
+    
     context = {
-        'student': student,
+        'student': current_student,
+        'notifications': notifications,
     }
     return render(request, 'app/yvedomlenia.html', context)
 

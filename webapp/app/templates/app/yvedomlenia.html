@@ -9,28 +9,154 @@
     <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="{% static 'app/js/ScrolScript.js' %}"></script>
+    <style>
+        .notifications-container {
+            padding: 20px;
+        }
+        .notification-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .notification-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .notification-content {
+            flex: 1;
+        }
+        .notification-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 5px;
+        }
+        .notification-text {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .action-button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .like-button {
+            background: #007bff;
+            color: white;
+        }
+        .like-button:hover {
+            background: #0056b3;
+        }
+        .telegram-button {
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+        }
+        .telegram-button:hover {
+            background: #006699;
+        }
+        .icon {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+        .mutual-badge {
+            background: #28a745;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
-
     <div id="content">
         <img src="{% static 'app/images/logo.png' %}" id="logo">
 
-        <div id="con"> 
-            <!-- Здесь будет контент страницы "Уведомления" -->
+        <div id="con">
+            <div class="notifications-container">
+                {% for notification in notifications %}
+                <div class="notification-item">
+                    {% if notification.student.avatar %}
+                        <img src="{{ notification.student.avatar.url }}" alt="Аватар" class="notification-avatar">
+                    {% else %}
+                        {% if notification.student.gender == 'male' %}
+                            <img src="{% static 'app/images/male.png' %}" alt="Аватар" class="notification-avatar">
+                        {% else %}
+                            <img src="{% static 'app/images/female.png' %}" alt="Аватар" class="notification-avatar">
+                        {% endif %}
+                    {% endif %}
+                    <div class="notification-content">
+                        <div class="notification-name">
+                            {{ notification.student.name }}
+                            {% if notification.mutual %}
+                                <span class="mutual-badge">Взаимный лайк</span>
+                            {% endif %}
+                        </div>
+                        <div class="notification-text">
+                            {% if notification.mutual %}
+                                Вы понравились друг другу! Можете начать общение.
+                            {% else %}
+                                Поставил(а) вам лайк
+                            {% endif %}
+                        </div>
+                        <div class="notification-actions">
+                            {% if not notification.mutual %}
+                                <form method="post" action="{% url 'like_profile' student.telegram_id notification.student.telegram_id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="action-button like-button">
+                                        <img src="{% static 'app/images/anketact.png' %}" alt="Лайк" class="icon">
+                                        Лайкнуть в ответ
+                                    </button>
+                                </form>
+                            {% endif %}
+                            {% if notification.mutual %}
+                                <a href="https://t.me/{{ notification.student.telegram_id }}" class="action-button telegram-button" target="_blank">
+                                    <img src="{% static 'app/images/telegram.png' %}" alt="Telegram" class="icon">
+                                    Написать в Telegram
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="notification-item">
+                    <div class="notification-content">
+                        <div class="notification-text">У вас пока нет уведомлений</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
 
         <!-- Нижнее меню -->
         <nav class="menu">
             <div id="inputMenu">
-                <!-- Кнопка "Знакомства" (активная) -->
-                <a href="{% url 'znakomstva' student.telegram_id %}"><img src="{% static 'app/images/anketact.png' %}" id="men" width="40px" alt="Знакомства"></a>
+                <!-- Кнопка "Знакомства" -->
+                <a href="{% url 'znakomstva' student.telegram_id %}"><img src="{% static 'app/images/anket.png' %}" id="men" width="40px" alt="Знакомства"></a>
                 <!-- Кнопка "Профиль" -->
                 <a href="{% url 'profil' student.telegram_id %}"><img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль"></a>
-                <!-- Кнопка "Уведомления" -->
-                <a href="{% url 'notice' student.telegram_id %}"><img src="{% static 'app/images/uved.png' %}" id="men" alt="Уведомления"></a>
+                <!-- Кнопка "Уведомления" (активная) -->
+                <a href="{% url 'notice' student.telegram_id %}"><img src="{% static 'app/images/uvedact.png' %}" id="men" width="40px" alt="Уведомления"></a>
             </div>
         </nav>
     </div>
-
 </body>
 </html>
