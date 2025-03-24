@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
+    <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="{% static 'app/js/ScrolScript.js' %}"></script>
+    <style>
+        .profile-detail {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        .profile-info {
+            flex: 1;
+        }
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+        .profile-basic-info {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .profile-about {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .profile-about-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+        .profile-about-text {
+            color: #333;
+            line-height: 1.5;
+        }
+        .profile-interests {
+            margin-top: 20px;
+        }
+        .profile-interests-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+        .interests-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .interest-tag {
+            background: #e9ecef;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+            color: #495057;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <img src="{% static 'app/images/logo.png' %}" id="logo">
+
+        <div id="con">
+            <a href="{% url 'znakomstva' current_student.telegram_id %}" class="back-button">← Назад к знакомствам</a>
+            
+            <div class="profile-detail">
+                <div class="profile-header">
+                    {% if viewed_student.avatar %}
+                        <img src="{{ viewed_student.avatar.url }}" alt="Аватар" class="profile-avatar">
+                    {% else %}
+                        {% if viewed_student.gender == 'male' %}
+                            <img src="{% static 'app/images/male.png' %}" alt="Аватар" class="profile-avatar">
+                        {% else %}
+                            <img src="{% static 'app/images/female.png' %}" alt="Аватар" class="profile-avatar">
+                        {% endif %}
+                    {% endif %}
+                    <div class="profile-info">
+                        <div class="profile-name">{{ viewed_student.name }}</div>
+                        <div class="profile-basic-info">{{ viewed_student.birth_year }} лет</div>
+                        <div class="profile-basic-info">Корпус {{ viewed_student.campus }}</div>
+                    </div>
+                </div>
+
+                <div class="profile-about">
+                    <div class="profile-about-title">О себе</div>
+                    <div class="profile-about-text">{{ viewed_student.about_me }}</div>
+                </div>
+
+                <div class="profile-interests">
+                    <div class="profile-interests-title">Интересы</div>
+                    <div class="interests-list">
+                        {% for interest in viewed_student.interests.all %}
+                            <span class="interest-tag">{{ interest.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижнее меню -->
+        <nav class="menu">
+            <div id="inputMenu">
+                <!-- Кнопка "Знакомства" -->
+                <a href="{% url 'znakomstva' current_student.telegram_id %}"><img src="{% static 'app/images/anket.png' %}" id="men" width="40px" alt="Знакомства"></a>
+                <!-- Кнопка "Профиль" -->
+                <a href="{% url 'profil' current_student.telegram_id %}"><img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль"></a>
+                <!-- Кнопка "Уведомления" -->
+                <a href="{% url 'notice' current_student.telegram_id %}"><img src="{% static 'app/images/uved.png' %}" id="men" alt="Уведомления"></a>
+            </div>
+        </nav>
+    </div>
+</body>
+</html> 

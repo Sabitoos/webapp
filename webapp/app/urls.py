@@ -28,4 +28,5 @@ urlpatterns = [
     path('edit/<str:telegram_id>/', views.redaktirovanie_view, name='edit'),
     path('notice/<str:telegram_id>/', views.yvedomlenia_view, name='notice'),
     path('znakomstva/<str:telegram_id>/', views.znakomstva_view, name='znakomstva'),
+    path('profile_detail/<str:current_telegram_id>/<str:viewed_telegram_id>/', views.profile_detail_view, name='profile_detail'),
 ]
