@@ -258,10 +258,20 @@ def profile_detail_view(request, current_telegram_id, viewed_telegram_id):
 
 def like_profile_view(request, current_telegram_id, viewed_telegram_id):
     if request.method == 'POST':
-        # Создаем новый лайк
-        Like.objects.create(
+        # Проверяем, существует ли уже такой лайк
+        existing_like = Like.objects.filter(
             from_whom=current_telegram_id,
             to_whow=viewed_telegram_id
-        )
-        messages.success(request, 'Вы поставили лайк!')
+        ).exists()
+        
+        if existing_like:
+            messages.warning(request, 'Вы уже поставили лайк этому пользователю!')
+        else:
+            # Создаем новый лайк
+            Like.objects.create(
+                from_whom=current_telegram_id,
+                to_whow=viewed_telegram_id
+            )
+            messages.success(request, 'Вы поставили лайк!')
+            
     return redirect('profile_detail', current_telegram_id=current_telegram_id, viewed_telegram_id=viewed_telegram_id)

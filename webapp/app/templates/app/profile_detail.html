@@ -96,14 +96,35 @@
         .like-button {
             background: none;
             border: none;
-            padding: 0;
+            padding: 10px 20px;
             cursor: pointer;
             outline: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: auto;
         }
         .like-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 5px;
+            width: 40px;
+            height: 40px;
+        }
+        .messages {
+            margin: 20px;
+        }
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
         }
     </style>
 </head>
@@ -113,6 +134,16 @@
 
         <div id="con">
             <a href="{% url 'znakomstva' current_student.telegram_id %}" class="back-button">← Назад к знакомствам</a>
+            
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             
             <div class="profile-detail">
                 <div class="profile-header">
@@ -150,7 +181,7 @@
                     <form method="post" action="{% url 'like_profile' current_student.telegram_id viewed_student.telegram_id %}">
                         {% csrf_token %}
                         <button type="submit" class="like-button">
-                            <img src="{% static 'app/images/like.png' %}" alt="Лайк" class="like-icon">
+                            <img src="{% static 'app/images/anketact.png' %}" alt="Лайк" class="like-icon">
                             Лайкнуть
                         </button>
                     </form>
