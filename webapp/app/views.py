@@ -250,9 +250,16 @@ def profile_detail_view(request, current_telegram_id, viewed_telegram_id):
     current_student = get_object_or_404(Student, telegram_id=current_telegram_id)
     viewed_student = get_object_or_404(Student, telegram_id=viewed_telegram_id)
     
+    # Проверяем, существует ли лайк
+    existing_like = Like.objects.filter(
+        from_whom=current_telegram_id,
+        to_whow=viewed_telegram_id
+    ).exists()
+    
     context = {
         'current_student': current_student,
         'viewed_student': viewed_student,
+        'existing_like': existing_like,
     }
     return render(request, 'app/profile_detail.html', context)
 
@@ -262,10 +269,12 @@ def like_profile_view(request, current_telegram_id, viewed_telegram_id):
         existing_like = Like.objects.filter(
             from_whom=current_telegram_id,
             to_whow=viewed_telegram_id
-        ).exists()
+        ).first()
         
         if existing_like:
-            messages.warning(request, 'Вы уже поставили лайк этому пользователю!')
+            # Если лайк существует, удаляем его
+            existing_like.delete()
+            messages.success(request, 'Вы убрали лайк!')
         else:
             # Создаем новый лайк
             Like.objects.create(

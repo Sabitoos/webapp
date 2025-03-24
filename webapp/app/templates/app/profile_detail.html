@@ -94,7 +94,7 @@
             text-align: right;
         }
         .like-button {
-            background: none;
+            background: #007bff;
             border: none;
             padding: 10px 20px;
             cursor: pointer;
@@ -103,28 +103,23 @@
             align-items: center;
             gap: 5px;
             margin-left: auto;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+        .like-button:hover {
+            background: #0056b3;
+        }
+        .like-button.unlike {
+            background: #dc3545;
+        }
+        .like-button.unlike:hover {
+            background: #c82333;
         }
         .like-icon {
-            width: 40px;
-            height: 40px;
-        }
-        .messages {
-            margin: 20px;
-        }
-        .message {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .message.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .message.warning {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
         }
     </style>
 </head>
@@ -134,16 +129,6 @@
 
         <div id="con">
             <a href="{% url 'znakomstva' current_student.telegram_id %}" class="back-button">← Назад к знакомствам</a>
-            
-            {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                <div class="message {{ message.tags }}">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
             
             <div class="profile-detail">
                 <div class="profile-header">
@@ -180,9 +165,13 @@
                 <div class="like-section">
                     <form method="post" action="{% url 'like_profile' current_student.telegram_id viewed_student.telegram_id %}">
                         {% csrf_token %}
-                        <button type="submit" class="like-button">
+                        <button type="submit" class="like-button {% if existing_like %}unlike{% endif %}">
                             <img src="{% static 'app/images/anketact.png' %}" alt="Лайк" class="like-icon">
-                            Лайкнуть
+                            {% if existing_like %}
+                                Убрать лайк
+                            {% else %}
+                                Лайкнуть
+                            {% endif %}
                         </button>
                     </form>
                 </div>
