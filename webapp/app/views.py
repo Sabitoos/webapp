@@ -199,14 +199,17 @@ class RegisterView(APIView):
                 return Response({'status': 'error', 'message': 'telegram_id не указан'}, status=status.HTTP_400_BAD_REQUEST)
 
             name = request.data.get('name')
+            username = request.data.get('username')  # Добавляем получение username
             campus = request.data.get('campus')
             birth_year = request.data.get('birth_year')
             gender = request.data.get('gender')
-            interest_names = request.data.get('interests', [])  # Получаем названия интересов
+            interest_names = request.data.get('interests', [])
             about_me = request.data.get('about_me')
+            
             # Создаем нового студента
             student = Student.objects.create(
                 telegram_id=telegram_id,
+                username=username,  # Добавляем сохранение username
                 name=name,
                 campus=campus,
                 birth_year=birth_year,

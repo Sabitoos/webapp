@@ -39,13 +39,14 @@
     
             // Собираем данные из localStorage
             const data = {
-                telegram_id: localStorage.getItem('telegram_id'), // Получаем telegram_id
+                telegram_id: localStorage.getItem('telegram_id'),
+                username: localStorage.getItem('username'),  // Добавляем username
                 name: localStorage.getItem('name'),
                 campus: localStorage.getItem('campus'),
                 birth_year: localStorage.getItem('birth_year'),
                 gender: localStorage.getItem('gender'),
                 interests: JSON.parse(localStorage.getItem('interests')) || [],
-                about_me: "Я студент Курского Государственного Политехнического Колледжа!" // Добавляем поле about_me
+                about_me: "Я студент Курского Государственного Политехнического Колледжа!"
             };
     
             // Отправляем данные на сервер

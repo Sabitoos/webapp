@@ -25,9 +25,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tg = window.Telegram.WebApp;
             const telegramId = tg.initDataUnsafe.user.id;  // Получаем telegram_id
+            const username = tg.initDataUnsafe.user.username;  // Получаем username
     
-            // Сохраняем telegram_id в localStorage
+            // Сохраняем telegram_id и username в localStorage
             localStorage.setItem('telegram_id', telegramId);
+            localStorage.setItem('username', username);  // Сохраняем username
     
             // Отправляем telegram_id на сервер для проверки
             fetch('/checkid/', {
@@ -35,7 +37,10 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ telegram_id: telegramId }),
+                body: JSON.stringify({ 
+                    telegram_id: telegramId,
+                    username: username  // Добавляем username в запрос
+                }),
             })
             .then(response => response.json())
             .then(data => {
