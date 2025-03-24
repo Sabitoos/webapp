@@ -94,12 +94,16 @@ def yvedomlenia_view(request, telegram_id):
     return render(request, 'app/yvedomlenia.html', context)
 
 def znakomstva_view(request, telegram_id):
-    # Получаем объект студента по telegram_id
-    student = get_object_or_404(Student, telegram_id=telegram_id)
+    # Получаем объект текущего студента
+    current_student = get_object_or_404(Student, telegram_id=telegram_id)
     
-    # Передаем объект студента в контекст шаблона
+    # Получаем всех студентов, кроме текущего
+    students = Student.objects.exclude(telegram_id=telegram_id)
+    
+    # Передаем объекты в контекст шаблона
     context = {
-        'student': student,
+        'student': current_student,
+        'students': students,
     }
     return render(request, 'app/znakomstva.html', context)
 
