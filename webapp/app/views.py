@@ -17,6 +17,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.core.files.storage import default_storage
 from django.conf import settings
+import requests
 
 def index(request):
     return render(request, 'app/index.html')
@@ -99,27 +100,37 @@ def yvedomlenia_view(request, telegram_id):
     # Обрабатываем полученные лайки
     for like in received_likes:
         liked_by = Student.objects.get(telegram_id=like.from_whom)
+        
         # Проверяем, есть ли взаимный лайк
         mutual_like = Like.objects.filter(
             from_whom=telegram_id,
             to_whow=like.from_whom
         ).exists()
         
+        # Если у пользователя нет username, пытаемся получить его через Bot API
+        if not liked_by.username:
+            try:
+                response = requests.get(
+                    f'https://api.telegram.org/bot{settings.TELEGRAM_BOT_TOKEN}/getChat',
+                    params={'chat_id': liked_by.telegram_id}
+                )
+                if response.status_code == 200:
+                    data = response.json()
+                    if data.get('ok') and data.get('result', {}).get('username'):
+                        liked_by.username = data['result']['username']
+                        liked_by.save()
+            except Exception as e:
+                print(f"Error getting username for user {liked_by.telegram_id}: {e}")
+        
         notifications.append({
             'student': liked_by,
-            'type': 'like',
-            'mutual': mutual_like,
-            'date': like.created_at if hasattr(like, 'created_at') else None
+            'mutual': mutual_like
         })
     
-    # Сортируем уведомления по дате (если есть)
-    notifications.sort(key=lambda x: x['date'] if x['date'] else '', reverse=True)
-    
-    context = {
+    return render(request, 'app/yvedomlenia.html', {
         'student': current_student,
-        'notifications': notifications,
-    }
-    return render(request, 'app/yvedomlenia.html', context)
+        'notifications': notifications
+    })
 
 def znakomstva_view(request, telegram_id):
     # Получаем объект текущего студента

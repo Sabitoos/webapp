@@ -34,7 +34,8 @@ class Student(models.Model):
         ('female', 'Женский'),
     ]
 
-    telegram_id = models.CharField(max_length=200, unique=True, verbose_name="Telegram ID")
+    telegram_id = models.CharField(max_length=100, unique=True, verbose_name="Telegram ID")
+    username = models.CharField(max_length=100, null=True, blank=True)
     name = models.CharField(max_length=200, verbose_name="Имя")
     campus = models.CharField(max_length=1, choices=CAMPUS_CHOICES, verbose_name="Корпус")
     birth_year = models.IntegerField(

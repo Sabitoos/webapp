@@ -187,7 +187,7 @@
                                 </form>
                             {% endif %}
                             {% if notification.mutual %}
-                                <a href="#" class="action-button telegram-button" data-user-id="{{ notification.student.telegram_id }}" onclick="openTelegramChat('{{ notification.student.telegram_id }}'); return false;">
+                                <a href="#" class="action-button telegram-button" data-username="{{ notification.student.username }}" onclick="openTelegramChat('{{ notification.student.username }}'); return false;">
                                     <img src="{% static 'app/images/telegram.png' %}" alt="Telegram" class="icon">
                                     Написать в Telegram
                                 </a>
@@ -250,19 +250,19 @@
             log.style.display = log.style.display === 'none' ? 'block' : 'none';
         });
 
-        function openTelegramChat(userId) {
+        function openTelegramChat(username) {
             console.log('Telegram WebApp available:', !!window.Telegram);
             console.log('Telegram WebApp methods:', Object.keys(window.Telegram?.WebApp || {}));
-            console.log('User ID:', userId);
+            console.log('Username:', username);
             
             try {
                 if (window.Telegram && window.Telegram.WebApp) {
                     console.log('Attempting to open chat...');
-                    window.Telegram.WebApp.openLink(`https://t.me/${userId}`);
+                    window.Telegram.WebApp.switchInlineQuery(`@${username}`);
                     console.log('Chat open request sent');
                 } else {
                     console.log('Telegram WebApp not available, redirecting to web...');
-                    window.location.href = `https://t.me/${userId}`;
+                    window.location.href = `https://t.me/${username}`;
                 }
             } catch (error) {
                 console.error('Error opening chat:', error);
