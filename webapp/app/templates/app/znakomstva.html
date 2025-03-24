@@ -9,38 +9,93 @@
     <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="{% static 'app/js/ScrolScript.js' %}"></script>
+    <style>
+        .profiles-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        .profile-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+        .profile-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .profile-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 5px;
+        }
+        .profile-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .profile-interests {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+        }
+        .interest-tag {
+            background: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
-
     <div id="content">
         <img src="{% static 'app/images/logo.png' %}" id="logo">
 
-        <div id="con"> 
-            <!-- Здесь будет контент страницы "Знакомства" -->
-            {% for student in students %}
-            <div class="profile-card">
-                <a href="{% url 'profile_detail' current_student.telegram_id student.telegram_id %}" style="text-decoration: none; color: inherit;">
-                    {% if student.avatar %}
-                        <img src="{{ student.avatar.url }}" alt="Аватар" class="profile-avatar">
-                    {% else %}
-                        {% if student.gender == 'male' %}
-                            <img src="{% static 'app/images/male.png' %}" alt="Аватар" class="profile-avatar">
+        <div id="con">
+            <div class="profiles-container">
+                {% for student in students %}
+                <div class="profile-card">
+                    <a href="{% url 'profile_detail' current_student.telegram_id student.telegram_id %}">
+                        {% if student.avatar %}
+                            <img src="{{ student.avatar.url }}" alt="Аватар" class="profile-avatar">
                         {% else %}
-                            <img src="{% static 'app/images/female.png' %}" alt="Аватар" class="profile-avatar">
+                            {% if student.gender == 'male' %}
+                                <img src="{% static 'app/images/male.png' %}" alt="Аватар" class="profile-avatar">
+                            {% else %}
+                                <img src="{% static 'app/images/female.png' %}" alt="Аватар" class="profile-avatar">
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                    <div class="profile-name">{{ student.name }}</div>
-                    <div class="profile-info">
-                        {{ student.birth_year }} лет • Корпус {{ student.campus }}
-                    </div>
-                    <div class="profile-interests">
-                        {% for interest in student.interests.all|slice:":3" %}
-                            <span class="interest-tag">{{ interest.name }}</span>
-                        {% endfor %}
-                    </div>
-                </a>
+                        <div class="profile-name">{{ student.name }}</div>
+                        <div class="profile-info">
+                            {{ student.birth_year }} лет • Корпус {{ student.campus }}
+                        </div>
+                        <div class="profile-interests">
+                            {% for interest in student.interests.all|slice:":3" %}
+                                <span class="interest-tag">{{ interest.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
 
         <!-- Нижнее меню -->
@@ -55,6 +110,5 @@
             </div>
         </nav>
     </div>
-
 </body>
 </html>
