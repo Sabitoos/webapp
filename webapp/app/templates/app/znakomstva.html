@@ -3,201 +3,22 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="MobileOptimized" content="176">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="robots" content="noindex,nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Анкеты</title>
-    
-    <!-- Встроенные стили для гарантированной работы на мобильных устройствах -->
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            height: 100vh;
-            position: relative;
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
-        }
-
-        #content {
-            padding-bottom: 70px;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        .profiles-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            padding: 10px;
-            padding-bottom: 80px;
-            margin-bottom: 0;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .profile-card {
-            background-color: rgba(66, 92, 163, 0.2);
-            border: 2px solid #A4BBEF;
-            border-radius: 15px;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .profile-card:active {
-            background-color: rgba(66, 92, 163, 0.3);
-            transform: scale(0.98);
-        }
-
-        .profile-avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 8px;
-            border: 2px solid #A4BBEF;
-        }
-
-        .profile-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 6px;
-            text-shadow: 0px 2px 3px #454545;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding: 0 5px;
-        }
-
-        .profile-info {
-            font-size: 13px;
-            color: #E1E1E1;
-            margin-bottom: 8px;
-            text-shadow: 0px 2px 3px #454545;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding: 0 5px;
-        }
-
-        .profile-interests {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            justify-content: center;
-            padding: 0 4px;
-        }
-
-        .interest-tag {
-            background: rgba(124, 141, 191, 0.7);
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 11px;
-            color: #fff;
-            border: 1px solid #A4BBEF;
-            text-shadow: 0px 2px 3px #454545;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100px;
-        }
-
-        #inputMenu {
-            position: fixed;
-            justify-items: center;
-            background-color: var(--tg-theme-secondary-bg-color, rgba(128, 144, 193, 0.95));
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-top-left-radius: 25px;
-            border-top-right-radius: 25px;
-            padding: 10px 0;
-            text-align: center;
-            height: 55px;
-            width: 100%;
-            bottom: 0;
-            left: 0;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        #inputMenu a {
-            margin: 0 30px;
-            display: inline-block;
-            transition: transform 0.2s ease;
-        }
-
-        #men {
-            width: 35px;
-            height: 35px;
-            transition: opacity 0.2s ease;
-        }
-
-        @media screen and (max-width: 480px) {
-            .profiles-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 8px;
-                padding: 8px;
-            }
-
-            .profile-avatar {
-                width: 80px;
-                height: 80px;
-            }
-
-            .profile-name {
-                font-size: 14px;
-            }
-
-            .profile-info {
-                font-size: 12px;
-            }
-
-            .interest-tag {
-                font-size: 10px;
-                padding: 2px 6px;
-            }
-        }
-
-        @media screen and (max-width: 320px) {
-            .profile-avatar {
-                width: 70px;
-                height: 70px;
-            }
-        }
-    </style>
-
+    <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
+    <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-        window.Telegram.WebApp.ready();
-        
-        // Применяем цветовую схему Telegram
-        const webApp = window.Telegram.WebApp;
-        document.documentElement.style.setProperty('--tg-theme-bg-color', webApp.themeParams.bg_color);
-        document.documentElement.style.setProperty('--tg-theme-text-color', webApp.themeParams.text_color);
-        document.documentElement.style.setProperty('--tg-theme-hint-color', webApp.themeParams.hint_color);
-        document.documentElement.style.setProperty('--tg-theme-link-color', webApp.themeParams.link_color);
-        document.documentElement.style.setProperty('--tg-theme-button-color', webApp.themeParams.button_color);
-        document.documentElement.style.setProperty('--tg-theme-button-text-color', webApp.themeParams.button_text_color);
-        document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', webApp.themeParams.secondary_bg_color);
-    </script>
+    <script src="{% static 'app/js/ScrolScript.js' %}"></script>
 </head>
 <body>
     <div id="content">
-        <img src="{% static 'app/images/logo.png' %}" id="logo" style="max-width: 150px; margin: 20px auto; display: block;">
+        <img src="{% static 'app/images/logo.png' %}" id="logo">
 
         <div id="con">
             <div class="profiles-container">
                 {% for student in students %}
                 <div class="profile-card">
-                    <a href="{% url 'profile_detail' current_student.telegram_id student.telegram_id %}" style="text-decoration: none; color: inherit;">
+                    <a href="{% url 'profile_detail' current_student.telegram_id student.telegram_id %}">
                         {% if student.avatar %}
                             <img src="{{ student.avatar.url }}" alt="Аватар" class="profile-avatar">
                         {% else %}
@@ -222,10 +43,14 @@
             </div>
         </div>
 
+        <!-- Нижнее меню -->
         <nav class="menu">
             <div id="inputMenu">
-                <a href="{% url 'znakomstva' student.telegram_id %}"><img src="{% static 'app/images/anketact.png' %}" id="men" alt="Знакомства"></a>
+                <!-- Кнопка "Знакомства" (активная) -->
+                <a href="{% url 'znakomstva' student.telegram_id %}"><img src="{% static 'app/images/anketact.png' %}" id="men" width="40px" alt="Знакомства"></a>
+                <!-- Кнопка "Профиль" -->
                 <a href="{% url 'profil' student.telegram_id %}"><img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль"></a>
+                <!-- Кнопка "Уведомления" -->
                 <a href="{% url 'notice' student.telegram_id %}"><img src="{% static 'app/images/uved.png' %}" id="men" alt="Уведомления"></a>
             </div>
         </nav>
