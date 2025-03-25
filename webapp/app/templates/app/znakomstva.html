@@ -11,16 +11,14 @@
     <meta name="robots" content="noindex,nofollow">
     <title>Анкеты</title>
     
-    <!-- Встроенные стили для гарантированной работы на мобильных устройствах -->
     <style>
         body {
             margin: 0;
-            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #002383, #B4BDDB);
+            color: white;
+            font-family: Arial, sans-serif;
             overflow-x: hidden;
-            height: 100vh;
-            position: relative;
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
         }
 
         #content {
@@ -28,6 +26,24 @@
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
+        }
+
+        #logo {
+            padding-left: 20px;
+            padding-top: 10px;
+            width: 120px;
+            height: 50px;
+        }
+
+        #con {
+            opacity: 0;
+            transition: opacity 1s ease;
+            min-height: 80vh;
+            justify-content: center;
+        }
+
+        #con.show {
+            opacity: 1;
         }
 
         .profiles-container {
@@ -42,15 +58,18 @@
         }
 
         .profile-card {
-            background-color: var(--tg-theme-secondary-bg-color, rgba(255, 255, 255, 0.1));
+            background-color: rgba(66, 92, 163, 0.2);
+            border: 2px solid #A4BBEF;
             border-radius: 15px;
             padding: 15px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .profile-card:active {
+            background-color: rgba(66, 92, 163, 0.3);
+            transform: scale(0.98);
         }
 
         .profile-avatar {
@@ -59,20 +78,22 @@
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 12px;
-            border: 3px solid var(--tg-theme-button-color, rgba(255, 255, 255, 0.2));
+            border: 2px solid #A4BBEF;
         }
 
         .profile-name {
             font-size: 18px;
             font-weight: 600;
-            color: var(--tg-theme-text-color, #FFF);
+            color: #fff;
             margin-bottom: 8px;
+            text-shadow: 0px 2px 3px #454545;
         }
 
         .profile-info {
             font-size: 14px;
-            color: var(--tg-theme-hint-color, rgba(255, 255, 255, 0.7));
+            color: #E1E1E1;
             margin-bottom: 12px;
+            text-shadow: 0px 2px 3px #454545;
         }
 
         .profile-interests {
@@ -84,20 +105,19 @@
         }
 
         .interest-tag {
-            background: var(--tg-theme-link-color, rgba(128, 144, 193, 0.3));
+            background: rgba(124, 141, 191, 0.7);
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 12px;
-            color: var(--tg-theme-text-color, #FFF);
-            border: 1px solid var(--tg-theme-button-color, rgba(255, 255, 255, 0.1));
+            color: #fff;
+            border: 1px solid #A4BBEF;
+            text-shadow: 0px 2px 3px #454545;
         }
 
         #inputMenu {
             position: fixed;
             justify-items: center;
-            background-color: var(--tg-theme-secondary-bg-color, rgba(128, 144, 193, 0.95));
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background-color: #7C8DBF;
             border-top-left-radius: 25px;
             border-top-right-radius: 25px;
             padding: 10px 0;
@@ -106,7 +126,7 @@
             width: 100%;
             bottom: 0;
             left: 0;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 2px 3px #696969;
             z-index: 1000;
         }
 
@@ -114,12 +134,16 @@
             margin: 0 30px;
             display: inline-block;
             transition: transform 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #inputMenu a:active {
+            transform: scale(0.95);
         }
 
         #men {
             width: 35px;
             height: 35px;
-            transition: opacity 0.2s ease;
         }
 
         @media screen and (max-width: 480px) {
@@ -149,20 +173,15 @@
     <script>
         window.Telegram.WebApp.ready();
         
-        // Применяем цветовую схему Telegram
-        const webApp = window.Telegram.WebApp;
-        document.documentElement.style.setProperty('--tg-theme-bg-color', webApp.themeParams.bg_color);
-        document.documentElement.style.setProperty('--tg-theme-text-color', webApp.themeParams.text_color);
-        document.documentElement.style.setProperty('--tg-theme-hint-color', webApp.themeParams.hint_color);
-        document.documentElement.style.setProperty('--tg-theme-link-color', webApp.themeParams.link_color);
-        document.documentElement.style.setProperty('--tg-theme-button-color', webApp.themeParams.button_color);
-        document.documentElement.style.setProperty('--tg-theme-button-text-color', webApp.themeParams.button_text_color);
-        document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', webApp.themeParams.secondary_bg_color);
+        // Показываем контент с анимацией
+        window.onload = function() {
+            document.getElementById('con').classList.add('show');
+        };
     </script>
 </head>
 <body>
     <div id="content">
-        <img src="{% static 'app/images/logo.png' %}" id="logo" style="max-width: 150px; margin: 20px auto; display: block;">
+        <img src="{% static 'app/images/logo.png' %}" id="logo">
 
         <div id="con">
             <div class="profiles-container">
