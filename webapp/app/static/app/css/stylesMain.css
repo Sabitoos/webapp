@@ -15,7 +15,7 @@ input[type="number"]:focus {
 body {
     margin: 0;
     min-height: 100vh; 
-    background: linear-gradient(to bottom,#002383, #B4BDDB); 
+    background: #18388f;
     color: white; 
     font-family: Arial, sans-serif;
     touch-action: manipulation; /* Отключает жесты масштабирования */
