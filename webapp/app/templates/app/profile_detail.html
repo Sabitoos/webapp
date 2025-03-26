@@ -128,33 +128,32 @@
         <img src="{% static 'app/images/logo.png' %}" id="logo">
 
         <div id="con">
-            <a href="{% url 'znakomstva' current_student.telegram_id %}" class="back-button">← Назад к знакомствам</a>
             
             <div class="profile-detail">
                 <div class="profile-header">
                     {% if viewed_student.avatar %}
-                        <img src="{{ viewed_student.avatar.url }}" alt="Аватар" class="profile-avatar">
+                        <img src="{{ viewed_student.avatar.url }}" width="110px" height="110px" id="imagePreview" class="profile-avatar">
                     {% else %}
                         {% if viewed_student.gender == 'male' %}
-                            <img src="{% static 'app/images/male.png' %}" alt="Аватар" class="profile-avatar">
+                            <img src="{% static 'app/images/male.png' %}" width="110px" height="110px" id="imagePreview" alt="Аватар" class="profile-avatar">
                         {% else %}
-                            <img src="{% static 'app/images/female.png' %}" alt="Аватар" class="profile-avatar">
+                            <img src="{% static 'app/images/female.png' %}" width="110px" height="110px" id="imagePreview" alt="Аватар" class="profile-avatar">
                         {% endif %}
                     {% endif %}
                     <div class="profile-info">
-                        <div class="profile-name">{{ viewed_student.name }}</div>
-                        <div class="profile-basic-info">{{ viewed_student.birth_year }} лет</div>
-                        <div class="profile-basic-info">Корпус {{ viewed_student.campus }}</div>
+                        <div id="textNAIMPROF">{{ viewed_student.name }}</div>
+                        <div id="textGODPROF">{{ viewed_student.birth_year }} лет</div>
+                        <div id="textKORPROF">Корпус {{ viewed_student.campus }}</div>
                     </div>
                 </div>
 
-                <div class="profile-about">
-                    <div class="profile-about-title">О себе</div>
-                    <div class="profile-about-text">{{ viewed_student.about_me }}</div>
+                <div id="profile-about">
+                    <p class="textRED">О себе</p>
+                    <textarea id="osebe" disabled>{{ viewed_student.about_me }}</textarea>
                 </div>
 
                 <div class="profile-interests">
-                    <div class="profile-interests-title">Интересы</div>
+                    <p class="textRED">Интересы</p>
                     <div class="interests-list">
                         {% for interest in viewed_student.interests.all %}
                             <span class="interest-tag">{{ interest.name }}</span>
@@ -162,11 +161,13 @@
                     </div>
                 </div>
 
+                <a href="{% url 'znakomstva' current_student.telegram_id %}" class="back-button">Закрыть</a>
+
                 <div class="like-section">
                     <form method="post" action="{% url 'like_profile' current_student.telegram_id viewed_student.telegram_id %}">
                         {% csrf_token %}
                         <button type="submit" class="like-button {% if existing_like %}unlike{% endif %}">
-                            <img src="{% static 'app/images/anketact.png' %}" alt="Лайк" class="like-icon">
+                            <img src="{% static 'app/images/anketact.png' %}" alt="Лайк" class="like-icon"> 
                             {% if existing_like %}
                                 Убрать лайк
                             {% else %}
@@ -182,7 +183,7 @@
         <nav class="menu">
             <div id="inputMenu">
                 <!-- Кнопка "Знакомства" -->
-                <a href="{% url 'znakomstva' current_student.telegram_id %}"><img src="{% static 'app/images/anket.png' %}" id="men" width="40px" alt="Знакомства"></a>
+                <a href="{% url 'znakomstva' current_student.telegram_id %}"><img src="{% static 'app/images/anketact.png' %}" id="men" width="40px" alt="Знакомства"></a>
                 <!-- Кнопка "Профиль" -->
                 <a href="{% url 'profil' current_student.telegram_id %}"><img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль"></a>
                 <!-- Кнопка "Уведомления" -->

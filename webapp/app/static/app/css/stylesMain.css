@@ -18,6 +18,8 @@ body {
     background: linear-gradient(to bottom,#002383, #B4BDDB); 
     color: white; 
     font-family: Arial, sans-serif;
+    touch-action: manipulation; /* Отключает жесты масштабирования */
+    
 }
 
 #logo {
