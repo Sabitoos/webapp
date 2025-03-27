@@ -54,7 +54,7 @@
                     selectedButtons.push(button.dataset.interest);
                     button.style.backgroundColor = '#8FACFF';
                 } else {
-                    button.style.backgroundColor = '#9AA7CC';
+                    button.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
                 }
             });
 
@@ -66,7 +66,7 @@
 
                     if (selectedButtons.includes(text)) {
                         selectedButtons = selectedButtons.filter(item => item !== text);
-                        e.target.style.backgroundColor = '#9AA7CC';
+                        e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
                     } else {
                         selectedButtons.push(text);
                         e.target.style.backgroundColor = '#8FACFF';

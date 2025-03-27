@@ -7,75 +7,63 @@
     <title>Профиль</title>
     <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
     <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/stylesProfilFrends.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="{% static 'app/js/ScrolScript.js' %}"></script>
 </head>
 <body>
-    <div id="content">
-        <img src="{% static 'app/images/logo.png' %}" id="logo">
-
-        <div id="con">
-            
-            <div class="profile-detail">
-                <div class="profile-header">
-                    {% if viewed_student.avatar %}
-                        <img src="{{ viewed_student.avatar.url }}" width="150px" height="150px" id="imagePreviewF" class="profile-avatar">
-                    {% else %}
-                        {% if viewed_student.gender == 'male' %}
-                            <img src="{% static 'app/images/male.png' %}" width="150px" height="150px" id="imagePreviewF" alt="Аватар" class="profile-avatar">
-                        {% else %}
-                            <img src="{% static 'app/images/female.png' %}" width="150px" height="150px" id="imagePreviewF" alt="Аватар" class="profile-avatar">
-                        {% endif %}
-                    {% endif %}
+    <body>
+        <div id="content">
+            <img src="{% static 'app/images/logo.png' %}" id="logo">
+    
+            <div id="con">
+                <div class="profile-detail">
+                    <!-- Верхний ряд с кнопками и аватаром -->
+                    <div class="profile-top-row">
+                        <img src="{% if viewed_student.avatar %}{{ viewed_student.avatar.url }}{% else %}{% static viewed_student.gender|yesno:'app/images/male.png,app/images/female.png' %}{% endif %}" 
+                             class="profile-avatar" id="imagePreviewF" alt="Аватар">
+                        
+                        <div class="profile-actions">
+                            <button type="submit" class="back-button">
+                                <a href="{% url 'znakomstva' current_student.telegram_id %}">
+                                    <img src="{% static 'app/images/back.png' %}" alt="Назад">
+                                </a>
+                            </button>
+                            
+                            <form method="post" action="{% url 'like_profile' current_student.telegram_id viewed_student.telegram_id %}" class="like-form">
+                                {% csrf_token %}
+                                <button type="submit" class="like-button">
+                                    <img src="{% static 'app/images/klas.png' %}" alt="Лайк" class="like-icon">
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Информация профиля -->
                     <div class="profile-info">
                         <div id="textNAIMPROFF">{{ viewed_student.name }}</div>
                         <div id="textGODPROFF">{{ viewed_student.birth_year }} лет</div>
                         <div id="textKORPROFF">Корпус {{ viewed_student.campus }}</div>
                     </div>
-                </div>
-
-                <div id="profile-about">
-                    <p class="textRED">О себе</p>
-                    <textarea id="osebe" disabled>{{ viewed_student.about_me }}</textarea>
-                </div>
-
-                <div class="profile-interests">
-                    <p class="textRED">Интересы</p>
-                    <div class="interests-list">
-                        {% for interest in viewed_student.interests.all %}
-                            <span class="interest-tag">{{ interest.name }}</span>
-                        {% endfor %}
+    
+                    <!-- О себе -->
+                    <div id="profile-about">
+                        <p class="textRED">О себе:</p>
+                        <textarea id="osebe" disabled>{{ viewed_student.about_me }}</textarea>
                     </div>
-                </div>
-
-                <div class="profile-actions">
-                    <button type="submit" class="back-button">
-                        <a href="{% url 'znakomstva' current_student.telegram_id %}"><img src="{% static 'app/images/back.png' %}"></img></a>
-                    </button>
-                    
-                    <form method="post" action="{% url 'like_profile' current_student.telegram_id viewed_student.telegram_id %}" class="like-form">
-                        {% csrf_token %}
-                        <button type="submit" class="like-button">
-                            <img src="{% static 'app/images/Klas.png' %}" alt="Лайк" class="like-icon"> 
-                        </button>
-                    </form>
-                </div>
-                    </form>
+    
+                    <!-- Интересы -->
+                    <div class="profile-interests">
+                        <p class="textRED">Интересы:</p>
+                        <div class="interests-list">
+                            {% for interest in viewed_student.interests.all %}
+                                <span class="interest-tag">{{ interest.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- Нижнее меню -->
-        <nav class="menu">
-            <div id="inputMenu">
-                <!-- Кнопка "Знакомства" -->
-                <a href="{% url 'znakomstva' current_student.telegram_id %}"><img src="{% static 'app/images/anketact.png' %}" id="men" width="40px" alt="Знакомства"></a>
-                <!-- Кнопка "Профиль" -->
-                <a href="{% url 'profil' current_student.telegram_id %}"><img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль"></a>
-                <!-- Кнопка "Уведомления" -->
-                <a href="{% url 'notice' current_student.telegram_id %}"><img src="{% static 'app/images/uved.png' %}" id="men" alt="Уведомления"></a>
-            </div>
-        </nav>
-    </div>
-</body>
-</html> 
+    </body>
+    </html>
+    

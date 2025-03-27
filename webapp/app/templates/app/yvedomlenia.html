@@ -4,111 +4,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Уведомления</title>
-    <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
+    <title>Уведомления | TGApp</title>
+    <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="{% static 'app/js/ScrolScript.js' %}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const telegramButtons = document.querySelectorAll('.telegram-button');
-            telegramButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const userId = this.getAttribute('data-user-id');
-                    console.log('Telegram WebApp available:', !!window.Telegram);
-                    console.log('Telegram WebApp methods:', Object.keys(window.Telegram?.WebApp || {}));
-                    console.log('User ID:', userId);
-                    
-                    try {
-                        if (window.Telegram && window.Telegram.WebApp) {
-                            console.log('Attempting to open chat...');
-                            // Пробуем использовать MainButton для открытия чата
-                            const mainButton = window.Telegram.WebApp.MainButton;
-                            mainButton.setText('Открыть чат');
-                            mainButton.show();
-                            mainButton.onClick(() => {
-                                window.location.href = `https://t.me/${userId}`;
-                            });
-                            console.log('MainButton setup complete');
-                        } else {
-                            console.log('Telegram WebApp not available, redirecting to web...');
-                            window.location.href = `https://t.me/${userId}`;
-                        }
-                    } catch (error) {
-                        console.error('Error opening chat:', error);
-                    }
-                });
-            });
-        });
-    </script>
     <style>
-        .notifications-container {
-            padding: 20px;
+        /* Основные стили страницы */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
         }
-        .notification-item {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        
+        #logo {
+            display: block;
+            margin: 20px auto;
+            max-width: 200px;
+        }
+        
+        .notifications-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 80px; /* Для нижнего меню */
+        }
+        
+        /* Стиль уведомления как кликабельной карточки */
+        .notification {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .notification:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .notification.new {
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .notification-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+        
+        .notification-content-wrapper {
+            position: relative;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .notification-header {
             display: flex;
             align-items: center;
-            gap: 15px;
+            margin-bottom: 12px;
         }
+        
         .notification-avatar {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             object-fit: cover;
+            margin-right: 15px;
         }
-        .notification-content {
+        
+        .notification-title {
+            font-weight: bold;
+            font-size: 16px;
             flex: 1;
         }
-        .notification-name {
-            font-size: 18px;
-            font-weight: bold;
-            color: #000000;
-            margin-bottom: 5px;
-        }
-        .notification-text {
-            color: #666;
-            margin-bottom: 10px;
-        }
-        .notification-actions {
-            display: flex;
-            gap: 10px;
-        }
-        .action-button {
-            padding: 8px 15px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .like-button {
-            background: #007bff;
-            color: white;
-        }
-        .like-button:hover {
-            background: #0056b3;
-        }
-        .telegram-button {
-            background: #0088cc;
-            color: white;
-            text-decoration: none;
-        }
-        .telegram-button:hover {
-            background: #006699;
-        }
-        .icon {
-            width: 20px;
-            height: 20px;
-            filter: brightness(0) invert(1);
-        }
+        
         .mutual-badge {
             background: #28a745;
             color: white;
@@ -117,141 +98,243 @@
             font-size: 12px;
             margin-left: 10px;
         }
-        #debug-log {
+        
+        .notification-content {
+            margin-bottom: 12px;
+            font-size: 14px;
+            padding-left: 65px;
+        }
+        
+        .buttons-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            position: relative;
+            z-index: 2;
+            pointer-events: auto;
+            padding-left: 65px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .btn-dismiss {
+            background-color: #f0f0f0;
+            color: #555;
+        }
+        
+        .btn-dismiss:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .btn-like {
+            background-color: #8FACFF;
+            color: white;
+        }
+        
+        .btn-like:hover, .btn-like.active {
+            background-color: #ff4444;
+        }
+        
+        .btn-telegram {
+            background-color: #0088cc;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-telegram:hover {
+            background-color: #006699;
+        }
+        
+        .icon {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+        }
+        
+        .timestamp {
+            font-size: 12px;
+            color: #888;
+            text-align: right;
+            margin-top: 8px;
+        }
+        
+        .no-notifications {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+        }
+        
+        /* Нижнее меню */
+        .menu {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 10px;
-            font-family: monospace;
-            font-size: 12px;
-            max-height: 200px;
-            overflow-y: auto;
+            background: white;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            display: none;
         }
-        #debug-toggle {
-            position: fixed;
-            bottom: 70px;
-            right: 10px;
-            background: #007bff;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 1001;
+        
+        #inputMenu {
+            display: flex;
+            justify-content: space-around;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        #inputMenu a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #555;
+        }
+        
+        #men {
+            width: 30px;
+            height: 30px;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
-    <div id="content">
-        <img src="{% static 'app/images/logo.png' %}" id="logo">
+    <img src="{% static 'app/images/logo.png' %}" id="logo">
 
-        <div id="con">
-            <div class="notifications-container">
-                {% for notification in notifications %}
-                <div class="notification-item">
-                    {% if notification.student.avatar %}
-                        <img src="{{ notification.student.avatar.url }}" alt="Аватар" class="notification-avatar">
-                    {% else %}
-                        {% if notification.student.gender == 'male' %}
-                            <img src="{% static 'app/images/male.png' %}" alt="Аватар" class="notification-avatar">
-                        {% else %}
-                            <img src="{% static 'app/images/female.png' %}" alt="Аватар" class="notification-avatar">
-                        {% endif %}
-                    {% endif %}
-                    <div class="notification-content">
-                        <div class="notification-name">
-                            {{ notification.student.name }}
-                            {% if notification.mutual %}
-                                <span class="mutual-badge">Взаимный лайк</span>
+    <div class="notifications-container">
+        <h1>Уведомления</h1>
+        
+        {% if notifications %}
+            {% for notification in notifications %}
+                <div class="notification {% if notification.mutual %}new{% endif %}" 
+                    onclick="handleNotificationClick(event, `{% url 'profil' notification.student.telegram_id %}`)">
+                     
+                    <a href="{% url 'profil' notification.student.telegram_id %}" class="notification-link"></a>
+                    
+                    <div class="notification-content-wrapper">
+                        <div class="notification-header">
+                            {% if notification.student.avatar %}
+                                <img src="{{ notification.student.avatar.url }}" alt="Аватар" class="notification-avatar">
+                            {% else %}
+                                <img src="{% static notification.student.gender|yesno:'app/images/male.png,app/images/female.png' %}" 
+                                     alt="Аватар" class="notification-avatar">
                             {% endif %}
+                            
+                            <div class="notification-title">
+                                {{ notification.student.name }}
+                                {% if notification.mutual %}
+                                    <span class="mutual-badge">Взаимный лайк</span>
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="notification-text">
+                        
+                        <div class="notification-content">
                             {% if notification.mutual %}
                                 Вы понравились друг другу! Можете начать общение.
                             {% else %}
                                 Поставил(а) вам лайк
                             {% endif %}
                         </div>
-                        <div class="notification-actions">
+                        
+                        <div class="buttons-container">
                             {% if not notification.mutual %}
-                                <form method="post" action="{% url 'like_profile' student.telegram_id notification.student.telegram_id %}" style="display: inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="action-button like-button">
-                                        <img src="{% static 'app/images/anketact.png' %}" alt="Лайк" class="icon">
-                                        Лайкнуть в ответ
-                                    </button>
-                                </form>
-                            {% endif %}
-                            {% if notification.mutual %}
-                                <a href="#" class="action-button telegram-button" data-username="{{ notification.student.username }}" onclick="openTelegramChat('{{ notification.student.username }}'); return false;">
+                                <button class="btn btn-like" 
+                                        onclick="likeBack(event, '{{ notification.student.telegram_id }}')">
+                                    <img src="{% static 'app/images/anketact.png' %}" alt="Лайк" class="icon">
+                                    Лайкнуть в ответ
+                                </button>
+                            {% else %}
+                                <button class="btn btn-telegram" 
+                                        onclick="openTelegramChat('{{ notification.student.username }}')">
                                     <img src="{% static 'app/images/telegram.png' %}" alt="Telegram" class="icon">
                                     Написать в Telegram
-                                </a>
+                                </button>
                             {% endif %}
+                        </div>
+                        
+                        <div class="timestamp">
+                            {{ notification.created_at|date:"d.m.Y H:i" }}
                         </div>
                     </div>
                 </div>
-                {% empty %}
-                <div class="notification-item">
-                    <div class="notification-content">
-                        <div class="notification-text">У вас пока нет уведомлений</div>
-                    </div>
-                </div>
-                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <div class="no-notifications">
+                У вас пока нет уведомлений
             </div>
-        </div>
-
-        <!-- Нижнее меню -->
-        <nav class="menu">
-            <div id="inputMenu">
-                <!-- Кнопка "Знакомства" -->
-                <a href="{% url 'znakomstva' student.telegram_id %}"><img src="{% static 'app/images/anket.png' %}" id="men" width="40px" alt="Знакомства"></a>
-                <!-- Кнопка "Профиль" -->
-                <a href="{% url 'profil' student.telegram_id %}"><img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль"></a>
-                <!-- Кнопка "Уведомления" (активная) -->
-                <a href="{% url 'notice' student.telegram_id %}"><img src="{% static 'app/images/uvedact.png' %}" id="men" width="40px" alt="Уведомления"></a>
-            </div>
-        </nav>
+        {% endif %}
     </div>
 
-    <button id="debug-toggle">Показать отладку</button>
-    <div id="debug-log"></div>
+    <!-- Нижнее меню -->
+    <nav class="menu">
+        <div id="inputMenu">
+            <a href="{% url 'znakomstva' student.telegram_id %}">
+                <img src="{% static 'app/images/anket.png' %}" id="men" alt="Знакомства">
+                <span>Знакомства</span>
+            </a>
+            <a href="{% url 'profil' student.telegram_id %}">
+                <img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль">
+                <span>Профиль</span>
+            </a>
+            <a href="{% url 'notice' student.telegram_id %}">
+                <img src="{% static 'app/images/uvedact.png' %}" id="men" alt="Уведомления">
+                <span>Уведомления</span>
+            </a>
+        </div>
+    </nav>
 
     <script>
-        // Функция для добавления сообщений в лог
-        function addToLog(message) {
-            const log = document.getElementById('debug-log');
-            const time = new Date().toLocaleTimeString();
-            log.innerHTML += `<div>[${time}] ${message}</div>`;
-            log.scrollTop = log.scrollHeight;
+        /**
+         * Обработчик клика по уведомлению
+         */
+        function handleNotificationClick(event, profileUrl) {
+            const isButtonClick = event.target.closest('.buttons-container') || 
+                                 event.target.tagName === 'BUTTON' || 
+                                 event.target.tagName === 'A';
+            
+            if (!isButtonClick) {
+                window.location.href = profileUrl;
+            }
         }
-
-        // Перехватываем все console.log
-        const originalConsoleLog = console.log;
-        console.log = function() {
-            originalConsoleLog.apply(console, arguments);
-            addToLog(Array.from(arguments).join(' '));
-        };
-
-        // Перехватываем все console.error
-        const originalConsoleError = console.error;
-        console.error = function() {
-            originalConsoleError.apply(console, arguments);
-            addToLog('ERROR: ' + Array.from(arguments).join(' '));
-        };
-
-        // Переключатель видимости лога
-        document.getElementById('debug-toggle').addEventListener('click', function() {
-            const log = document.getElementById('debug-log');
-            log.style.display = log.style.display === 'none' ? 'block' : 'none';
-        });
-
+        
+        /**
+         * Ответный лайк
+         */
+        function likeBack(event, telegramId) {
+            event.stopPropagation();
+            
+            fetch(`{% url 'like_profile' student.telegram_id %}?to=${telegramId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                }
+            });
+        }
+        
+        /**
+         * Открытие чата в Telegram
+         */
         function openTelegramChat(username) {
-    // Массив из 20 вопросов
             const icebreakerQuestions = [
                 "Какой самый нелепый поступок ты совершил в колледже?",
                 "Если бы твой факультет был персонажем из фильма, кто бы это был?",
@@ -274,29 +357,21 @@
                 "Если бы твою жизнь снимали в реалити-шоу, как бы оно называлось?",
                 "Какой предмет из колледжа ты бы использовал для защиты от зомби?"
             ];
-
-            // Выбираем случайный вопрос
+            
             const randomQuestion = icebreakerQuestions[Math.floor(Math.random() * icebreakerQuestions.length)];
-            
-            // Кодируем вопрос для URL
             const encodedQuestion = encodeURIComponent(randomQuestion);
-            
-            // Формируем ссылку с предзаполненным сообщением
             const chatUrl = `https://t.me/${username}?text=${encodedQuestion}`;
 
             console.log('Attempting to open chat with message:', randomQuestion);
             
             try {
                 if (window.Telegram && window.Telegram.WebApp) {
-                    // Открываем через Telegram WebApp
                     window.Telegram.WebApp.openLink(chatUrl);
                 } else {
-                    // Фолбек для обычного браузера
                     window.location.href = chatUrl;
                 }
             } catch (error) {
                 console.error('Error opening chat:', error);
-                // Резервный вариант
                 window.open(chatUrl, '_blank');
             }
         }

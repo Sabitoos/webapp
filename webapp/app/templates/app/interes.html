@@ -52,7 +52,7 @@
                 button.setAttribute('data-text', text); // Устанавливаем атрибут data-text
 
                 // Устанавливаем цвет кнопки
-                button.style.backgroundColor = selectedButtons.includes(text) ? '#FFF' : '#9AA7CC';
+                button.style.backgroundColor = selectedButtons.includes(text) ? '#FFF' : 'rgba(255, 255, 255, 0.25)';
 
                 // Обработчик клика по кнопке
                 button.addEventListener('click', (event) => {
@@ -62,7 +62,7 @@
                     if (selectedButtons.includes(text)) {
                         // Если кнопка уже выбрана, удаляем её из массива
                         selectedButtons = selectedButtons.filter(item => item !== text);
-                        button.style.backgroundColor = '#9AA7CC'; // Возвращаем прежний цвет
+                        button.style.backgroundColor = 'rgba(255, 255, 255, 0.25)'; // Возвращаем прежний цвет
                     } else {
                         // Если кнопка не выбрана, добавляем её в массив
                         selectedButtons.push(text);

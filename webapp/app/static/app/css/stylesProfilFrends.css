@@ -1,0 +1,117 @@
+.profile-detail {
+    background: transparent;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 25px;
+    grid-template-rows: auto auto 1fr auto;
+    justify-items: center; /* Центрируем все содержимое по горизонтали */
+}
+
+.profile-header {
+    display: grid;
+    gap: 20px;
+    align-items: center;
+    justify-items: center; /* Центрируем содержимое header */
+    width: 100%; /* Занимает всю доступную ширину */
+}
+
+.profile-info {
+    display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: baseline; /* Выравнивание по базовой линии текста */
+    gap: 80px; /* Оптимальный отступ между элементами */
+    width: 100%;
+    flex-wrap: nowrap; /* Запрещаем перенос на новую строку */
+    box-sizing: border-box;
+}
+
+/* Стили для дочерних элементов */
+.profile-info > div {
+    white-space: nowrap; /* Запрещаем перенос текста внутри элементов */
+    flex-shrink: 1; /* Позволяет немного уменьшаться при нехватке места */
+    font-size: clamp(14px, 3vw, 18px); /* Адаптивный размер шрифта */
+    position: relative;
+}
+
+#profile-about {
+    grid-row: 2;
+    width: 100%;
+    margin: 15px 0;
+}
+
+#osebe {
+    width: 90%;
+}
+
+#profile-about {
+    grid-column: 1 / -1;
+    margin-top: 10px;
+    text-align: center; 
+}
+
+.profile-interests {
+    grid-column: 1 / -1;
+    text-align: center; 
+}
+
+.profile-interests {
+    grid-column: 1 / -1;
+}
+
+.interests-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.interest-tag {
+    background: #8FACFF;
+    padding: 5px 12px;
+    font-size: 14px;
+    border-radius: 25px;
+    color: white;
+    font-size: 16px;
+    height: 20px;
+}
+
+.profile-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Две колонки равной ширины */
+  gap: 20px;
+  align-items: center;
+  justify-items: center; /* Центрируем содержимое ячеек */
+}
+
+.back-button, .like-button {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0px;
+    background-color: #7C8DBF;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+.back-button a, .like-button a  {
+  color: inherit; /* Наследует цвет текста от кнопки */
+  text-decoration: none; /* Убирает подчёркивание */
+  display: block; /* Чтобы ссылка занимала всю кнопку */
+  width: 100%;
+  height: 100%;
+}
+
+.like-button:hover {
+    background-color: #dc0000;
+}
+
+.back-button:hover {
+    background-color: #b5b6cd;
+}

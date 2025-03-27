@@ -28,9 +28,9 @@
                                 <img src="{% static 'app/images/female.png' %}" alt="Аватар" class="profile-avatar">
                             {% endif %}
                         {% endif %}
-                        <div class="profile-name">{{ student.name }}</div>
+                        <div class="profile-name"><p>{{ student.name }}</p></div>
                         <div class="profile-info">
-                            {{ student.birth_year }} лет • Корпус {{ student.campus }}
+                            <p>{{ student.birth_year }} лет   Корпус {{ student.campus }}</p>
                         </div>
                         <div class="profile-interests">
                             {% for interest in student.interests.all|slice:":3" %}
