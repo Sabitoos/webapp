@@ -66,7 +66,7 @@ body {
     color: #E1E1E1;
 }
 
-#textNAIMPROF, #textGODPROF, #textKORPROF { 
+#textNAIMPROF, #textGODPROF, #textKORPROF, #textNAIMPROFF, #textGODPROFF, #textKORPROFF { 
     padding-bottom: 30px;
     text-shadow: 0px 2px 3px #454545; 
     display: flex;
