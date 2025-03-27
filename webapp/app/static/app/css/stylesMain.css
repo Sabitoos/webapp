@@ -99,6 +99,7 @@ body {
 }
 
 .profile-avatar {
+    grid-column: 2;
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -119,12 +120,12 @@ body {
 }
 
 .profile-avatar, #uploadImage, #imagePreview, #uploadImage {
-    padding: 5px;
+    padding: 3px;
     box-shadow: 
-        0 0 10px rgba(143, 172, 255, 0.1),
+        0 0 20px rgba(143, 172, 255, 0.1),
         0 0 20px rgba(143, 172, 255, 0.4),
-        inset 0 2px 5px rgba(143, 172, 255, 0.4),
-        inset 0 -2px 5px rgba(143, 172, 255, 0.1);
+        inset 0 0 5px rgba(143, 172, 255, 0.4),
+        inset 0 0 5px rgba(143, 172, 255, 0.1);
 
 }
 
