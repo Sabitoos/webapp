@@ -1,131 +1,148 @@
-/* ==================== МЕНЮ ==================== */
+/* меню */
 
 #inputMenu {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 35px;
+    position: fixed; /* Фиксируем меню */
+    justify-items: center;
     background-color: #8090C1;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    padding: 10px 0 0;
+    padding-top: 10px 0;
+    text-align: center;
+    height: 35px;
+    width: 100%; /* Ширина на всю страницу */
+    bottom: 0; /* Располагаем его внизу */
+    left: 0; /* Прижимаем к левому краю */
     -webkit-tap-highlight-color: transparent;
-    
-    /* Grid layout */
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    /* Четыре колонки */
+    grid-template-columns: auto auto auto;
+    /* Два ряда */
+    grid-template-rows: auto;
+    /* Автоматическое размещение в ряд */
     grid-auto-flow: row;
+    /* Отступы между ячейками */
     gap: 20px;
     justify-items: center;
-    align-items: center;
-    text-align: center;
 }
 
 #men {
-    width: 35px;
-    height: 35px;
-    object-fit: contain;
+    width: 35px; /* Пример ширины изображения (по желанию) */
+    height: 35px; /* Автоматическая высота */
 }
 
-/* ==================== ОСНОВНАЯ ИНФОРМАЦИЯ ==================== */
+/* первая половина с информацией */
 
 #osnova {
     display: grid;
-    grid-template-columns: 20px repeat(3, auto);
+    /* Четыре колонки */
+    grid-template-columns: 20px auto auto auto;
+    /* Два ряда */
     grid-template-rows: auto 40px auto;
+    /* Автоматическое размещение в ряд */
     grid-auto-flow: row;
+    /* Отступы между ячейками */
     gap: 20px;
     justify-items: center;
     padding-top: 50px;
-}
+  }
 
-#imagePreview,
-#uploadImage {
-    grid-column: 1 / -1;
-    width: 110px;
-    height: 110px;
+#imagePreview {
+    grid-column-start: span 4;
+    margin-top: 10px;
     border-radius: 70px;
-    object-fit: cover;
-    margin-top: 20px;
+    max-width: 110px; /* Ограничение ширины изображения */
+    height: 110px; /* Автоматическая высота */
+    margin-top: 20px; /* Отступ сверху */
 }
 
 #uploadImage {
-    display: none;
-    cursor: pointer;
+    grid-column-start: span 4;
+    margin-top: 30px;
+    border-radius: 70px;
+    max-width: 110px; /* Ограничение ширины изображения */
+    height: 110px; /* Автоматическая высота */
+    margin-top: 20px; /* Отступ сверху */
+    display: none; /* Скрываем изображение до загрузки */
+    cursor: pointer; /* Курсор указывает, что это интерактивный элемент */
 }
 
-/* ==================== РЕДАКТИРОВАНИЕ И ИНТЕРЕСЫ ==================== */
+/* вторая половина и редактированием и интересами */
 
-#red,
+#red {
+    display: grid;
+    grid-template-columns: 20px;
+    grid-template-rows: 20px 20px;
+    grid-auto-flow: row;
+    gap: 5px;
+    padding-top: 20px;
+    padding-left: 25px;
+}
+
+#avatarR {
+    margin-top: 18px;
+    grid-column: 1;
+    grid-row: span 2;
+
+}
+
 #interesred {
     display: grid;
     grid-template-columns: 20px;
-    grid-template-rows: repeat(2, 20px);
+    grid-template-rows: 20px 20px;
     grid-auto-flow: row;
     gap: 5px;
-    padding: 20px 0 0 25px;
+    padding-top: 20px;
+    padding-left: 25px;
 }
 
-#avatarR,
 #avatarI {
+    margin-top: 18px;
+    width: 35px;
     grid-column: 1;
     grid-row: span 2;
-    margin-top: 18px;
 }
 
-#avatarI {
-    width: 35px;
-}
+/* вторая половина с редактированием и интересами */
 
-/* Контейнеры для редактирования */
-#conRED,
-#conINT,
-#interesr,
-#inter {
+#conRED, #conINT, #interesr, #inter {   
     display: grid;
-    grid-template-columns: repeat(4, auto);
+    /* Четыре колонки */
+    grid-template-columns: auto auto auto auto;
+    /* Два ряда */
+    grid-template-rows: auto;
+    /* Автоматическое размещение в ряд */
     grid-auto-flow: row;
+    /* Отступы между ячейками */
     justify-items: center;
 }
 
-/* Общие стили для полей ввода */
-#inputField,
-#inputFieldGod,
-.mySelect,
-#osebe,
-#error,
-#polRED,
-#con,
-#inter {
-    grid-column: 1 / -1;
+#inputField, #inputFieldGod, .mySelect, #osebe, #error, #polRED, #con, #inter {
+    grid-column-start: span 4;
 }
 
-/* ==================== КНОПКИ ==================== */
-
 .color-button {
-    width: 150px;
     padding: 10px 20px;
     font-size: 16px;
+    width: 150px;
     border-radius: 30px;
-    grid-column: span 2;
+    grid-column-start: span 2;
     color: #FFF;
     border: none;
     cursor: pointer;
-    background-color: #D1DBF8;
-    transition: background-color 0.6s;
+    background-color: #D1DBF8; /* Исходный цвет */
+    transition: background-color 0.6s; /* Плавный переход цвета */
     -webkit-tap-highlight-color: transparent;
 }
 
 .color-button.active {
-    background-color: #a3bafc;
+    background-color: #a3bafc; /* Цвет при активации */
 }
 
 #button-container {
     display: flex;
     flex-wrap: wrap;
     width: 320px;
-    gap: 10px;
+    gap: 10px; /* расстояние между кнопками */
     justify-self: center;
 }
 
@@ -136,15 +153,15 @@
     color: white;
     border: none;
     border-radius: 25px;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease; 
 }
 
-.dynamic-button:active {
-    background-color: #8FACFF;
-    transform: scale(1.1);
+.dynamic-button:active { 
+    background-color: #8FACFF; 
+    transform: scale(1.1); 
 }
 
-/* ==================== ПРОФИЛИ ДЛЯ ЗНАКОМСТВ ==================== */
+/* знакомства */
 
 .profiles-container {
     display: grid;
@@ -163,11 +180,20 @@
     transition: transform 0.3s;
     text-decoration: none;
     color: inherit;
+    display: block;
 }
 
 .profile-card:hover {
+    
     transform: translateY(-5px);
 }
+
+/*
+.profile-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+} */
 
 .profile-avatar {
     width: 100px;
@@ -194,7 +220,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
-    justify-content: center;
 }
 
 .interest-tag {
@@ -205,18 +230,41 @@
     color: #FFF;
 }
 
-/* ==================== ДЕТАЛЬНЫЙ ПРОФИЛЬ ==================== */
 
-.profile-detail,
-.profile-header {
+
+/* профиль человека */
+
+.profile-detail {
     display: grid;
-    grid-template-columns: repeat(4, auto);
-    grid-auto-flow: row;
+    grid-template-columns: 1fr;
     gap: 20px;
-    justify-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 25px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .profile-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+.profile-info {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    gap: 5px;
+}
+
+#profile-about {
+    grid-column: 1 / -1;
+    margin-top: 10px;
+}
+
+.profile-interests {
     grid-column: 1 / -1;
 }
 
@@ -224,72 +272,75 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    grid-column: 1 / -1;
-    justify-content: center;
+    margin-top: 10px;
 }
 
-.back-button {
+.interest-tag {
+    background: #8FACFF;
+    padding: 5px 12px;
+    font-size: 14px;
+    border-radius: 25px;
+    color: white;
+}
+
+.back-button a {
+    grid-column: 1;
+    justify-self: start;
     display: inline-block;
     padding: 10px 20px;
     background-color: #7C8DBF;
     color: white;
     text-decoration: none;
     border-radius: 25px;
-    grid-column: span 2;
+    transition: background-color 0.3s;
+}
+
+.like-section {
+    grid-column: 2;
+    justify-self: end;
 }
 
 .like-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 10px 20px;
     background-color: #7C8DBF;
+    color: white;
     border: none;
     border-radius: 25px;
-    color: white;
     cursor: pointer;
-    grid-column: 3 / span 2;
+    transition: background-color 0.3s;
 }
 
-.like-button.unlike {
-    background-color: #c82333;
+.like-button:hover {
+    background-color: #6a7aab;
 }
 
-/* ==================== ОСНОВНЫЕ СТИЛИ СТРАНИЦЫ ==================== */
+/*
+.like-icon {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}*/
 
-body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    min-height: 100vh;
-    position: relative;
-}
 
-#content {
-    padding-bottom: 70px;
-    min-height: 100vh;
-    position: relative;
-}
 
-.button-wrapper {
-    margin-bottom: 70px;
-}
 
-/* Улучшение поддержки Safari */
-@supports (-webkit-touch-callout: none) {
-    body {
-        min-height: -webkit-fill-available;
-    }
-    
-    #content {
-        min-height: -webkit-fill-available;
-    }
-}
 
-/* ==================== МЕДИАЗАПРОСЫ ==================== */
 
+
+/* Медиа-запрос для мобильных устройств */
 @media screen and (max-width: 480px) {
     .profiles-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Одна колонка на маленьких экранах */
         gap: 12px;
-        padding: 12px 12px 80px;
+        padding: 12px;
+        padding-bottom: 80px;
+    }
+
+    .profile-card {
+        margin-bottom: 5px;
     }
 
     .profile-avatar {
@@ -297,18 +348,54 @@ body {
         height: 100px;
     }
 
+    #inputMenu a {
+        margin: 0 20px; /* Уменьшенные отступы между иконками */
+    }
+
     #men {
         width: 30px;
         height: 30px;
     }
-    
-    /* Улучшение отступов для мобильных устройств */
-    #inputMenu {
-        padding-top: 8px;
-        gap: 15px;
+}
+
+
+
+
+
+/* Исправление проблемы с прокруткой */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    height: 100vh;
+    position: relative;
+}
+
+#content {
+    padding-bottom: 70px; /* Отступ для нижнего меню */
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Стили для кнопок, которые могут быть закрыты нижним баром */
+.button-wrapper {
+    margin-bottom: 70px; /* Отступ для кнопок внизу страницы */
+}
+
+/* Добавляем поддержку жестов для iOS */
+* {
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Исправление для Safari */
+@supports (-webkit-touch-callout: none) {
+    body {
+        height: -webkit-fill-available;
     }
     
-    #osnova {
-        padding-top: 30px;
+    #content {
+        min-height: -webkit-fill-available;
     }
 }
