@@ -28,9 +28,9 @@
                         {% endif %}
                     {% endif %}
                     <div class="profile-info">
-                        <div id="textNAIMPROF">{{ viewed_student.name }}</div>
-                        <div id="textGODPROF">{{ viewed_student.birth_year }} лет</div>
-                        <div id="textKORPROF">Корпус {{ viewed_student.campus }}</div>
+                        <div id="textNAIMPROFF">{{ viewed_student.name }}</div>
+                        <div id="textGODPROFF">{{ viewed_student.birth_year }} лет</div>
+                        <div id="textKORPROFF">Корпус {{ viewed_student.campus }}</div>
                     </div>
                 </div>
 
@@ -48,12 +48,14 @@
                     </div>
                 </div>
 
-                <a href="{% url 'znakomstva' current_student.telegram_id %}" class="back-button">Закрыть</a>
-
-                <div class="like-section">
-                    <form method="post" action="{% url 'like_profile' current_student.telegram_id viewed_student.telegram_id %}">
+                <div class="profile-actions">
+                    <button type="submit" class="back-button">
+                        <a href="{% url 'znakomstva' current_student.telegram_id %}">Закрыть</a>
+                    </button>
+                    
+                    <form method="post" action="{% url 'like_profile' current_student.telegram_id viewed_student.telegram_id %}" class="like-form">
                         {% csrf_token %}
-                        <button type="submit" class="like-button {% if existing_like %}unlike{% endif %}">
+                        <button type="submit" class="like-button">
                             <img src="{% static 'app/images/anketact.png' %}" alt="Лайк" class="like-icon"> 
                             {% if existing_like %}
                                 Убрать лайк
@@ -61,6 +63,8 @@
                                 Лайкнуть
                             {% endif %}
                         </button>
+                    </form>
+                </div>
                     </form>
                 </div>
             </div>

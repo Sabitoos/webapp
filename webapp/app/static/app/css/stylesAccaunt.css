@@ -47,12 +47,17 @@
   }
 
 #imagePreview {
-    grid-column-start: span 4;
-    margin-top: 10px;
+    width: 110px;
+    height: 110px;
     border-radius: 70px;
-    max-width: 110px; /* Ограничение ширины изображения */
-    height: 110px; /* Автоматическая высота */
-    margin-top: 20px; /* Отступ сверху */
+    object-fit: cover;
+    border: 3px solid #8FACFF;
+    margin: 0 auto; /* Центрирование по горизонтали */
+    display: block;
+    grid-row: 1; /* Размещаем в первой строке grid */
+    justify-self: center; /* Дополнительное центрирование */
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .profile-avatarF {
@@ -62,8 +67,8 @@
     border: 3px solid #8FACFF;
     margin: 0 auto;
     display: block;
-    max-width: 110px; /* Ограничение ширины изображения */
-    height: 110px; /* Автоматическая высота */
+    max-width: 150px; /* Ограничение ширины изображения */
+    height: 150px; /* Автоматическая высота */
     margin-top: 20px; /* Отступ сверху */
 }
 
@@ -254,27 +259,47 @@
     max-width: 600px;
     margin: 0 auto;
     padding: 25px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    grid-template-rows: auto auto 1fr auto;
+    justify-items: center; /* Центрируем все содержимое по горизонтали */
 }
 
 .profile-header {
     display: grid;
-    grid-template-columns: auto 1fr;
     gap: 20px;
     align-items: center;
+    justify-items: center; /* Центрируем содержимое header */
+    width: 100%; /* Занимает всю доступную ширину */
 }
 
 .profile-info {
-    display: grid;
-    grid-template-rows: repeat(3, auto);
-    gap: 5px;
+    display: flex;
+    justify-content: center; /* Центрируем элементы по горизонтали */
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%; /* Занимает всю доступную ширину */
 }
 
 #profile-about {
+    grid-row: 2;
+    width: 100%;
+    margin: 15px 0;
+}
+
+#osebe {
+    width: 90%;
+}
+
+/* Остальные стили остаются без изменений */
+#profile-about {
     grid-column: 1 / -1;
     margin-top: 10px;
+    text-align: center; /* Центрируем текст */
+}
+
+.profile-interests {
+    grid-column: 1 / -1;
+    text-align: center; /* Центрируем текст */
 }
 
 .profile-interests {
@@ -295,24 +320,22 @@
     color: white;
 }
 
-.back-button a {
-    grid-column: 1;
-    justify-self: start;
-    display: inline-block;
+.back-button {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 10px 20px;
     background-color: #7C8DBF;
     color: white;
-    text-decoration: none;
+    border: none;
     border-radius: 25px;
+    cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.like-section {
-    grid-column: 2;
-    justify-self: end;
-}
-
 .like-button {
+    width: 150px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -326,7 +349,7 @@
 }
 
 .like-button:hover {
-    background-color: #6a7aab;
+    background-color: #dc0000;
 }
 
 /*
