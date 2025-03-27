@@ -314,19 +314,31 @@
         /**
          * Ответный лайк
          */
-        function likeBack(event, telegramId) {
+         function likeBack(event, telegramId) {
             event.stopPropagation();
             
-            fetch(`{% url 'like_profile' student.telegram_id %}?to=${telegramId}`, {
+            fetch(`{% url 'like_profile' student.telegram_id telegramId %}/`, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': '{{ csrf_token }}',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
                 }
             })
-            .then(response => {
-                if (response.ok) {
-                    location.reload();
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    if (data.mutual) {
+                        // Если взаимный лайк, обновляем страницу
+                        location.reload();
+                    } else {
+                        // Просто обновляем кнопку
+                        event.target.innerHTML = `
+                            <img src="{% static 'app/images/anketact.png' %}" alt="Лайк" class="icon">
+                            Лайкнут
+                        `;
+                        event.target.classList.add('active');
+                    }
                 }
             });
         }

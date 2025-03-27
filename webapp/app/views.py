@@ -322,16 +322,41 @@ def like_profile_view(request, current_telegram_id, viewed_telegram_id):
         if existing_like:
             # Если лайк существует, удаляем его
             existing_like.delete()
-            messages.success(request, 'Вы убрали лайк!')
+            action = 'unliked'
+            message = 'Вы убрали лайк!'
         else:
             # Создаем новый лайк
             Like.objects.create(
                 from_whom=current_telegram_id,
                 to_whow=viewed_telegram_id
             )
-            messages.success(request, 'Вы поставили лайк!')
-            
-    return redirect('profile_detail', current_telegram_id=current_telegram_id, viewed_telegram_id=viewed_telegram_id)
+            action = 'liked'
+            message = 'Вы поставили лайк!'
+        
+        # Проверяем, это AJAX-запрос или обычный
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'status': 'success',
+                'action': action,
+                'message': message,
+                'mutual': Like.objects.filter(
+                    from_whom=viewed_telegram_id,
+                    to_whow=current_telegram_id
+                ).exists()
+            })
+        else:
+            messages.success(request, message)
+            return redirect('profile_detail', 
+                         current_telegram_id=current_telegram_id, 
+                         viewed_telegram_id=viewed_telegram_id)
+    
+    # Если метод не POST
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)
+    else:
+        return redirect('profile_detail', 
+                      current_telegram_id=current_telegram_id, 
+                      viewed_telegram_id=viewed_telegram_id)
 
 def interesred_view(request, telegram_id):
     # Получаем объект студента

@@ -31,4 +31,5 @@ urlpatterns = [
     path('profile/<int:current_telegram_id>/<int:viewed_telegram_id>/', views.profile_detail_view, name='profile_detail'),
     path('profile/<int:current_telegram_id>/<int:viewed_telegram_id>/like/', views.like_profile_view, name='like_profile'),
     path('interesred/<int:telegram_id>/', views.interesred_view, name='interesred'),
+    
 ]
