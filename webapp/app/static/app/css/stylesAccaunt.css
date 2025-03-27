@@ -55,6 +55,18 @@
     margin-top: 20px; /* Отступ сверху */
 }
 
+.profile-avatarF {
+    margin-top: 10px;
+    border-radius: 70px;
+    object-fit: cover;
+    border: 3px solid #8FACFF;
+    margin: 0 auto;
+    display: block;
+    max-width: 110px; /* Ограничение ширины изображения */
+    height: 110px; /* Автоматическая высота */
+    margin-top: 20px; /* Отступ сверху */
+}
+
 #uploadImage {
     grid-column-start: span 4;
     margin-top: 30px;
@@ -235,6 +247,7 @@
 /* профиль человека */
 
 .profile-detail {
+    background: transparent;
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
@@ -272,7 +285,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 10px;
 }
 
 .interest-tag {
