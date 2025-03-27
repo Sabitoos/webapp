@@ -251,21 +251,53 @@
         });
 
         function openTelegramChat(username) {
-            console.log('Telegram WebApp available:', !!window.Telegram);
-            console.log('Telegram WebApp methods:', Object.keys(window.Telegram?.WebApp || {}));
-            console.log('Username:', username);
+    // Массив из 20 вопросов
+            const icebreakerQuestions = [
+                "Какой самый нелепый поступок ты совершил в колледже?",
+                "Если бы твой факультет был персонажем из фильма, кто бы это был?",
+                "Какое место в нашем колледже ты считаешь самым уютным?",
+                "Какой предмет тебя бесит, но ты вынужден его учить?",
+                "Кем видишь себя через 5 лет: крутым специалистом или владельцем макашинной фабрики?",
+                "Какой навык из учебы реально пригодился тебе в жизни?",
+                "Топ-3 трека, которые сейчас на повторе?",
+                "Какой сериал или фильм ты последний раз пересматривал?",
+                "Если бы твоя жизнь была видеоигрой, какой бы это был жанр?",
+                "Идеальный перекус перед парой?",
+                "Ты за сладкий или соленый попкорн в кино?",
+                "Какое блюдо из столовой колледжа ты бы запретил?",
+                "Если бы ты мог провести один день как преподаватель, что бы ты сделал?",
+                "Какой суперсилой ты бы хотел обладать во время сессии?",
+                "Кого из одногруппников ты бы взял на необитаемый остров и почему?",
+                "Что тебя мотивирует вставать по утрам?",
+                "Какая привычка тебя раздражает в других людях?",
+                "О чем ты мечтал в детстве, но так и не попробовал?",
+                "Если бы твою жизнь снимали в реалити-шоу, как бы оно называлось?",
+                "Какой предмет из колледжа ты бы использовал для защиты от зомби?"
+            ];
+
+            // Выбираем случайный вопрос
+            const randomQuestion = icebreakerQuestions[Math.floor(Math.random() * icebreakerQuestions.length)];
+            
+            // Кодируем вопрос для URL
+            const encodedQuestion = encodeURIComponent(randomQuestion);
+            
+            // Формируем ссылку с предзаполненным сообщением
+            const chatUrl = `https://t.me/${username}?text=${encodedQuestion}`;
+
+            console.log('Attempting to open chat with message:', randomQuestion);
             
             try {
                 if (window.Telegram && window.Telegram.WebApp) {
-                    console.log('Attempting to open chat...');
-                    window.Telegram.WebApp.openLink(`https://t.me/${username}`);
-                    console.log('Chat open request sent');
+                    // Открываем через Telegram WebApp
+                    window.Telegram.WebApp.openLink(chatUrl);
                 } else {
-                    console.log('Telegram WebApp not available, redirecting to web...');
-                    window.location.href = `https://t.me/${username}`;
+                    // Фолбек для обычного браузера
+                    window.location.href = chatUrl;
                 }
             } catch (error) {
                 console.error('Error opening chat:', error);
+                // Резервный вариант
+                window.open(chatUrl, '_blank');
             }
         }
     </script>

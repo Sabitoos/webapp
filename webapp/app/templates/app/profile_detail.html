@@ -19,12 +19,12 @@
             <div class="profile-detail">
                 <div class="profile-header">
                     {% if viewed_student.avatar %}
-                        <img src="{{ viewed_student.avatar.url }}" width="110px" height="110px" id="imagePreview" class="profile-avatar">
+                        <img src="{{ viewed_student.avatar.url }}" width="110px" height="110px" id="imagePreviewF" class="profile-avatar">
                     {% else %}
                         {% if viewed_student.gender == 'male' %}
-                            <img src="{% static 'app/images/male.png' %}" width="110px" height="110px" id="imagePreview" alt="Аватар" class="profile-avatar">
+                            <img src="{% static 'app/images/male.png' %}" width="110px" height="110px" id="imagePreviewF" alt="Аватар" class="profile-avatar">
                         {% else %}
-                            <img src="{% static 'app/images/female.png' %}" width="110px" height="110px" id="imagePreview" alt="Аватар" class="profile-avatar">
+                            <img src="{% static 'app/images/female.png' %}" width="110px" height="110px" id="imagePreviewF" alt="Аватар" class="profile-avatar">
                         {% endif %}
                     {% endif %}
                     <div class="profile-info">
