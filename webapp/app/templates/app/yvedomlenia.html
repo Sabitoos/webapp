@@ -317,7 +317,10 @@
          function likeBack(event, telegramId) {
             event.stopPropagation();
             
-            fetch(`{% url 'like_profile' student.telegram_id telegramId %}/`, {
+            // Формируем URL с использованием текущего пользователя и целевого ID
+            const url = `/profile/{{ student.telegram_id }}/${telegramId}/like/`;
+            
+            fetch(url, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': '{{ csrf_token }}',
@@ -329,10 +332,8 @@
             .then(data => {
                 if (data.status === 'success') {
                     if (data.mutual) {
-                        // Если взаимный лайк, обновляем страницу
                         location.reload();
                     } else {
-                        // Просто обновляем кнопку
                         event.target.innerHTML = `
                             <img src="{% static 'app/images/anketact.png' %}" alt="Лайк" class="icon">
                             Лайкнут
