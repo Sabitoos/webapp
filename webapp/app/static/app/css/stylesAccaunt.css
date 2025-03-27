@@ -1,109 +1,135 @@
+/* ==================== МЕНЮ ==================== */
 
-  /* Нижнее меню */
-  #inputMenu {
+#inputMenu {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 35px;
     background-color: #8090C1;
-    border-radius: 20px 20px 0 0;
-    padding: 10px 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 10px 0 0;
+    -webkit-tap-highlight-color: transparent;
+    
+    /* Grid layout */
     display: grid;
     grid-template-columns: repeat(3, auto);
     grid-auto-flow: row;
     gap: 20px;
     justify-items: center;
     align-items: center;
-  }
-  
-  #men {
+    text-align: center;
+}
+
+#men {
     width: 35px;
     height: 35px;
-  }
-  
-  /* Основная сетка */
-  #osnova {
+    object-fit: contain;
+}
+
+/* ==================== ОСНОВНАЯ ИНФОРМАЦИЯ ==================== */
+
+#osnova {
     display: grid;
     grid-template-columns: 20px repeat(3, auto);
     grid-template-rows: auto 40px auto;
+    grid-auto-flow: row;
     gap: 20px;
     justify-items: center;
     padding-top: 50px;
-  }
-  
-  /* Аватары */
-  .avatar-container {
-    grid-column: span 4;
-    margin-top: 20px;
-    border-radius: 70px;
-    max-width: 110px;
+}
+
+#imagePreview,
+#uploadImage {
+    grid-column: 1 / -1;
+    width: 110px;
     height: 110px;
-  }
-  
-  #uploadImage {
+    border-radius: 70px;
+    object-fit: cover;
+    margin-top: 20px;
+}
+
+#uploadImage {
     display: none;
     cursor: pointer;
-  }
-  
-  /* Секции редактирования */
-  .edit-section {
+}
+
+/* ==================== РЕДАКТИРОВАНИЕ И ИНТЕРЕСЫ ==================== */
+
+#red,
+#interesred {
     display: grid;
     grid-template-columns: 20px;
     grid-template-rows: repeat(2, 20px);
+    grid-auto-flow: row;
     gap: 5px;
     padding: 20px 0 0 25px;
-  }
-  
-  .edit-icon {
-    margin-top: 18px;
+}
+
+#avatarR,
+#avatarI {
     grid-column: 1;
     grid-row: span 2;
-  }
-  
-  #avatarI {
+    margin-top: 18px;
+}
+
+#avatarI {
     width: 35px;
-  }
-  
-  /* Контейнеры с grid */
-  .grid-container-4col {
+}
+
+/* Контейнеры для редактирования */
+#conRED,
+#conINT,
+#interesr,
+#inter {
     display: grid;
     grid-template-columns: repeat(4, auto);
     grid-auto-flow: row;
     justify-items: center;
-  }
-  
-  .full-width-item {
-    grid-column: span 4;
-  }
-  
-  /* Кнопки */
-  .color-button {
-    padding: 10px 20px;
+}
+
+/* Общие стили для полей ввода */
+#inputField,
+#inputFieldGod,
+.mySelect,
+#osebe,
+#error,
+#polRED,
+#con,
+#inter {
+    grid-column: 1 / -1;
+}
+
+/* ==================== КНОПКИ ==================== */
+
+.color-button {
     width: 150px;
-    border-radius: 30px;
+    padding: 10px 20px;
     font-size: 16px;
+    border-radius: 30px;
+    grid-column: span 2;
     color: #FFF;
     border: none;
     cursor: pointer;
     background-color: #D1DBF8;
     transition: background-color 0.6s;
-    grid-column: span 2;
-  }
-  
-  .color-button.active {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.color-button.active {
     background-color: #a3bafc;
-  }
-  
-  #button-container {
+}
+
+#button-container {
     display: flex;
     flex-wrap: wrap;
     width: 320px;
     gap: 10px;
-    justify-content: center;
-  }
-  
-  .dynamic-button {
+    justify-self: center;
+}
+
+.dynamic-button {
     padding: 6px;
     font-size: 16px;
     background-color: #FFF;
@@ -111,148 +137,178 @@
     border: none;
     border-radius: 25px;
     transition: all 0.3s ease;
-  }
-  
-  .dynamic-button:active {
+}
+
+.dynamic-button:active {
     background-color: #8FACFF;
     transform: scale(1.1);
-  }
-  
-  /* Карточки профилей */
-  .profiles-container {
+}
+
+/* ==================== ПРОФИЛИ ДЛЯ ЗНАКОМСТВ ==================== */
+
+.profiles-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 20px;
-  }
-  
-  .profile-card {
+}
+
+.profile-card {
     border-radius: 10px;
     padding: 15px;
     text-align: center;
+    cursor: pointer;
     background-color: rgba(255, 255, 255, 0.15);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s;
-    cursor: pointer;
-    color: inherit;
     text-decoration: none;
-    display: block;
-  }
-  
-  .profile-card:hover {
+    color: inherit;
+}
+
+.profile-card:hover {
     transform: translateY(-5px);
-  }
-  
-  .profile-avatar {
+}
+
+.profile-avatar {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 10px;
-  }
-  
-  .profile-name {
+}
+
+.profile-name {
     font-size: 18px;
     font-weight: bold;
-    color: #000;
+    color: #000000;
     margin-bottom: 5px;
-  }
-  
-  .profile-info {
+}
+
+.profile-info {
     font-size: 14px;
     color: #E1E1E1;
     margin-bottom: 10px;
-  }
-  
-  .profile-interests {
+}
+
+.profile-interests {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
     justify-content: center;
-  }
-  
-  /* Детали профиля */
-  .profile-detail,
-  .profile-header {
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    gap: 20px;
-    justify-items: center;
-  }
-  
-  .profile-header {
-    grid-column: span 4;
-  }
-  
-  .interests-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    grid-column: span 4;
-  }
-  
-  .interest-tag {
+}
+
+.interest-tag {
     background: #8FACFF;
     padding: 3px 8px;
     font-size: 16px;
     border-radius: 25px;
     color: #FFF;
-  }
-  
-  .action-button {
+}
+
+/* ==================== ДЕТАЛЬНЫЙ ПРОФИЛЬ ==================== */
+
+.profile-detail,
+.profile-header {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-auto-flow: row;
+    gap: 20px;
+    justify-items: center;
+}
+
+.profile-header {
+    grid-column: 1 / -1;
+}
+
+.interests-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    grid-column: 1 / -1;
+    justify-content: center;
+}
+
+.back-button {
+    display: inline-block;
     padding: 10px 20px;
-    border-radius: 25px;
+    background-color: #7C8DBF;
     color: white;
     text-decoration: none;
-    border: none;
-    cursor: pointer;
+    border-radius: 25px;
     grid-column: span 2;
-  }
-  
-  .back-button {
+}
+
+.like-button {
+    padding: 10px 20px;
     background-color: #7C8DBF;
-  }
-  
-  .like-button {
-    background-color: #7C8DBF;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
     grid-column: 3 / span 2;
-  }
-  
-  .like-button.unlike {
-    background: #c82333;
-  }
-  
-  /* Адаптивность */
-  @media (max-width: 480px) {
-    .profiles-container {
-      grid-template-columns: 1fr;
-      gap: 12px;
-      padding: 12px 12px 80px;
-    }
-    
-    .profile-avatar {
-      width: 100px;
-      height: 100px;
-    }
-    
-    #men {
-      width: 30px;
-      height: 30px;
-    }
-  }
-  
-  /* Поддержка Safari */
-  @supports (-webkit-touch-callout: none) {
+}
+
+.like-button.unlike {
+    background-color: #c82333;
+}
+
+/* ==================== ОСНОВНЫЕ СТИЛИ СТРАНИЦЫ ==================== */
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+#content {
+    padding-bottom: 70px;
+    min-height: 100vh;
+    position: relative;
+}
+
+.button-wrapper {
+    margin-bottom: 70px;
+}
+
+/* Улучшение поддержки Safari */
+@supports (-webkit-touch-callout: none) {
     body {
-      height: -webkit-fill-available;
+        min-height: -webkit-fill-available;
     }
     
     #content {
-      min-height: -webkit-fill-available;
+        min-height: -webkit-fill-available;
     }
-  }
-  
-  /* Вспомогательные классы */
-  .button-wrapper {
-    margin-bottom: 70px;
-  }
+}
+
+/* ==================== МЕДИАЗАПРОСЫ ==================== */
+
+@media screen and (max-width: 480px) {
+    .profiles-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 12px 12px 80px;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    #men {
+        width: 30px;
+        height: 30px;
+    }
+    
+    /* Улучшение отступов для мобильных устройств */
+    #inputMenu {
+        padding-top: 8px;
+        gap: 15px;
+    }
+    
+    #osnova {
+        padding-top: 30px;
+    }
+}
