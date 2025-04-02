@@ -159,6 +159,10 @@
     background-color: #ff000089;
 }
 
+.like-button.active {
+    background-color: #ff000089;
+}
+
 .back-button:hover {
     background-color:  #80808089;
 }

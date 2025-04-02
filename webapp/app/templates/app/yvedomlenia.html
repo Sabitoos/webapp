@@ -8,13 +8,12 @@
     <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 </head>
 <body>
     <img src="{% static 'app/images/logo.png' %}" id="logo">
 
     <div class="notifications-container">
-        <h1>Уведомления</h1>
+        <p id="text">Уведомления<p>
         
         {% if notifications %}
             {% for notification in notifications %}
@@ -35,7 +34,6 @@
                             <div class="notification-title">
                                 {{ notification.student.name }}
                                 {% if notification.mutual %}
-                                    <span class="mutual-badge">Взаимный лайк</span>
                                 {% endif %}
                             </div>
                         </div>

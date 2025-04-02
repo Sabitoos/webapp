@@ -223,3 +223,150 @@
     flex-shrink: 1;
     min-width: 0;
 }
+
+
+
+
+/* Основные стили страницы */
+
+.notifications-container {
+    background: transparent;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 80px; /* Для нижнего меню */
+}
+
+/* Стиль уведомления как кликабельной карточки */
+.notification {
+    background-color: rgba(36, 58, 255, 0.584);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.notification:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.notification-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.notification-content-wrapper {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.notification-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.notification-title {
+    font-weight: bold;
+    font-size: 16px;
+    flex: 1;
+}
+
+.notification-content {
+    margin-bottom: 12px;
+    font-size: 14px;
+    padding-left: 65px;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+    padding-left: 65px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btn-dismiss {
+    background-color: #f0f0f0;
+    color: #555;
+}
+
+.btn-dismiss:hover {
+    background-color: #e0e0e0;
+}
+
+.btn-like {
+    background-color: #8FACFF;
+    color: white;
+}
+
+.btn-like:hover, .btn-like.active {
+    background-color: #ff4444;
+}
+
+.btn-telegram {
+    background-color: #8FACFF;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-telegram:hover {
+    background-color: #006699;
+}
+
+.icon {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+}
+
+.timestamp {
+    font-size: 12px;
+    color: #888;
+    text-align: right;
+    margin-top: 8px;
+}
+
+.no-notifications {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888;
+}
