@@ -239,7 +239,8 @@
 
 /* Стиль уведомления как кликабельной карточки */
 .notification {
-    background-color: rgba(36, 58, 255, 0.584);
+    background: transparent;
+    border: 2px solid #A4BBEF; 
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 16px;
@@ -336,20 +337,21 @@
 .btn-like {
     background-color: #8FACFF;
     color: white;
+    transition: background-color 0.3s;
 }
 
-.btn-like:hover, .btn-like.active {
-    background-color: #ff4444;
+.like-button.liked {
+    background-color: #dc000096; /* Красный цвет для поставленного лайка */
+}
+
+.like-button:hover {
+    background-color: #dc000096; /* Оставляем hover эффект */
 }
 
 .btn-telegram {
     background-color: #8FACFF;
     color: white;
     text-decoration: none;
-}
-
-.btn-telegram:hover {
-    background-color: #006699;
 }
 
 .icon {
