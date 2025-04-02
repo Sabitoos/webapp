@@ -75,14 +75,18 @@
         {% endif %}
     </div>
 
-    <!-- Нижнее меню -->
-    <nav class="menu">
-        <div id="inputMenu">
-            <a href="znakomstva.html"><img src="img/anket.png" id="men"></a>
-            <a href="#"><img src="img/profact.png" id="men"></a>                   <!-- решетка быть должна!!!! -->
-            <a href="yvedomlenia.html"><img src="img/uved.png" id="men"></a>
-        </div>
-    </nav>
+        <!-- Нижнее меню -->
+        <nav class="menu">
+            <div id="inputMenu">
+                <!-- Кнопка "Знакомства" -->
+                <a href="{% url 'znakomstva' student.telegram_id %}"><img src="{% static 'app/images/anket.png' %}" id="men" alt="Знакомства"></a>
+                <!-- Кнопка "Профиль" -->
+                <a href="{% url 'profil' student.telegram_id %}"><img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль"></a>
+                <!-- Кнопка "Уведомления" -->
+                <a href="{% url 'notice' student.telegram_id %}"><img src="{% static 'app/images/uvedact.png' %}" id="men" alt="Уведомления"></a>
+            </div>
+        </nav>
+    </div>
 
     <script>
         /**
