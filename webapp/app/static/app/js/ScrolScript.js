@@ -44,3 +44,23 @@ paragraphsWithAge.forEach(paragraph => {
     }
 });
 });
+
+document.getElementById('myForm').addEventListener('submit', function(e) {
+e.preventDefault(); // Предотвращаем стандартную отправку формы
+processInput(); // Вызываем функцию обработки
+});
+
+function processInput() {
+const input = document.getElementById('input').value;
+console.log('Введено:', input);
+// Здесь ваша логика обработки ввода
+}
+
+document.getElementById('input').addEventListener('keypress', function(e) {
+if (e.key === 'Enter') {
+  e.preventDefault();
+  processInput();
+}
+});
+
+
