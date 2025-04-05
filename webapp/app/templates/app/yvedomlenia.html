@@ -18,9 +18,9 @@
         {% if notifications %}
             {% for notification in notifications %}
                 <div class="notification {% if notification.mutual %}new{% endif %}" 
-                    onclick="handleNotificationClick(event, `{% url 'profile_detail' notification.student.telegram_id %}`)">
+                    onclick="handleNotificationClick(event, `{% url 'profile_detail' current_telegram_id=student.telegram_id viewed_telegram_id=notification.student.telegram_id %}`)">
                      
-                    <a href="{% url 'profile_detail' notification.student.telegram_id %}" class="notification-link"></a>
+                    <a href="{% url 'profile_detail' current_telegram_id=student.telegram_id viewed_telegram_id=notification.student.telegram_id %}" class="notification-link"></a>
                     
                     <div class="notification-content-wrapper">
                         <div class="notification-header">
