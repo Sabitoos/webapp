@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Уведомления | TGApp</title>
+    <title>Уведомления</title>
     <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/stylesYved.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -18,9 +18,9 @@
         {% if notifications %}
             {% for notification in notifications %}
                 <div class="notification {% if notification.mutual %}new{% endif %}" 
-                    onclick="handleNotificationClick(event, `{% url 'profil' notification.student.telegram_id %}`)">
+                    onclick="handleNotificationClick(event, `{% url 'profile_detail' notification.student.telegram_id %}`)">
                      
-                    <a href="{% url 'profil' notification.student.telegram_id %}" class="notification-link"></a>
+                    <a href="{% url 'profile_detail' notification.student.telegram_id %}" class="notification-link"></a>
                     
                     <div class="notification-content-wrapper">
                         <div class="notification-header">
@@ -40,13 +40,16 @@
                         
                         <div class="notification-content">
                             {% if notification.mutual %}
-                                Вы понравились друг другу! Можете начать общение.
+                                Можете начать общение!
                             {% else %}
-                                Поставил(а) вам лайк
+                                Поставил(а) вам лайк!
                             {% endif %}
                         </div>
                         
                         <div class="buttons-container">
+                            <button class="notification-close-btn" aria-label="Закрыть уведомление">
+                                <img src="{% static 'app/images/back.png' %}" alt="Лайк" class="icon">
+                              </button>
                             {% if not notification.mutual %}
                                 <button class="btn btn-like" 
                                         onclick="likeBack(event, '{{ notification.student.telegram_id }}')">
@@ -75,18 +78,17 @@
         {% endif %}
     </div>
 
-        <!-- Нижнее меню -->
-        <nav class="menu">
-            <div id="inputMenu">
-                <!-- Кнопка "Знакомства" -->
-                <a href="{% url 'znakomstva' student.telegram_id %}"><img src="{% static 'app/images/anket.png' %}" id="men" alt="Знакомства"></a>
-                <!-- Кнопка "Профиль" -->
-                <a href="{% url 'profil' student.telegram_id %}"><img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль"></a>
-                <!-- Кнопка "Уведомления" -->
-                <a href="{% url 'notice' student.telegram_id %}"><img src="{% static 'app/images/uvedact.png' %}" id="men" alt="Уведомления"></a>
-            </div>
-        </nav>
-    </div>
+    <!-- Нижнее меню -->
+    <nav class="menu">
+        <div id="inputMenu">
+            <!-- Кнопка "Знакомства" -->
+            <a href="{% url 'znakomstva' student.telegram_id %}"><img src="{% static 'app/images/anket.png' %}" id="men" alt="Знакомства"></a>
+            <!-- Кнопка "Профиль" -->
+            <a href="{% url 'profil' student.telegram_id %}"><img src="{% static 'app/images/prof.png' %}" id="men" alt="Профиль"></a>
+            <!-- Кнопка "Уведомления" -->
+            <a href="{% url 'notice' student.telegram_id %}"><img src="{% static 'app/images/uvedact.png' %}" id="men" alt="Уведомления"></a>
+        </div>
+    </nav>
 
     <script>
         /**

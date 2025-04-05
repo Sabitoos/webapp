@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль</title>
     <link rel="stylesheet" href="{% static 'app/css/stylesMain.css' %}"> 
-    <link rel="stylesheet" href="{% static 'app/css/stylesAccaunt.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/stylesProfilFrends.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="{% static 'app/js/ScrolScript.js' %}"></script>
@@ -42,7 +41,7 @@
                     <!-- Информация профиля -->
                     <div class="profile-info">
                         <div id="textNAIMPROFF">{{ viewed_student.name }}</div>
-                        <div id="textGODPROFF">{{ viewed_student.birth_year }} лет</div>
+                        <div id="textGODPROFF"><p>{{ viewed_student.birth_year }} лет</p></div>
                         <div id="textKORPROFF">Корпус {{ viewed_student.campus }}</div>
                     </div>
     

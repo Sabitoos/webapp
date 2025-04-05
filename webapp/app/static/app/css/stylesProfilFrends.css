@@ -156,7 +156,11 @@
 }
 
 .like-button:hover {
-    background-color: #ff000089;
+    background-color: #6487ea;
+}
+
+.like-button.liked {
+    background-color: #6487ea;
 }
 
 .like-button.active {

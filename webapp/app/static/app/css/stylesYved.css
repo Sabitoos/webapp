@@ -1,0 +1,158 @@
+.notifications-container {
+    background: transparent;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 80px; /* Для нижнего меню */
+}
+
+/* Стиль уведомления как кликабельной карточки */
+.notification {
+    background: transparent;
+    border: 2px solid #A4BBEF;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    cursor: pointer;
+}
+
+.notification-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.notification-content-wrapper {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Переработанный header - все в одну строку */
+.notification-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 15px;
+}
+
+.notification-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.notification-title {
+    font-weight: bold;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notification-content {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    text-align: center;
+}
+
+/* Переработанный контейнер кнопок */
+.buttons-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+/* Стили для кнопки закрытия */
+.notification-close-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: #7c8dbf6b;
+    color: white;
+    margin-right: auto; /* Выталкивает остальные кнопки вправо */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.notification-close-btn:hover {
+    background-color:  #80808089;
+}
+
+.btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.btn-like {
+    background-color: #8FACFF;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.btn-like:hover {
+    background-color: #6487ea;
+}
+
+.btn-like.liked {
+    background-color: #6487ea;
+}
+
+.btn-telegram {
+    background-color: #6487ea;
+    color: white;
+    text-decoration: none;
+}
+
+.icon {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+}
+
+.timestamp {
+    font-size: 12px;
+    color: #888;
+    text-align: right;
+    margin-top: 8px;
+}
+
+.no-notifications {
+    font-size: 18px;
+    padding-bottom: 30px;
+    text-shadow: 0px 2px 3px #454545;
+    display: flex;
+    justify-content: center;
+}

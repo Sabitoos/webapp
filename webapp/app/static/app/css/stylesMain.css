@@ -60,13 +60,20 @@ input[type="number"]:focus {
 }
 
 body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     margin: 0;
     min-height: 100vh; 
     background: #18388f;
     color: white; 
     font-family: Arial, sans-serif;
-    touch-action: manipulation; /* Отключает жесты масштабирования */
-    
+    touch-action: manipulation; /* Отключает жесты масштабирования */   
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 #logo {
@@ -87,11 +94,43 @@ body {
     opacity: 1; 
 }
 
+/* меню */
+
+#inputMenu {
+    position: fixed; /* Фиксируем меню */
+    background-color: rgba(42, 55, 170, 0.9);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding-top: 10px 0;
+    text-align: center;
+    height: 35px;
+    width: 100%; /* Ширина на всю страницу */
+    bottom: 0; /* Располагаем его внизу */
+    left: 0; /* Прижимаем к левому краю */
+    -webkit-tap-highlight-color: transparent;
+    display: grid;
+    /* Четыре колонки */
+    grid-template-columns: auto auto auto;
+    /* Два ряда */
+    grid-template-rows: auto;
+    /* Автоматическое размещение в ряд */
+    grid-auto-flow: row;
+    /* Отступы между ячейками */
+    gap: 20px;
+    justify-items: center;
+    place-items: center;
+}
+
+#men {
+    width: 35px; /* Пример ширины изображения (по желанию) */
+    height: 35px; /* Автоматическая высота */
+}
+
+
 /* аватары */
 
 #imagePreview {
     grid-column-start: span 4;
-    margin-top: 30px;
     border-radius: 70px;
     max-width: 110px; /* Ограничение ширины изображения */
     height: 110px; /* Автоматическая высота */
@@ -213,7 +252,7 @@ body {
     border: 2px solid #A4BBEF;
     color: #fff;
     height: 53px;
-    width: 340px;
+    width: 349px;
     outline: none;
     padding: 5px 10px;
     font-size: 20px;
@@ -255,7 +294,7 @@ body {
 #input {
     width: 290px;
     height: 50px;
-    background-color: rgba(36, 58, 255, 0.431);
+    background-color: #a3bafc;
     color: #fff;
     font-size: 20px;
     border-radius: 25px;
@@ -268,7 +307,7 @@ body {
 }
 
 #input:active {
-    background-color: rgba(35, 47, 150, 0.9);
+    background-color: #a3bbfccf;
     transition: background-color 0.4s ease
     
 }

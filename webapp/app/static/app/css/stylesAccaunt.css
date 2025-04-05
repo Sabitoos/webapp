@@ -1,35 +1,3 @@
-/* меню */
-
-#inputMenu {
-    position: fixed; /* Фиксируем меню */
-    background-color: rgba(42, 55, 170, 0.9);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    padding-top: 10px 0;
-    text-align: center;
-    height: 35px;
-    width: 100%; /* Ширина на всю страницу */
-    bottom: 0; /* Располагаем его внизу */
-    left: 0; /* Прижимаем к левому краю */
-    -webkit-tap-highlight-color: transparent;
-    display: grid;
-    /* Четыре колонки */
-    grid-template-columns: auto auto auto;
-    /* Два ряда */
-    grid-template-rows: auto;
-    /* Автоматическое размещение в ряд */
-    grid-auto-flow: row;
-    /* Отступы между ячейками */
-    gap: 20px;
-    justify-items: center;
-    place-items: center;
-}
-
-#men {
-    width: 35px; /* Пример ширины изображения (по желанию) */
-    height: 35px; /* Автоматическая высота */
-}
-
 /* профиль */
 
 #osnova {
@@ -43,7 +11,7 @@
     /* Отступы между ячейками */
     gap: 20px;
     justify-items: center;
-    padding-top: 50px;
+    padding-top: 15px;
   }
 
 #red {
@@ -57,7 +25,10 @@
 }
 
 #avatarR {
-    margin-top: 18px;
+    width: 34px; /* Пример ширины изображения (по желанию) */
+    height: 32px; /* Автоматическая высота */
+    margin-top: 20px;
+    margin-left: 3px;
     grid-column: 1;
     grid-row: span 2;
 
@@ -74,11 +45,14 @@
 }
 
 #avatarI {
-    margin-top: 18px;
-    width: 35px;
+    justify-self: start;
+    width: 40px; /* Пример ширины изображения (по желанию) */
+    height: 43px; /* Автоматическая высота */
+    margin-top: 15px;
     grid-column: 1;
     grid-row: span 2;
 }
+
 
 /* редактирование и интересы */
 
@@ -139,236 +113,4 @@
     transform: scale(1.1); 
 }
 
-/* знакомства */
 
-.profile-card a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-} 
-
-.profiles-container {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.profile-card {
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    min-height: 0; /* Важно для корректного сжатия */
-}
-
-.profile-name {
-    font-weight: bold;
-    color: #FFF;
-    margin-bottom: 5px;
-    padding: 0 5px;
-    word-break: break-word; /* Перенос длинных слов */
-    hyphens: auto; /* Автоматическая расстановка переносов */
-    font-size: clamp(14px, 2vw, 18px); /* Адаптивный размер шрифта */
-    line-height: 1.2;
-    flex-shrink: 1;
-    min-height: 0;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* Максимум 2 строки */
-    -webkit-box-orient: vertical;
-}
-
-.profile-info {
-    color: #E1E1E1;
-    margin-bottom: 10px;
-    padding: 0 5px;
-    font-size: clamp(12px, 1.8vw, 14px); /* Адаптивный размер шрифта */
-    line-height: 1.3;
-    word-break: break-word;
-    hyphens: auto;
-    flex-shrink: 1;
-    min-height: 0;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* Максимум 2 строки */
-    -webkit-box-orient: vertical;
-}
-
-.profile-interests {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: auto; /* Прижимаем к низу карточки */
-}
-
-.interest-tag {
-    background: #8FACFF;
-    padding: 3px 8px;
-    font-size: clamp(10px, 1.5vw, 12px);
-    border-radius: 25px;
-    color: #FFF;
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-shrink: 1;
-    min-width: 0;
-}
-
-
-
-
-/* Основные стили страницы */
-
-.notifications-container {
-    background: transparent;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    padding-bottom: 80px; /* Для нижнего меню */
-}
-
-/* Стиль уведомления как кликабельной карточки */
-.notification {
-    background: transparent;
-    border: 2px solid #A4BBEF; 
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.notification:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.notification-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-}
-
-.notification-content-wrapper {
-    position: relative;
-    z-index: 2;
-    pointer-events: none;
-}
-
-.notification-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.notification-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 15px;
-}
-
-.notification-title {
-    font-weight: bold;
-    font-size: 16px;
-    flex: 1;
-}
-
-.notification-content {
-    margin-bottom: 12px;
-    font-size: 14px;
-    padding-left: 65px;
-}
-
-.buttons-container {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-    position: relative;
-    z-index: 2;
-    pointer-events: auto;
-    padding-left: 65px;
-}
-
-.btn {
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: none;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    flex: 1;
-    text-align: center;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-}
-
-.btn-dismiss {
-    background-color: #f0f0f0;
-    color: #555;
-}
-
-.btn-dismiss:hover {
-    background-color: #e0e0e0;
-}
-
-.btn-like {
-    background-color: #8FACFF;
-    color: white;
-    transition: background-color 0.3s;
-}
-
-.like-button.liked {
-    background-color: #dc000096; /* Красный цвет для поставленного лайка */
-}
-
-.like-button:hover {
-    background-color: #dc000096; /* Оставляем hover эффект */
-}
-
-.btn-telegram {
-    background-color: #8FACFF;
-    color: white;
-    text-decoration: none;
-}
-
-.icon {
-    width: 16px;
-    height: 16px;
-    filter: brightness(0) invert(1);
-}
-
-.timestamp {
-    font-size: 12px;
-    color: #888;
-    text-align: right;
-    margin-top: 8px;
-}
-
-.no-notifications {
-    text-align: center;
-    padding: 40px 20px;
-    color: #888;
-}

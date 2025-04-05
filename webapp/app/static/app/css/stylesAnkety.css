@@ -1,0 +1,84 @@
+/* знакомства */
+
+.profile-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+} 
+
+.profiles-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.profile-card {
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Важно для корректного сжатия */
+}
+
+.profile-name {
+    font-weight: bold;
+    color: #FFF;
+    margin-bottom: 5px;
+    padding: 0 5px;
+    word-break: break-word; /* Перенос длинных слов */
+    hyphens: auto; /* Автоматическая расстановка переносов */
+    font-size: clamp(14px, 2vw, 18px); /* Адаптивный размер шрифта */
+    line-height: 1.2;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Максимум 2 строки */
+    -webkit-box-orient: vertical;
+}
+
+.profile-info {
+    color: #E1E1E1;
+    margin-bottom: 10px;
+    padding: 0 5px;
+    font-size: clamp(12px, 1.8vw, 14px); /* Адаптивный размер шрифта */
+    line-height: 1.3;
+    word-break: break-word;
+    hyphens: auto;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Максимум 2 строки */
+    -webkit-box-orient: vertical;
+}
+
+.profile-interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: auto; /* Прижимаем к низу карточки */
+}
+
+.interest-tag {
+    background: #8FACFF;
+    padding: 3px 8px;
+    font-size: clamp(10px, 1.5vw, 12px);
+    border-radius: 25px;
+    color: #FFF;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    min-width: 0;
+}
