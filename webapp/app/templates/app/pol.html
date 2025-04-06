@@ -32,7 +32,7 @@
 
                 <p id="error">Пожалуйста, выбери свой пол!</p>
             </div>
-            <button type="submit" id="input">Продолжить</button>
+            <button type="button" id="input" onclick="submitForm()">Продолжить</button>
         </form>
     </div>
 
@@ -77,16 +77,13 @@
             error.style.display = 'none';
         }
 
-        const form = document.getElementById('myForm');
-        const error = document.getElementById('error');
+        function submitForm() {
+            const selectedValue = document.getElementById('selectedValue').value;
+            const error = document.getElementById('error');
 
-        form.addEventListener('submit', function(event) {
-            const selectedValue = document.getElementById('selectedValue').value; // Получаем значение из скрытого поля
             if (selectedValue === "") {
-                event.preventDefault(); // Предотвратить отправку формы
                 error.style.display = 'block'; // Показать сообщение об ошибке
             } else {
-                event.preventDefault(); // Предотвратить отправку формы
                 error.style.display = 'none'; // Скрыть сообщение об ошибке
 
                 // Сохраняем пол в localStorage
@@ -95,11 +92,34 @@
                 // Перенаправляем на следующую страницу
                 window.location.href = 'interes.html';
             }
-        });
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
             const con = document.getElementById('con');
             con.classList.add('show');  // Делаем форму видимой
+
+            // Обработчик нажатия Enter на всей форме
+            document.getElementById('myForm').addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    submitForm();
+                }
+            });
+
+            // Обработчики нажатия Enter на кнопках выбора пола
+            document.getElementById('button1').addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    handleButtonClick('button1');
+                }
+            });
+
+            document.getElementById('button2').addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    handleButtonClick('button2');
+                }
+            });
         });
     </script>
 </body>

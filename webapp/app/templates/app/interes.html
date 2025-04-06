@@ -40,6 +40,7 @@
         // Находим контейнер для кнопок
         const buttonContainer = document.getElementById('button-container');
         const error = document.getElementById('error');
+        const form = document.getElementById('myForm');
 
         // Функция для создания кнопок
         function createButtons() {
@@ -50,6 +51,7 @@
                 button.classList.add('dynamic-button');
                 button.textContent = text; // Устанавливаем текст кнопки
                 button.setAttribute('data-text', text); // Устанавливаем атрибут data-text
+                button.type = "button"; // Важно, чтобы не отправляло форму
 
                 // Устанавливаем цвет кнопки
                 button.style.backgroundColor = selectedButtons.includes(text) ? '#FFF' : 'rgba(255, 255, 255, 0.25)';
@@ -96,6 +98,14 @@
             const con = document.getElementById('con');
             con.classList.add('show'); // Делаем форму видимой
             createButtons(); // Создаем кнопки
+
+            // Обработчик нажатия Enter на всей форме
+            form.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Предотвращаем стандартное поведение формы
+                    saveDataAndRedirect('nastroika.html');
+                }
+            });
         });
     </script>
 </body>

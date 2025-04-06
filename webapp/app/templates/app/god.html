@@ -30,6 +30,15 @@
         document.addEventListener('DOMContentLoaded', function() {
             const con = document.getElementById('con');
             con.classList.add('show');  // Делаем форму видимой
+            
+            // Обработчик нажатия Enter в поле ввода
+            const inputField = document.getElementById('inputField');
+            inputField.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Предотвращаем стандартное поведение формы
+                    saveDataAndRedirect('korpus.html');
+                }
+            });
         });
 
         function saveDataAndRedirect(nextPage) {

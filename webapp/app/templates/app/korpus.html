@@ -38,6 +38,23 @@
         document.addEventListener('DOMContentLoaded', function() {
             const con = document.getElementById('con');
             con.classList.add('show');  // Делаем форму видимой
+            
+            // Обработчик нажатия Enter на select
+            const campusSelect = document.getElementById('campusSelect');
+            campusSelect.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Предотвращаем стандартное поведение
+                    saveDataAndRedirect('pol.html');
+                }
+            });
+            
+            // Обработчик нажатия Enter на всей форме
+            document.getElementById('myForm').addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    saveDataAndRedirect('pol.html');
+                }
+            });
         });
 
         function saveDataAndRedirect(nextPage) {
