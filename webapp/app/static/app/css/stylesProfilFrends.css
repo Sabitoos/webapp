@@ -120,13 +120,14 @@
     height: 50px;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     background-color: #7c8dbf6b;
     color: white;
     border: none;
     border-radius: 25px;
     cursor: pointer;
-    transition: background-color 0.5s;
+    transition: all 0.3s ease;
 }
 
 .back-button {
@@ -155,18 +156,27 @@
   height: 100%;
 }
 
+/* Стили для иконки лайка */
+.like-icon {
+    width: 24px;
+    height: 24px;
+    transition: all 0.3s ease;
+    filter: brightness(0) invert(1); /* Белая иконка */
+}
+
+/* Стиль для активного (красного) лайка */
+.like-icon.liked {
+    filter: brightness(0) saturate(100%) invert(18%) sepia(98%) saturate(7441%) hue-rotate(359deg) brightness(96%) contrast(118%);
+}
+
 .like-button:hover {
     background-color: #6487ea;
 }
 
 .like-button.liked {
-    background-color: #6487ea;
-}
-
-.like-button.active {
     background-color: #ff000089;
 }
 
 .back-button:hover {
-    background-color:  #80808089;
+    background-color: #80808089;
 }
