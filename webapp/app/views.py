@@ -19,6 +19,7 @@ from django.core.files.storage import default_storage
 from django.conf import settings
 import requests
 import json
+from random import shuffle
 
 def index(request):
     return render(request, 'app/index.html')
@@ -138,8 +139,11 @@ def znakomstva_view(request, telegram_id):
     # Получаем объект текущего студента
     current_student = get_object_or_404(Student, telegram_id=telegram_id)
     
-    # Получаем всех студентов, кроме текущего
-    students = Student.objects.exclude(telegram_id=telegram_id)
+    # Получаем всех студентов, кроме текущего и преобразуем QuerySet в список
+    students = list(Student.objects.exclude(telegram_id=telegram_id))
+    
+    # Перемешиваем список студентов в случайном порядке
+    shuffle(students)
     
     # Передаем объекты в контекст шаблона
     context = {
