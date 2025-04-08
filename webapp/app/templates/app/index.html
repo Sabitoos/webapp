@@ -15,8 +15,9 @@
     <div id="content">
         <div id="myForm">
             <div class="con">
-            <p id="text">Рады видеть тебя!</p>
-        </div> 
+                <p id="text">Рады видеть тебя!</p>
+                <p id="textPOD">У нас ты найдёшь много хороших друзей!</p>
+            </div> 
         </div>
     </div>
 
@@ -35,6 +36,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',  // Добавляем CSRF токен
                 },
                 body: JSON.stringify({ 
                     telegram_id: telegramId,
@@ -44,8 +46,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    // Если пользователь уже зарегистрирован, перенаправляем на profil.html
-                    window.location.href = `/profil/?telegram_id=${data.telegram_id}`;
+                    // Если пользователь уже зарегистрирован, перенаправляем на профиль
+                    window.location.href = `/profil/${data.telegram_id}/`;
                 } else if (data.status === 'register') {
                     // Если пользователь не зарегистрирован, запускаем таймер для перенаправления через 4 секунды
                     const redirectTime = 4000; // 4 секунды
@@ -57,6 +59,8 @@
             })
             .catch(error => {
                 console.error('Ошибка:', error);
+                // В случае ошибки можно добавить fallback-редирект
+                window.location.href = `/profil/${telegramId}/`;
             });
         });
     </script>
