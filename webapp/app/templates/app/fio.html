@@ -44,7 +44,7 @@
             con.classList.add('show');
 
             const inputField = document.getElementById('inputField');
-            const emptyError = document.getElementById('empty-error');
+            const error = document.getElementById('error');
             const lengthError = document.getElementById('length-error');
 
             // Валидация при вводе
@@ -52,7 +52,7 @@
                 if (this.value.length > 10) {
                     this.classList.add('input-error');
                     lengthError.style.display = 'block';
-                    emptyError.style.display = 'none';
+                    error.style.display = 'none';
                 } else {
                     this.classList.remove('input-error');
                     lengthError.style.display = 'none';
@@ -70,18 +70,18 @@
 
         function validateAndSubmit() {
             const input = document.getElementById('inputField');
-            const emptyError = document.getElementById('empty-error');
+            const error = document.getElementById('error');
             const lengthError = document.getElementById('length-error');
-            const nextPage = 'god.html';
+            const nextPage = "{% url 'god' %}";  // Используем тег url
 
             // Сбрасываем предыдущие ошибки
-            emptyError.style.display = 'none';
+            error.style.display = 'none';
             lengthError.style.display = 'none';
             input.classList.remove('input-error');
 
             // Проверяем на пустое поле
             if (input.value.trim() === '') {
-                emptyError.style.display = 'block';
+                error.style.display = 'block';
                 input.classList.add('input-error');
                 return;
             }
