@@ -1,7 +1,7 @@
 # your_app_name/urls.py
 from django.urls import path
 from . import views
-from .views import index, CheckIDView, RegisterView, upload_avatar
+from .views import index, CheckIDView, RegisterView, upload_avatar, delete_like
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
@@ -31,5 +31,7 @@ urlpatterns = [
     path('profile/<int:current_telegram_id>/<int:viewed_telegram_id>/', views.profile_detail_view, name='profile_detail'),
     path('profile/<int:current_telegram_id>/<int:viewed_telegram_id>/like/', views.like_profile_view, name='like_profile'),
     path('interesred/<int:telegram_id>/', views.interesred_view, name='interesred'),
+    path('delete_like/<str:from_whom>/<str:to_whow>/', delete_like, name='delete_like'),
+
     
 ]

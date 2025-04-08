@@ -20,6 +20,7 @@ from django.conf import settings
 import requests
 import json
 from random import shuffle
+from django.views.decorators.http import require_POST
 
 def index(request):
     return render(request, 'app/index.html')
@@ -49,6 +50,16 @@ def success_view(request):
 
 def profil_view(request):
     return render(request, 'app/profil.html')
+
+@require_POST
+@csrf_exempt
+def delete_like(request, from_whom, to_whow):
+    try:
+        like = Like.objects.get(from_whom=from_whom, to_whow=to_whow)
+        like.delete()
+        return JsonResponse({'status': 'success'})
+    except Like.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Like not found'}, status=404)
 
 def redaktirovanie_view(request, telegram_id):
     student = get_object_or_404(Student, telegram_id=telegram_id)

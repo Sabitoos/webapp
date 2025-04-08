@@ -48,9 +48,10 @@
                         
                         <div class="buttons-container">
                             {% if not notification.mutual %}
-                            <button class="notification-close-btn" aria-label="Закрыть уведомление">
-                                <img src="{% static 'app/images/del.png' %}" alt="Лайк" class="icon">
-                              </button>
+                            <button class="notification-close-btn" aria-label="Закрыть уведомление"
+                            onclick="deleteNotification(event, '{{ notification.id }}', '{{ notification.student.telegram_id }}', '{{ student.telegram_id }}')">
+                            <img src="{% static 'app/images/del.png' %}" alt="Удалить" class="icon">
+                            </button>
                                 <button class="btn btn-like" 
                                         onclick="likeBack(event, '{{ notification.student.telegram_id }}')">
                                     <img src="{% static 'app/images/anketact.png' %}" alt="Лайк" class="icon">
@@ -91,40 +92,52 @@
     </nav>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Обработчик для кнопки закрытия уведомления
-            document.querySelectorAll('.notification-close-btn').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation(); // Предотвращаем всплытие события
-                    
-                    // Находим карточку уведомления (два уровня вверх - buttons-container -> notification-content-wrapper)
-                    const notificationCard = this.closest('.notification-content-wrapper')?.parentElement;
-                    
-                    if (notificationCard) {
-                        // Анимация исчезновения
-                        notificationCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                        notificationCard.style.opacity = '0';
-                        notificationCard.style.transform = 'translateX(100%)';
+            document.addEventListener('DOMContentLoaded', function() {
+                // Обработчик для кнопки закрытия уведомления
+                document.querySelectorAll('.notification-close-btn').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation();
                         
-                        // Удаление после анимации
-                        setTimeout(() => {
-                            notificationCard.remove();
-                            
-                            // Проверяем, остались ли уведомления
-                            const container = document.querySelector('.notifications-container');
-                            if (container && container.children.length === 0) {
-                                // Если уведомлений не осталось, показываем заглушку
-                                container.innerHTML = `
-                                    <div class="no-notifications">
-                                        У вас пока нет уведомлений
-                                    </div>
-                                `;
-                            }
-                        }, 300);
-                    }
+                        const notificationCard = this.closest('.notification-content-wrapper')?.parentElement;
+                        const likeFrom = '{{ notification.student.telegram_id }}';
+                        const likeTo = '{{ student.telegram_id }}';
+                        
+                        if (notificationCard) {
+                            // Отправляем запрос на удаление лайка
+                            fetch(`/delete_like/${likeFrom}/${likeTo}/`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': '{{ csrf_token }}',
+                                    'Content-Type': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    // Анимация исчезновения
+                                    notificationCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                                    notificationCard.style.opacity = '0';
+                                    notificationCard.style.transform = 'translateX(100%)';
+                                    
+                                    setTimeout(() => {
+                                        notificationCard.remove();
+                                        
+                                        const container = document.querySelector('.notifications-container');
+                                        if (container && container.children.length === 0) {
+                                            container.innerHTML = `
+                                                <div class="no-notifications">
+                                                    У вас пока нет уведомлений
+                                                </div>
+                                            `;
+                                        }
+                                    }, 300);
+                                }
+                            });
+                        }
+                    });
                 });
             });
-        });
     
         // Функции для кнопок (если нужно оставить)
         function likeBack(event, telegramId) {
