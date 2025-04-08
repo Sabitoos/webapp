@@ -23,7 +23,7 @@
             // Собираем данные из localStorage
             const data = {
                 telegram_id: localStorage.getItem('telegram_id'),
-                username: localStorage.getItem('username'),  // Добавляем username
+                username: localStorage.getItem('username'),
                 name: localStorage.getItem('name'),
                 campus: localStorage.getItem('campus'),
                 birth_year: localStorage.getItem('birth_year'),
@@ -37,17 +37,27 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',  // Добавляем CSRF токен для безопасности
                 },
                 body: JSON.stringify(data),
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
-                // Перенаправляем на страницу успешной регистрации
-                window.location.href = `/success/?telegram_id=${localStorage.getItem('telegram_id')}`; // Замените на нужный URL
-            }, 4000)
+                if (data.status === 'success') {
+                    // Перенаправляем на страницу профиля после небольшой задержки
+                    setTimeout(() => {
+                        window.location.href = `/profil/${localStorage.getItem('telegram_id')}/`;
+                    }, 2000); // Задержка 2 секунды перед редиректом
+                } else {
+                    console.error('Registration error:', data.message);
+                    // Fallback редирект в случае ошибки
+                    window.location.href = `/profil/${localStorage.getItem('telegram_id')}/`;
+                }
+            })
             .catch(error => {
                 console.error('Error:', error);
+                // Fallback редирект в случае ошибки сети
+                window.location.href = `/profil/${localStorage.getItem('telegram_id')}/`;
             });
         });
     </script>
