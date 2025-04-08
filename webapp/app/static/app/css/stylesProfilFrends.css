@@ -159,17 +159,9 @@
     background-color: #ce0029;
 }
 
-.like-button.liked {
-    background-color: #ce0029;
-}
-
-.like-button.active {
-    background-color: #ce0029;
-}
-
 .like-button:active,
 .like-button.liked {
-    background: rgba(255, 0, 0, 0.2); /* Фон при нажатии/лайке */
+    background: #ce0029; /* Фон при нажатии/лайке */
 }
 
 .back-button:hover {

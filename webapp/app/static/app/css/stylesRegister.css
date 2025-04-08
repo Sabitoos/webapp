@@ -81,31 +81,3 @@
     outline: none;
 }
 
-/* выбор интересов */
-
-#button-container {
-    display: flex;
-    flex-wrap: wrap;
-    width: 310px;
-    gap: 10px; /* расстояние между кнопками */
-
-}
-
-.dynamic-button {
-    padding: 6px;
-    font-size: 16px;
-    background-color: rgba(255, 255, 255, 0.25);
-    color: white;
-    border: none;
-    border-radius: 25px;
-    transition: background-color 0.3s ease, transform 0.3s ease; 
-}
-
-.dynamic-button:active { 
-    background-color: #8FACFF; 
-    transform: scale(1.1); 
-}
-
-
-
-

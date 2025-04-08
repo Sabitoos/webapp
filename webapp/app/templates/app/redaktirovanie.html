@@ -52,7 +52,7 @@
                     </select>
 
                     <p class="textRED">О себе</p>
-                    <textarea id="osebe" name="about_me">{{ student.about_me }}</textarea>
+                    <textarea id="osebe" maxlength="120" name="about_me">{{ student.about_me }}</textarea>
 
                     <p id="error" style="display:none;">Пожалуйста, введи корректные данные!</p>
                 </div>
@@ -72,46 +72,46 @@
         const ctx = canvas.getContext('2d');
         const osebe = document.getElementById('osebe');
         const errorText = document.getElementById('error');
-
+    
         // Пути к дефолтным аватаркам
         const defaultMaleAvatar = "{% static 'app/images/male.png' %}";
         const defaultFemaleAvatar = "{% static 'app/images/female.png' %}";
-
+        
+        // Флаг для отслеживания, была ли загружена кастомная аватарка
+        let isCustomAvatar = false;
+    
         // Функция для смены дефолтной аватарки
         function setDefaultAvatar(gender) {
-            // Проверяем, что аватарка дефолтная (загружена из статики)
-            if (imagePreview.src.includes(defaultMaleAvatar) || imagePreview.src.includes(defaultFemaleAvatar)) {
-                if (gender === 'male') {
-                    imagePreview.src = defaultMaleAvatar;
-                } else if (gender === 'female') {
-                    imagePreview.src = defaultFemaleAvatar;
-                }
+            // Меняем только если не загружена кастомная аватарка
+            if (!isCustomAvatar) {
+                imagePreview.src = gender === 'male' ? defaultMaleAvatar : defaultFemaleAvatar;
             }
         }
-
+    
         // Обработчики для кнопок выбора пола
         maleButton.addEventListener('click', () => {
             maleButton.classList.add('active');
             femaleButton.classList.remove('active');
             genderInput.value = 'male';
-            setDefaultAvatar('male');  // Устанавливаем дефолтную аватарку для мужского пола
+            setDefaultAvatar('male');
         });
-
+    
         femaleButton.addEventListener('click', () => {
             femaleButton.classList.add('active');
             maleButton.classList.remove('active');
             genderInput.value = 'female';
-            setDefaultAvatar('female');  // Устанавливаем дефолтную аватарку для женского пола
+            setDefaultAvatar('female');
         });
-
+    
         // Обработчик для загрузки аватарки
         imagePreview.addEventListener('click', function() {
             imageInput.click();
         });
-
+    
         imageInput.addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
+                isCustomAvatar = true; // Устанавливаем флаг кастомной аватарки
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     const img = new Image();
@@ -130,12 +130,22 @@
                 reader.readAsDataURL(file);
             }
         });
-
+    
+        // Проверяем текущий пол при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Устанавливаем правильную аватарку при загрузке
+            if (genderInput.value === 'male') {
+                setDefaultAvatar('male');
+            } else {
+                setDefaultAvatar('female');
+            }
+        });
+    
         // Обработчик для отправки формы
         document.getElementById('inter').addEventListener('submit', function(event) {
             const inputName = document.getElementById('inputField');
             const inputAge = document.getElementById('inputFieldGod');
-
+    
             if (inputName.value.trim() === '' || inputAge.value.trim() === '') {
                 event.preventDefault();
                 errorText.style.display = 'block';
