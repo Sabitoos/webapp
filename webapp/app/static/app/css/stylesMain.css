@@ -119,6 +119,7 @@ body::-webkit-scrollbar {
     gap: 20px;
     justify-items: center;
     place-items: center;
+    z-index: 1000;
 }
 
 #men {
@@ -172,11 +173,15 @@ body::-webkit-scrollbar {
 
 #text, #textPOD {
     font-size: 18px;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
     text-shadow: 0px 2px 3px #454545; 
     display: flex;
     justify-content: center;
 
+}
+
+#text {
+    height: 5px
 }
 
 #textPOD { 
@@ -235,7 +240,7 @@ body::-webkit-scrollbar {
     width: 80px;
 }
 
-#error {
+#error, #length-error {
     font-size: 14px;
     color: #fff;  
     display: none; 
@@ -252,7 +257,7 @@ body::-webkit-scrollbar {
     border: 2px solid #A4BBEF;
     color: #fff;
     height: 53px;
-    width: 349px;
+    width: 94%;
     outline: none;
     padding: 5px 10px;
     font-size: 20px;
@@ -263,7 +268,7 @@ body::-webkit-scrollbar {
 
 #inputField, #inputFieldGod {
     padding-top: 30px;
-    width: 90%; /* Замените фиксированную ширину на 90% */
+    width: 85%; /* Замените фиксированную ширину на 90% */
     max-width: 320px; /* Максимальная ширина */
     height: 48px;
     border: 2px solid #A4BBEF; 
@@ -278,7 +283,7 @@ body::-webkit-scrollbar {
 
 #osebe {
     padding: 0px 10px;
-    width: 330px;
+    width: 85%;
     height: 80px;
     border: 2px solid #A4BBEF; 
     border-radius: 25px; 
@@ -311,8 +316,3 @@ body::-webkit-scrollbar {
     transition: background-color 0.4s ease
     
 }
-
-
-
-
-
