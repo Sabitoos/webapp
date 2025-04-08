@@ -44,8 +44,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    // Если пользователь уже зарегистрирован, перенаправляем на success.html
-                    window.location.href = `/success/?telegram_id=${data.telegram_id}`;
+                    // Если пользователь уже зарегистрирован, перенаправляем на profil.html
+                    window.location.href = `/profil/?telegram_id=${data.telegram_id}`;
                 } else if (data.status === 'register') {
                     // Если пользователь не зарегистрирован, запускаем таймер для перенаправления через 4 секунды
                     const redirectTime = 4000; // 4 секунды
