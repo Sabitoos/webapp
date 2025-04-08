@@ -28,34 +28,6 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const con = document.getElementById('con');
-            con.classList.add('show');
-
-            const inputField = document.getElementById('inputField');
-            const error = document.getElementById('error');
-            const lengthError = document.getElementById('length-error');
-
-            // Валидация при вводе
-            inputField.addEventListener('input', function() {
-                if (this.value.length > 10) {
-                    this.classList.add('input-error');
-                    lengthError.style.display = 'block';
-                    error.style.display = 'none';
-                } else {
-                    this.classList.remove('input-error');
-                    lengthError.style.display = 'none';
-                }
-            });
-
-            // Обработчик Enter
-            inputField.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter') {
-                    event.preventDefault();
-                    validateAndSubmit();
-                }
-            });
-        });
 
         function validateAndSubmit() {
             const input = document.getElementById('inputField');
