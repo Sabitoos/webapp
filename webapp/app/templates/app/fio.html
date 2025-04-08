@@ -9,6 +9,17 @@
     <link rel="stylesheet" href="{% static 'app/css/stylesRegister.css' %}">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="{% static 'app/js/ScrolScript.js' %}"></script>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .input-error {
+            border-color: red !important;
+        }
+    </style>
 </head>
 <body>
     
@@ -20,42 +31,71 @@
                 <p id="text">Как к тебе обращаться?</p>
                 <p id="textPOD">Под этим именем тебя будут видеть</p>
                 <input type="text" id="inputField" name="inputField" required>
-                <p id="error">Пожалуйста, напиши своё имя!</p>
+                <p id="error" class="error-message">Пожалуйста, напиши своё имя!</p>
+                <p id="length-error" class="error-message">Не более 10 символов!</p>
             </div>
-            <button type="button" id="input" onclick="saveDataAndRedirect('god.html')">Продолжить</button>
+            <button type="button" id="input" onclick="validateAndSubmit()">Продолжить</button>
         </form>    
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const con = document.getElementById('con');
-            con.classList.add('show');  // Делаем форму видимой
+            con.classList.add('show');
 
-            // Обработчик нажатия Enter в поле ввода
             const inputField = document.getElementById('inputField');
+            const emptyError = document.getElementById('empty-error');
+            const lengthError = document.getElementById('length-error');
+
+            // Валидация при вводе
+            inputField.addEventListener('input', function() {
+                if (this.value.length > 10) {
+                    this.classList.add('input-error');
+                    lengthError.style.display = 'block';
+                    emptyError.style.display = 'none';
+                } else {
+                    this.classList.remove('input-error');
+                    lengthError.style.display = 'none';
+                }
+            });
+
+            // Обработчик Enter
             inputField.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
-                    event.preventDefault(); // Предотвращаем стандартное поведение формы
-                    saveDataAndRedirect('god.html');
+                    event.preventDefault();
+                    validateAndSubmit();
                 }
             });
         });
 
-        function saveDataAndRedirect(nextPage) {
+        function validateAndSubmit() {
             const input = document.getElementById('inputField');
-            const errorText = document.getElementById('error');
+            const emptyError = document.getElementById('empty-error');
+            const lengthError = document.getElementById('length-error');
+            const nextPage = 'god.html';
 
-            if (input.value.trim() === '') {  // Проверяем, пустое ли поле
-                errorText.style.display = 'block';  // Показываем текст ошибки
-            } else {
-                errorText.style.display = 'none';  // Скрываем текст ошибки
+            // Сбрасываем предыдущие ошибки
+            emptyError.style.display = 'none';
+            lengthError.style.display = 'none';
+            input.classList.remove('input-error');
 
-                // Сохраняем имя в localStorage
-                localStorage.setItem('name', input.value);
-
-                // Перенаправляем на следующую страницу
-                window.location.href = nextPage;
+            // Проверяем на пустое поле
+            if (input.value.trim() === '') {
+                emptyError.style.display = 'block';
+                input.classList.add('input-error');
+                return;
             }
+
+            // Проверяем длину
+            if (input.value.length > 10) {
+                lengthError.style.display = 'block';
+                input.classList.add('input-error');
+                return;
+            }
+
+            // Если все проверки пройдены
+            localStorage.setItem('name', input.value);
+            window.location.href = nextPage;
         }
     </script>
 </body>

@@ -29,12 +29,12 @@
                                 </a>
                             </button>
                             
-                            <form method="post" action="{% url 'like_profile' current_student.telegram_id viewed_student.telegram_id %}" class="like-form">
+                            <form method="post" action="{% url 'like_profile' %}" class="like-form">
                                 {% csrf_token %}
-                                <button type="submit" class="like-button">
+                                <button type="submit" class="like-button {% if existing_like %}liked{% endif %}">
                                     <img src="{% static 'app/images/klas.png' %}" 
                                          alt="Лайк" 
-                                         class="like-icon {% if existing_like %}liked{% endif %}">
+                                         class="like-icon">
                                 </button>
                             </form>
                         </div>

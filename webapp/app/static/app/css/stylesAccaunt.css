@@ -53,23 +53,31 @@
     grid-row: span 2;
 }
 
-
 /* редактирование и интересы */
 
 #conRED, #conINT, #interesr, #inter {   
     display: grid;
-    /* Четыре колонки */
     grid-template-columns: auto auto auto auto;
-    /* Два ряда */
     grid-template-rows: auto;
-    /* Автоматическое размещение в ряд */
     grid-auto-flow: row;
-    /* Отступы между ячейками */
     justify-items: center;
 }
 
 #inputField, #inputFieldGod, .mySelect, #osebe, #error, #polRED, #con, #inter {
     grid-column-start: span 4;
+}
+
+/* Стили для кнопки Сохранить */
+#input {
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 20px auto; /* Центрирование */
+    display: block; /* Для работы margin auto */
+    transition: background-color 0.3s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .color-button {
@@ -81,36 +89,56 @@
     color: #FFF;
     border: none;
     cursor: pointer;
-    background-color: #D1DBF8; /* Исходный цвет */
-    transition: background-color 0.6s; /* Плавный переход цвета */
+    background-color: #D1DBF8;
+    transition: background-color 0.6s;
     -webkit-tap-highlight-color: transparent;
 }
 
 .color-button.active {
-    background-color: #a3bafc; /* Цвет при активации */
+    background-color: #a3bafc;
 }
 
 #button-container {
     display: flex;
     flex-wrap: wrap;
     width: 320px;
-    gap: 10px; /* расстояние между кнопками */
-    justify-self: center;
+    gap: 10px;
+    justify-content: center; /* Центрируем кнопки интересов */
+    margin: 0 auto; /* Центрируем контейнер */
 }
 
 .dynamic-button {
-    padding: 6px;
+    padding: 8px 16px;
     font-size: 16px;
-    background-color: #FFF;
+    background-color: rgba(255, 255, 255, 0.25);
     color: white;
     border: none;
     border-radius: 25px;
-    transition: background-color 0.3s ease, transform 0.3s ease; 
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.dynamic-button:active { 
-    background-color: #8FACFF; 
-    transform: scale(1.1); 
+.dynamic-button.selected {
+    background-color: #8FACFF;
 }
 
+.dynamic-button:hover {
+    transform: scale(1.05);
+}
 
+/* Центрирование формы */
+#interests-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#con {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
