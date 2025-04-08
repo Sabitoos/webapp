@@ -49,8 +49,9 @@
                         <div class="buttons-container">
                             {% if not notification.mutual %}
                             <button class="notification-close-btn" aria-label="Закрыть уведомление"
-                            onclick="deleteNotification(event, '{{ notification.id }}', '{{ notification.student.telegram_id }}', '{{ student.telegram_id }}')">
-                            <img src="{% static 'app/images/del.png' %}" alt="Удалить" class="icon">
+                                    data-from="{{ notification.student.telegram_id }}"
+                                    data-to="{{ student.telegram_id }}">
+                                <img src="{% static 'app/images/del.png' %}" alt="Удалить" class="icon">
                             </button>
                                 <button class="btn btn-like" 
                                         onclick="likeBack(event, '{{ notification.student.telegram_id }}')">
@@ -92,62 +93,58 @@
     </nav>
 
     <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Обработчик для кнопки закрытия уведомления
-                document.querySelectorAll('.notification-close-btn').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        
-                        const notificationCard = this.closest('.notification-content-wrapper')?.parentElement;
-                        const likeFrom = '{{ notification.student.telegram_id }}';
-                        const likeTo = '{{ student.telegram_id }}';
-                        
-                        if (notificationCard) {
-                            // Отправляем запрос на удаление лайка
-                            fetch(`/delete_like/${likeFrom}/${likeTo}/`, {
-                                method: 'POST',
-                                headers: {
-                                    'X-CSRFToken': '{{ csrf_token }}',
-                                    'Content-Type': 'application/json',
-                                    'X-Requested-With': 'XMLHttpRequest'
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.status === 'success') {
-                                    // Анимация исчезновения
-                                    notificationCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                                    notificationCard.style.opacity = '0';
-                                    notificationCard.style.transform = 'translateX(100%)';
+        document.addEventListener('DOMContentLoaded', function() {
+            // Обработчик для кнопки закрытия уведомления
+            document.querySelectorAll('.notification-close-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    const notificationCard = this.closest('.notification');
+                    const likeFrom = this.getAttribute('data-from');
+                    const likeTo = this.getAttribute('data-to');
+                    
+                    if (notificationCard) {
+                        // Отправляем запрос на удаление лайка
+                        fetch(`/delete_like/${likeFrom}/${likeTo}/`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': '{{ csrf_token }}',
+                                'Content-Type': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                // Анимация исчезновения
+                                notificationCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                                notificationCard.style.opacity = '0';
+                                notificationCard.style.transform = 'translateX(100%)';
+                                
+                                setTimeout(() => {
+                                    notificationCard.remove();
                                     
-                                    setTimeout(() => {
-                                        notificationCard.remove();
-                                        
-                                        const container = document.querySelector('.notifications-container');
-                                        if (container && container.children.length === 0) {
-                                            container.innerHTML = `
-                                                <div class="no-notifications">
-                                                    У вас пока нет уведомлений
-                                                </div>
-                                            `;
-                                        }
-                                    }, 300);
-                                }
-                            });
-                        }
-                    });
+                                    // Проверяем, остались ли еще уведомления
+                                    const container = document.querySelector('.notifications-container');
+                                    const remainingNotifications = container.querySelectorAll('.notification');
+                                    if (remainingNotifications.length === 0) {
+                                        container.innerHTML = `
+                                            <p id="text">Уведомления</p>
+                                            <div class="no-notifications">
+                                                У вас пока нет уведомлений
+                                            </div>
+                                        `;
+                                    }
+                                }, 300);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Ошибка при удалении лайка:', error);
+                        });
+                    }
                 });
             });
-    
-        // Функции для кнопок (если нужно оставить)
-        function likeBack(event, telegramId) {
-            event.stopPropagation();
-            // Ваша логика для лайка
-        }
-    
-        function openTelegramChat(username) {
-            // Ваша логика для открытия Telegram
-        }
+        });
     </script>
 
     <script>
