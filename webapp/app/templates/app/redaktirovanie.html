@@ -52,7 +52,7 @@
                     </select>
 
                     <p class="textRED">О себе</p>
-                    <textarea id="osebe" maxlength="90" name="about_me">{{ student.about_me }}</textarea>
+                    <textarea id="osebe" maxlength="120" name="about_me">{{ student.about_me }}</textarea>
 
                     <p id="error" style="display:none;">Пожалуйста, введи корректные данные!</p>
                 </div>
@@ -62,107 +62,107 @@
     </div>
 
     <script>
-    // Объявляем переменные один раз
-    const maleButton = document.getElementById('maleButton');
-    const femaleButton = document.getElementById('femaleButton');
-    const genderInput = document.getElementById('genderInput');
-    const imagePreview = document.getElementById('imagePreview');
-    const imageInput = document.getElementById('imageInput');
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const osebe = document.getElementById('osebe');
-    const errorText = document.getElementById('error');
-
-    // Пути к дефолтным аватаркам
-    const defaultMaleAvatar = "{% static 'app/images/male.png' %}";
-    const defaultFemaleAvatar = "{% static 'app/images/female.png' %}";
+        // Объявляем переменные один раз
+        const maleButton = document.getElementById('maleButton');
+        const femaleButton = document.getElementById('femaleButton');
+        const genderInput = document.getElementById('genderInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const imageInput = document.getElementById('imageInput');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const osebe = document.getElementById('osebe');
+        const errorText = document.getElementById('error');
     
-    // Флаг для отслеживания, была ли загружена кастомная аватарка
-    let isCustomAvatar = false;
-
-    // Функция для смены дефолтной аватарки
-    function setDefaultAvatar(gender) {
-        // Меняем только если не загружена кастомная аватарка
-        if (!isCustomAvatar) {
-            imagePreview.src = gender === 'male' ? defaultMaleAvatar : defaultFemaleAvatar;
-        }
-    }
-
-    // Обработчики для кнопок выбора пола
-    maleButton.addEventListener('click', () => {
-        maleButton.classList.add('active');
-        femaleButton.classList.remove('active');
-        genderInput.value = 'male';
-        setDefaultAvatar('male');
-    });
-
-    femaleButton.addEventListener('click', () => {
-        femaleButton.classList.add('active');
-        maleButton.classList.remove('active');
-        genderInput.value = 'female';
-        setDefaultAvatar('female');
-    });
-
-    // Обработчик для загрузки аватарки
-    imagePreview.addEventListener('click', function() {
-        imageInput.click();
-    });
-
-    imageInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            isCustomAvatar = true; // Устанавливаем флаг кастомной аватарки
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = new Image();
-                img.src = event.target.result;
-                img.onload = function() {
-                    canvas.width = 110;
-                    canvas.height = 110;
-                    const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
-                    const xOffset = (canvas.width / 2) - (img.width / 2) * scale;
-                    const yOffset = (canvas.height / 2) - (img.height / 2) * scale;
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.drawImage(img, xOffset, yOffset, img.width * scale, img.height * scale);
-                    imagePreview.src = canvas.toDataURL();
-                }
+        // Пути к дефолтным аватаркам
+        const defaultMaleAvatar = "{% static 'app/images/male.png' %}";
+        const defaultFemaleAvatar = "{% static 'app/images/female.png' %}";
+        
+        // Флаг для отслеживания, была ли загружена кастомная аватарка
+        let isCustomAvatar = false;
+    
+        // Функция для смены дефолтной аватарки
+        function setDefaultAvatar(gender) {
+            // Меняем только если не загружена кастомная аватарка
+            if (!isCustomAvatar) {
+                imagePreview.src = gender === 'male' ? defaultMaleAvatar : defaultFemaleAvatar;
             }
-            reader.readAsDataURL(file);
         }
-    });
-
-    // Проверяем текущий пол при загрузке страницы
-    document.addEventListener('DOMContentLoaded', function() {
-        // Устанавливаем правильную аватарку при загрузке
-        if (genderInput.value === 'male') {
+    
+        // Обработчики для кнопок выбора пола
+        maleButton.addEventListener('click', () => {
+            maleButton.classList.add('active');
+            femaleButton.classList.remove('active');
+            genderInput.value = 'male';
             setDefaultAvatar('male');
-        } else {
+        });
+    
+        femaleButton.addEventListener('click', () => {
+            femaleButton.classList.add('active');
+            maleButton.classList.remove('active');
+            genderInput.value = 'female';
             setDefaultAvatar('female');
-        }
-    });
-
-    // Обработчик для отправки формы
-    document.getElementById('inter').addEventListener('submit', function(event) {
-        const inputName = document.getElementById('inputField');
-        const inputAge = document.getElementById('inputFieldGod');
-
-        if (inputName.value.trim() === '' || inputAge.value.trim() === '') {
-            event.preventDefault();
-            errorText.style.display = 'block';
-        } else {
-            if (inputAge.value.trim() === '' || 100 < inputAge.value.trim() || inputAge.value.trim() < 14) {
+        });
+    
+        // Обработчик для загрузки аватарки
+        imagePreview.addEventListener('click', function() {
+            imageInput.click();
+        });
+    
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                isCustomAvatar = true; // Устанавливаем флаг кастомной аватарки
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = function() {
+                        canvas.width = 110;
+                        canvas.height = 110;
+                        const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+                        const xOffset = (canvas.width / 2) - (img.width / 2) * scale;
+                        const yOffset = (canvas.height / 2) - (img.height / 2) * scale;
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, xOffset, yOffset, img.width * scale, img.height * scale);
+                        imagePreview.src = canvas.toDataURL();
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    
+        // Проверяем текущий пол при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Устанавливаем правильную аватарку при загрузке
+            if (genderInput.value === 'male') {
+                setDefaultAvatar('male');
+            } else {
+                setDefaultAvatar('female');
+            }
+        });
+    
+        // Обработчик для отправки формы
+        document.getElementById('inter').addEventListener('submit', function(event) {
+            const inputName = document.getElementById('inputField');
+            const inputAge = document.getElementById('inputFieldGod');
+    
+            if (inputName.value.trim() === '' || inputAge.value.trim() === '') {
                 event.preventDefault();
                 errorText.style.display = 'block';
             } else {
-                if (osebe.value.trim() === '') {
+                if (inputAge.value.trim() === '' || 100 < inputAge.value.trim() || inputAge.value.trim() < 14) {
                     event.preventDefault();
                     errorText.style.display = 'block';
                 } else {
-                    errorText.style.display = 'none';
+                    if (osebe.value.trim() === '') {
+                        event.preventDefault();
+                        errorText.style.display = 'block';
+                    } else {
+                        errorText.style.display = 'none';
+                    }
                 }
             }
-        }
-    });
-</script>
+        });
+    </script>
 </body>
 </html>
