@@ -33,10 +33,10 @@
                     <canvas id="canvas" style="display:none;"></canvas>
 
                     <p class="textRED">Имя</p>
-                    <input type="text" id="inputField" name="name" value="{{ student.name }}">
+                    <input type="text" id="inputField" maxlength="10" name="name" value="{{ student.name }}">
 
                     <p class="textRED">Возраст</p>
-                    <input type="number" id="inputFieldGod" name="birth_year" value="{{ student.birth_year }}">
+                    <input type="number" id="inputFieldGod"  name="birth_year" value="{{ student.birth_year }}">
 
                     <p id="PolTXT">Пол</p>
                     <input type="hidden" id="genderInput" name="gender" value="{{ student.gender }}">
